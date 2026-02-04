@@ -25,6 +25,35 @@
             --whatsapp-green: #25d366;
             --error-red: #c0392b;
         }
+        .admin-tab-button{
+    background:#333;
+    color:var(--text-light);
+    border:none;
+    padding:6px 12px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:0.9rem;
+}
+.admin-tab-button.admin-tab-active{
+    background:var(--accent-gold);
+    color:var(--dark-bg);
+}
+.admin-tab-content input,
+.admin-tab-content textarea,
+.admin-tab-content select{
+    background:#111;
+    border:1px solid #444;
+    color:var(--text-light);
+    padding:5px;
+    border-radius:4px;
+    font-size:0.85rem;
+}
+.admin-tab-content label{
+    display:block;
+    font-size:0.8rem;
+    margin:5px 0 2px;
+    color:var(--text-muted);
+}
 
         /* CSS Reset & Base */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -663,12 +692,73 @@
     </div>
 </div>
 
-<!-- Admin Panel -->
+<!-- PANEL ADMIN CON PESTAÑAS -->
 <div class="admin-panel" id="adminPanel">
-    <label for="adminTasaInput">Tasa BCV (Bs/USD):</label>
-    <input type="number" id="adminTasaInput" step="0.01">
-    <button id="saveTasaBtn">Guardar Tasa</button>
-    <button class="logout-button" id="adminLogoutBtn">Logout</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;">
+        <button id="adminTabConfig" class="admin-tab-button admin-tab-active">Tasa / Configuración</button>
+        <button id="adminTabFactura" class="admin-tab-button">Facturación</button>
+        <button class="logout-button" id="adminLogoutBtn">Logout</button>
+    </div>
+
+    <!-- CONTENIDO: TASA / CONFIG -->
+    <div id="adminConfigContent" class="admin-tab-content" style="margin-top:10px;">
+        <label for="adminTasaInput">Tasa BCV (Bs/USD):</label>
+        <input type="number" id="adminTasaInput" step="0.01">
+        <button id="saveTasaBtn">Guardar Tasa</button>
+    </div>
+
+    <!-- CONTENIDO: FACTURACIÓN -->
+    <div id="adminFacturaContent" class="admin-tab-content" style="display:none;margin-top:15px;width:100%;max-width:900px;">
+        <h3 style="margin-bottom:10px;color:var(--accent-gold);">Facturar Venta</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:15px;align-items:flex-start;justify-content:center;">
+            <!-- FORMULARIO -->
+            <div style="flex:1 1 260px;background:var(--primary-bg);border-radius:8px;padding:10px;border:1px solid #333;">
+                <h4 style="margin-bottom:10px;">Datos del Cliente</h4>
+                <label>Nombre / Razón Social</label>
+                <input type="text" id="facNombre" style="width:100%;margin-bottom:5px;">
+                <label>Cédula / RIF</label>
+                <input type="text" id="facDocumento" style="width:100%;margin-bottom:5px;">
+                <label>Teléfono</label>
+                <input type="text" id="facTelefono" style="width:100%;margin-bottom:5px;">
+                <label>Correo</label>
+                <input type="text" id="facCorreo" style="width:100%;margin-bottom:5px;">
+                <label>Dirección</label>
+                <textarea id="facDireccion" style="width:100%;margin-bottom:10px;min-height:60px;"></textarea>
+
+                <h4 style="margin:10px 0;">Detalle de Venta</h4>
+                <label>Modelo Brutalux</label>
+                <select id="facModelo" style="width:100%;margin-bottom:5px;">
+                    <option value="R33">R33</option>
+                    <option value="R36">R36</option>
+                    <option value="R36T">R36T</option>
+                    <option value="R20">R20</option>
+                </select>
+                <label>Tipo de bombillo (H4, H11, 9005, etc.)</label>
+                <input type="text" id="facTipoBombillo" style="width:100%;margin-bottom:5px;">
+                <label>Cantidad (pares)</label>
+                <input type="number" id="facCantidad" value="1" min="1" style="width:100%;margin-bottom:5px;">
+                <label>Precio unitario (USD)</label>
+                <input type="number" id="facPrecioUnit" value="80" step="0.01" style="width:100%;margin-bottom:5px;">
+                <label>IVA %</label>
+                <input type="number" id="facIVA" value="16" step="0.01" style="width:100%;margin-bottom:10px;">
+
+            </div>
+
+            <!-- PREVISUALIZACIÓN FACTURA -->
+            <div style="flex:1 1 260px;background:#000;border-radius:8px;padding:10px;border:1px solid var(--accent-gold);max-height:400px;overflow:auto;">
+                <h4 style="margin-bottom:10px;">Vista previa de factura</h4>
+                <div id="facturaPreview" style="background:#111;padding:10px;border-radius:6px;font-size:0.85rem;">
+                    <!-- Se rellena por JS -->
+                </div>
+                <button id="btnGenerarFactura" style="margin-top:10px;width:100%;">Actualizar Vista</button>
+                <button id="btnImprimirFactura" style="margin-top:5px;width:100%;">Imprimir / Guardar PDF</button>
+                <p style="margin-top:5px;font-size:0.75rem;color:var(--text-muted);">
+                    Nota: Esta factura es solo un formato visual generado en tu navegador. 
+                    No sustituye a una factura fiscal emitida por sistema autorizado.
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <section id="inicio" class="banner">
@@ -1112,6 +1202,130 @@ document.addEventListener('DOMContentLoaded', function() {
         isAdminLoggedIn = loggedIn;
         localStorage.setItem(LOCAL_STORAGE_ADMIN_KEY, loggedIn);
     }
+    const adminTabConfig = document.getElementById('adminTabConfig');
+const adminTabFactura = document.getElementById('adminTabFactura');
+const adminConfigContent = document.getElementById('adminConfigContent');
+const adminFacturaContent = document.getElementById('adminFacturaContent');
+    const adminTabConfig = document.getElementById('adminTabConfig');
+const adminTabFactura = document.getElementById('adminTabFactura');
+const adminConfigContent = document.getElementById('adminConfigContent');
+const adminFacturaContent = document.getElementById('adminFacturaContent');
+    function setAdminTab(tab){
+    if (!adminPanel) return;
+    // quitar activo
+    [adminTabConfig, adminTabFactura].forEach(btn => btn && btn.classList.remove('admin-tab-active'));
+    if (tab === 'config'){
+        adminTabConfig.classList.add('admin-tab-active');
+        adminConfigContent.style.display = 'block';
+        adminFacturaContent.style.display = 'none';
+    } else {
+        adminTabFactura.classList.add('admin-tab-active');
+        adminConfigContent.style.display = 'none';
+        adminFacturaContent.style.display = 'block';
+    }
+}
+if (adminTabConfig && adminTabFactura){
+    adminTabConfig.addEventListener('click', () => setAdminTab('config'));
+    adminTabFactura.addEventListener('click', () => setAdminTab('factura'));
+}
+    const facNombre       = document.getElementById('facNombre');
+const facDocumento    = document.getElementById('facDocumento');
+const facTelefono     = document.getElementById('facTelefono');
+const facCorreo       = document.getElementById('facCorreo');
+const facDireccion    = document.getElementById('facDireccion');
+const facModelo       = document.getElementById('facModelo');
+const facTipoBombillo = document.getElementById('facTipoBombillo');
+const facCantidad     = document.getElementById('facCantidad');
+const facPrecioUnit   = document.getElementById('facPrecioUnit');
+const facIVA          = document.getElementById('facIVA');
+const facturaPreview  = document.getElementById('facturaPreview');
+const btnGenerarFactura  = document.getElementById('btnGenerarFactura');
+const btnImprimirFactura = document.getElementById('btnImprimirFactura');
+
+function generarFacturaHTML(){
+    const nombre   = facNombre.value || 'Cliente Varios';
+    const doc      = facDocumento.value || 'N/A';
+    const tel      = facTelefono.value || '';
+    const correo   = facCorreo.value || '';
+    const dir      = facDireccion.value || '';
+    const modelo   = facModelo.value || '';
+    const tipo     = facTipoBombillo.value || '';
+    const cant     = parseFloat(facCantidad.value)   || 1;
+    const precio   = parseFloat(facPrecioUnit.value) || 0;
+    const ivaPorc  = parseFloat(facIVA.value)        || 0;
+
+    const subtotal = cant * precio;
+    const montoIVA = subtotal * (ivaPorc / 100);
+    const total    = subtotal + montoIVA;
+
+    const fecha = new Date();
+    const fechaStr = fecha.toLocaleDateString('es-VE');
+    const horaStr  = fecha.toLocaleTimeString('es-VE');
+
+    facturaPreview.innerHTML = `
+        <div style="text-align:center;margin-bottom:10px;">
+            <h3 style="margin:0;color:${getComputedStyle(document.documentElement).getPropertyValue('--accent-gold')};">BRUTALUX VENEZUELA</h3>
+            <small>Factura no fiscal - Generada desde panel admin</small><br>
+            <small>Fecha: ${fechaStr} - Hora: ${horaStr}</small>
+        </div>
+        <hr style="border-color:#333;margin:8px 0;">
+        <div style="font-size:0.8rem;">
+            <strong>Cliente:</strong> ${nombre}<br>
+            <strong>Cédula/RIF:</strong> ${doc}<br>
+            ${tel ? `<strong>Teléf:</strong> ${tel}<br>` : ''}
+            ${correo ? `<strong>Correo:</strong> ${correo}<br>` : ''}
+            ${dir ? `<strong>Dirección:</strong> ${dir}<br>` : ''}
+        </div>
+        <hr style="border-color:#333;margin:8px 0;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+            <thead>
+                <tr>
+                    <th style="border-bottom:1px solid #333;text-align:left;padding:4px;">Descripción</th>
+                    <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">Cant</th>
+                    <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">P.Unit (USD)</th>
+                    <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">Total (USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:4px;border-bottom:1px solid #222;">
+                        Faros LED Brutalux ${modelo} - ${tipo || 'Tipo no especificado'}
+                    </td>
+                    <td style="padding:4px;border-bottom:1px solid #222;text-align:right;">${cant}</td>
+                    <td style="padding:4px;border-bottom:1px solid #222;text-align:right;">${precio.toFixed(2)}</td>
+                    <td style="padding:4px;border-bottom:1px solid #222;text-align:right;">${subtotal.toFixed(2)}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top:8px;font-size:0.8rem;text-align:right;">
+            <div>Subtotal: <strong>${subtotal.toFixed(2)} USD</strong></div>
+            <div>IVA (${ivaPorc.toFixed(2)}%): <strong>${montoIVA.toFixed(2)} USD</strong></div>
+            <div>Total: <strong>${total.toFixed(2)} USD</strong></div>
+        </div>
+    `;
+}
+
+if (btnGenerarFactura && facturaPreview){
+    btnGenerarFactura.addEventListener('click', generarFacturaHTML);
+    // Generar una primera vista en blanco
+    generarFacturaHTML();
+}
+
+if (btnImprimirFactura){
+    btnImprimirFactura.addEventListener('click', () => {
+        // Imprime solo el contenido de la factura (truco rápido: abrir nueva ventana)
+        const w = window.open('', 'PRINT', 'height=600,width=800');
+        w.document.write('<html><head><title>Factura Brutalux</title>');
+        w.document.write('<style>body{font-family:Poppins,Arial,sans-serif;background:#000;color:#fff;} table{width:100%;border-collapse:collapse;} th,td{border-bottom:1px solid #333;}</style>');
+        w.document.write('</head><body>');
+        w.document.write(facturaPreview.innerHTML);
+        w.document.write('</body></html>');
+        w.document.close();
+        w.focus();
+        w.print();
+        w.close();
+    });
+}
 
     // Check login status on page load
     toggleAdminMode(isAdminLoggedIn);
@@ -1461,6 +1675,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+
 
 
 
