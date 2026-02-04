@@ -863,6 +863,109 @@
       .brand{min-width:auto}
       .heroCard{padding:42px 16px}
     }
+  /* ===== PRO: Comparativa y Secciones (fix visual) ===== */
+.compare{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:24px;
+  overflow:hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.25));
+  box-shadow: 0 18px 50px rgba(0,0,0,.35);
+}
+
+.compareRow{
+  display:grid;
+  grid-template-columns: 1.35fr 1fr 1fr 1fr;
+  align-items:stretch;
+}
+
+.compareRow > div{
+  padding:14px 14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  border-right:1px solid rgba(255,255,255,.06);
+}
+
+.compareRow > div:last-child{ border-right:none; }
+
+.compareRow.head > div{
+  background: rgba(255,255,255,.06);
+  font-weight:1000;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:12px;
+  color: rgba(233,237,245,.92);
+}
+
+.compareRow .k{
+  font-weight:1000;
+  color: rgba(233,237,245,.95);
+}
+
+.compareRow .v{
+  color: rgba(233,237,245,.82);
+  font-size:13px;
+  line-height:1.35;
+}
+
+.compareRow .best{
+  background: linear-gradient(180deg, rgba(0,200,255,.14), rgba(255,92,0,.10));
+  font-weight:1000;
+}
+
+.compareRow.head .best{
+  color:#061018;
+  background: linear-gradient(90deg, #00c8ff, #ff5c00);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Cards de info más “marca” */
+.infoCard, .step, .policyCard{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.22)) !important;
+  border-color: rgba(255,255,255,.10) !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,.28);
+}
+
+/* Ajuste tipográfico para que no se vea “pegado” */
+.infoCard .h, .policyCard .h{
+  font-size:12px;
+}
+.steps .step .d, .policyCard .li, .infoCard .li{
+  color: rgba(233,237,245,.82);
+}
+
+/* Responsive: comparativa en móvil se vuelve "cards" */
+@media (max-width: 720px){
+  .compareRow{
+    grid-template-columns: 1fr;
+  }
+  .compareRow.head{ display:none; }
+
+  .compareRow{
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .compareRow > div{
+    border-right:none;
+    border-bottom: none;
+    padding:10px 14px;
+  }
+
+  .compareRow > div.k{
+    padding-top:14px;
+    font-size:14px;
+  }
+
+  /* Convertimos cada fila en una card */
+  .compareRow{
+    background: rgba(0,0,0,.18);
+  }
+  .compareRow > div:nth-child(2)::before{ content:"Halógeno: "; font-weight:1000; color:rgba(233,237,245,.92); }
+  .compareRow > div:nth-child(3)::before{ content:"LED genérico: "; font-weight:1000; color:rgba(233,237,245,.92); }
+  .compareRow > div:nth-child(4)::before{ content:"BRUTALUX: "; font-weight:1000; color:rgba(233,237,245,.92); }
+
+  .compareRow > div:nth-child(4){
+    border-top:1px solid rgba(255,255,255,.08);
+  }
+}
   </style>
 </head>
 
@@ -1088,7 +1191,6 @@
           <li>Binance / USDT</li>
           <li>Efectivo (según coordinación)</li>
         </ul>
-        <div class="tiny">Edita esta lista con tus métodos reales.</div>
       </div>
 
       <div class="infoCard">
@@ -1098,7 +1200,6 @@
           <li>Entrega el mismo día (si aplica)</li>
           <li>Embalaje seguro</li>
         </ul>
-        <div class="tiny">Edita esta lista con tus envíos reales.</div>
       </div>
 
       <div class="infoCard">
@@ -1107,7 +1208,6 @@
           <li>Lun–Sáb: 9:00am – 7:00pm</li>
           <li>Dom: previo acuerdo</li>
         </ul>
-        <div class="tiny">Edita con tu horario real.</div>
       </div>
     </div>
   </div>
@@ -1188,10 +1288,7 @@
           <li>Foto/video de la falla + instalación.</li>
         </ul>
       </div>
-
-      <p class="tiny" style="margin:10px 0 0">
-        Nota: Ajusta este texto a tu política real. Si quieres, te lo dejo “legal” y bien redactado cuando me confirmes tus condiciones.
-      </p>
+      
     </div>
   </div>
 </section>
@@ -2524,6 +2621,7 @@ Te envío foto del bombillo/faro para confirmar el socket (baja/alta/neblina).`;
 </div>
 </body>
 </html>
+
 
 
 
