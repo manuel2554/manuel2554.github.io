@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brutalux - Faros LED Serie R</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { line-height: 1.6; color: #333; scroll-behavior: smooth; background: #0b0b0d; }
+
+        /* HEADER */
+        header {
+            background: #050509;
+            color: white;
+            padding: 0.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo img {
+            height: 50px; /* Tamaño del logo */
+            display: block;
+        }
+        .logo-text {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #d4af37;
+        }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 1.5rem; }
+        nav ul li a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        nav ul li a:hover { color: #d4af37; }
+        .menu-icon { display: none; cursor: pointer; font-size: 1.5rem; color: #fff; }
+
+        /* Admin Button */
+        .admin-button {
+            background: #4a4a4a;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+            transition: background 0.3s;
+        }
+        .admin-button:hover { background: #666; }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1a1a1a;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .modal-content input[type="text"],
+        .modal-content input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #555;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #333;
+            color: white;
+        }
+        .modal-content button {
+            background-color: #d4af37;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        .modal-content button:hover { background-color: #b8960c; }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none; /* Hidden by default */
+            background-color: #222;
+            color: white;
+            padding: 1rem 5%;
+            border-bottom: 1px solid #d4af37;
+            text-align: center;
+            position: sticky;
+            top: 60px; /* Below the header */
+            z-index: 999;
+        }
+        .admin-panel label { margin-right: 10px; }
+        .admin-panel input[type="number"],
+        .admin-panel input[type="text"] {
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #555;
+            background-color: #333;
+            color: white;
+            width: 100px;
+            margin-right: 10px;
+        }
+        .admin-panel button {
+            background-color: #d4af37;
+            color: #1a1a1a;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .admin-panel button:hover { background-color: #b8960c; }
+        .admin-panel .logout-button {
+            background-color: #c0392b;
+            margin-left: 20px;
+        }
+        .admin-panel .logout-button:hover { background-color: #e74c3c; }
+
+        .edit-image-button {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+        .edit-image-button:hover { background-color: #2980b9; }
+
+        /* BANNER con vehículos de noche */
+        .banner {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.9)),
+                url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 100px 5% 50px;
+        }
+        .banner-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .banner-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #d4af37;
+        }
+        .btn {
+            display: inline-block;
+            background: #d4af37;
+            color: #1a1a1a;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        .btn:hover {
+            background: #b8960c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212,175,55,0.4);
+        }
+
+        /* CATALOGO */
+        .catalogo { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; color: #eee; }
+        .catalogo-header { text-align: center; margin-bottom: 3rem; }
+        .catalogo-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #ffffff; }
+        .catalogo-header p { color: #ccc; font-size: 1.05rem; }
+
+        #tasa-bcv {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #d4af37;
+        }
+
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .producto-card {
+            background: #111319;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.7);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .producto-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+        }
+
+        .potencia-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+        .premium { background: linear-gradient(135deg, #d4af37, #f4d03f); color: #1a1a1a; }
+        .versatil { background: linear-gradient(135deg, #8e44ad, #9b59b6); color: white; }
+        .alta { background: linear-gradient(135deg, #2980b9, #3498db); color: white; }
+        .basico { background: linear-gradient(135deg, #7f8c8d, #95a5a6); color: white; }
+
+        .producto-img { width: 100%; height: 320px; object-fit: cover; background: #000; display: block; }
+        .producto-info { padding: 1.5rem; }
+        .producto-info h3 { font-size: 1.4rem; margin-bottom: 0.5rem; color: #fff; }
+        .modelo { color: #d4af37; font-weight: bold; font-size: 0.9rem; margin-bottom: 1rem; display: block; text-transform: uppercase; letter-spacing: 1px; }
+
+        .specs { list-style: none; margin: 1rem 0; padding: 1rem 0; border-top: 1px solid #222; border-bottom: 1px solid #222; }
+        .specs li { padding: 0.3rem 0; color: #ccc; font-size: 0.95rem; }
+        .specs i { color: #d4af37; margin-right: 0.5rem; width: 20px; }
+
+        .precio-container { margin: 1rem 0; }
+        .precio { font-size: 1.8rem; font-weight: bold; color: #ffffff; }
+        .precio-bs { font-size: 0.8rem; color: #aaa; }
+
+        .btn-whatsapp {
+            display: block;
+            width: 100%;
+            background: #25d366;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+        .btn-whatsapp:hover { background: #128c7e; }
+        .btn-whatsapp i { margin-right: 0.5rem; }
+
+        .btn-detalle {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+            text-decoration: none;
+            color: #5dade2;
+        }
+        .btn-detalle:hover { text-decoration: underline; }
+
+        /* SECCIONES DETALLE */
+        .detalle-producto {
+            display: none;
+            padding: 4rem 5%;
+            background: #050509;
+            border-top: 1px solid #222;
+            color: #eee;
+        }
+        .detalle-producto:target { display: block; }
+        .detalle-producto h2 { text-align: center; margin-bottom: 0.5rem; color: #fff; }
+        .detalle-producto .subtitulo { text-align: center; color: #aaa; margin-bottom: 2rem; }
+
+        .detalle-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        .detalle-media img,
+        .detalle-media iframe {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .detalle-texto ul { list-style: none; padding-left: 0; }
+        .detalle-texto li { margin-bottom: 0.4rem; color: #ccc; }
+        .detalle-volver {
+            margin-top: 1.5rem;
+            display: inline-block;
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .detalle-volver i { margin-right: 0.4rem; }
+
+        /* FOOTER */
+        footer {
+            background: #050509;
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid #222;
+        }
+        .contacto-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        .contacto-item i { font-size: 2rem; color: #d4af37; margin-bottom: 0.5rem; }
+        .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; }
+        .social-icons a { color: white; font-size: 1.8rem; transition: color 0.3s; }
+        .social-icons a:hover { color: #d4af37; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .menu-icon { display: block; }
+            nav ul {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: #050509;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s;
+            }
+            nav ul.active { left: 0; }
+            nav ul li { margin: 1rem 0; }
+            .banner-content h2 { font-size: 2rem; }
+            .producto-img { height: 260px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" alt="Brutalux - Potentes y resistentes">
+        <div class="logo-text">POTENTES Y RESISTENTES</div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#catalogo">Catálogo</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+    <div class="menu-icon"><i class="fas fa-bars"></i></div>
+    <button class="admin-button" id="adminLoginBtn">Admin</button>
+</header>
+
+<!-- Admin Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Acceso Administrador</h2>
+        <input type="text" id="adminUsername" placeholder="Usuario">
+        <input type="password" id="adminPassword" placeholder="Contraseña">
+        <button id="loginSubmit">Login</button>
+        <p id="loginError" style="color: red; margin-top: 10px; display: none;">Usuario o contraseña incorrectos.</p>
+    </div>
+</div>
+
+<!-- Admin Panel -->
+<div class="admin-panel" id="adminPanel">
+    <label for="adminTasaInput">Tasa BCV (Bs/USD):</label>
+    <input type="number" id="adminTasaInput" step="0.01">
+    <button id="saveTasaBtn">Guardar Tasa</button>
+    <button class="logout-button" id="adminLogoutBtn">Logout</button>
+</div>
+
+<section id="inicio" class="banner">
+    <div class="banner-content">
+        <h2>Serie R Brutalux</h2>
+        <p>Faros LED para tu Toyota y cualquier vehículo, listos para la noche</p>
+        <a href="#catalogo" class="btn">Ver Catálogo</a>
+    </div>
+</section>
+
+<section id="catalogo" class="catalogo">
+    <div class="catalogo-header">
+        <h2>Línea Brutalux Serie R</h2>
+        <p>R33 · R36T · R36 · R20 — Elige la opción que mejor se adapte a tu necesidad</p>
+
+        <p id="tasa-bcv" data-tasa="375.08"></p>
+    </div>
+
+    <div class="productos-grid">
+        
+        <!-- R33 -->
+        <div class="producto-card" data-product-id="r33">
+            <div class="potencia-badge premium">
+                <i class="fas fa-crown"></i> R33 · TOP POTENCIA
+            </div>
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R33" class="producto-img">
+            <div class="producto-info">
+                <span class="modelo">Modelo R33 · 33.000 lm</span>
+                <h3>Brutalux R33</h3>
+                <ul class="specs">
+                    <li><i class="fas fa-bolt"></i> Lumen: 33.000 lm (par)</li>
+                    <li><i class="fas fa-sun"></i> CCT: 6500K (blanco puro)</li>
+                    <li><i class="fas fa-car-battery"></i> Voltaje: 12V</li>
+                    <li><i class="fas fa-tools"></i> Material: Aleación de zinc</li>
+                    <li><i class="fas fa-fan"></i> Enfriamiento: 3 tubos de cobre + aletas de aluminio</li>
+                    <li><i class="fas fa-shield-alt"></i> Garantía: 2 años</li>
+                </ul>
+                <div class="precio-container">
+                    <span class="precio">
+                        <span class="precio-usd" data-usd="90">$90</span>
+                        <span class="precio-bs"></span>
+                    </span>
+                </div>
+                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R33" class="btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Pedir R33 por WhatsApp
+                </a>
+                <a href="#detalle-r33" class="btn-detalle">Ver más fotos y detalles</a>
+                <button class="edit-image-button" style="display: none;" data-img-target=".producto-card[data-product-id='r33'] .producto-img">Editar Imagen</button>
+            </div>
+        </div>
+
+        <!-- R36T -->
+        <div class="producto-card" data-product-id="r36t">
+            <div class="potencia-badge versatil">
+                <i class="fas fa-adjust"></i> R36T · BLANCO / AMARILLO
+            </div>
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36T" class="producto-img">
+            <div class="producto-info">
+                <span class="modelo">Modelo R36T · 16.000 lm</span>
+                <h3>Brutalux R36T</h3>
+                <ul class="specs">
+                    <li><i class="fas fa-bolt"></i> Lumen: 16.000 lm (par)</li>
+                    <li><i class="fas fa-microchip"></i> Chip LED: 4575 CSP · 12 núcleos</li>
+                    <li><i class="fas fa-adjust"></i> CCT: 3000K – 6500K (amarillo a blanco)</li>
+                    <li><i class="fas fa-car-battery"></i> Voltaje: 12V</li>
+                    <li><i class="fas fa-tools"></i> Material: Aluminio</li>
+                    <li><i class="fas fa-fan"></i> Enfriamiento: 4 tubos de cobre</li>
+                </ul>
+                <div class="precio-container">
+                    <span class="precio">
+                        <span class="precio-usd" data-usd="85">$85</span>
+                        <span class="precio-bs"></span>
+                    </span>
+                </div>
+                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R36T" class="btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Pedir R36T por WhatsApp
+                </a>
+                <a href="#detalle-r36t" class="btn-detalle">Ver más fotos y detalles</a>
+                <button class="edit-image-button" style="display: none;" data-img-target=".producto-card[data-product-id='r36t'] .producto-img">Editar Imagen</button>
+            </div>
+        </div>
+
+        <!-- R36 -->
+        <div class="producto-card" data-product-id="r36">
+            <div class="potencia-badge alta">
+                <i class="fas fa-bolt"></i> R36 · ALTA POTENCIA
+            </div>
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36" class="producto-img">
+            <div class="producto-info">
+                <span class="modelo">Modelo R36 · 27.000 lm</span>
+                <h3>Brutalux R36</h3>
+                <ul class="specs">
+                    <li><i class="fas fa-bolt"></i> Lumen: 27.000 lm (par)</li>
+                    <li><i class="fas fa-sun"></i> CCT: 6500K (blanco puro)</li>
+                    <li><i class="fas fa-car-battery"></i> Voltaje: 12V</li>
+                    <li><i class="fas fa-tools"></i> Material: Aleación de zinc</li>
+                    <li><i class="fas fa-fan"></i> Enfriamiento: 4 tubos de cobre + aletas de aluminio</li>
+                </ul>
+                <div class="precio-container">
+                    <span class="precio">
+                        <span class="precio-usd" data-usd="80">$80</span>
+                        <span class="precio-bs"></span>
+                    </span>
+                </div>
+                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R36" class="btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Pedir R36 por WhatsApp
+                </a>
+                <a href="#detalle-r36" class="btn-detalle">Ver más fotos y detalles</a>
+                <button class="edit-image-button" style="display: none;" data-img-target=".producto-card[data-product-id='r36'] .producto-img">Editar Imagen</button>
+            </div>
+        </div>
+
+        <!-- R20 -->
+        <div class="producto-card" data-product-id="r20">
+            <div class="potencia-badge basico">
+                <i class="fas fa-thumbs-up"></i> R20 · LÍNEA ECONÓMICA
+            </div>
+            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Brutalux R20" class="producto-img">
+            <div class="producto-info">
+                <span class="modelo">Modelo R20 · 20.000 lm</span>
+                <h3>Brutalux R20</h3>
+                <ul class="specs">
+                    <li><i class="fas fa-bolt"></i> Lumen: 20.000 lm (par)</li>
+                    <li><i class="fas fa-sun"></i> CCT: 6500K (blanco puro)</li>
+                    <li><i class="fas fa-car-battery"></i> Voltaje: 12V / 24V</li>
+                    <li><i class="fas fa-tools"></i> Material: Aleación de zinc</li>
+                    <li><i class="fas fa-fan"></i> Enfriamiento: 2 tubos de cobre + aletas de aluminio</li>
+                </ul>
+                <div class="precio-container">
+                    <span class="precio">
+                        <span class="precio-usd" data-usd="65">$65</span>
+                        <span class="precio-bs"></span>
+                    </span>
+                </div>
+                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R20" class="btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Pedir R20 por WhatsApp
+                </a>
+                <a href="#detalle-r20" class="btn-detalle">Ver más fotos y detalles</a>
+                <button class="edit-image-button" style="display: none;" data-img-target=".producto-card[data-product-id='r20'] .producto-img">Editar Imagen</button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- DETALLES R33 -->
+<section id="detalle-r33" class="detalle-producto">
+    <h2>Brutalux R33</h2>
+    <p class="subtitulo">Faros LED H4 · 33.000 lúmenes el par · Uso intensivo</p>
+    <div class="detalle-grid">
+        <div class="detalle-media">
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R33 vista frontal" data-detail-img="r33-1">
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R33 detalle disipador" data-detail-img="r33-2">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_R33" title="Instalación Brutalux R33" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="detalle-texto">
+            <h3>Detalles técnicos</h3>
+            <ul>
+                <li>Flujo luminoso real: 33.000 lm por par.</li>
+                <li>Temperatura de color 6500K para máxima visibilidad.</li>
+                <li>Sistema de enfriamiento: 3 tubos de cobre + aletas de aluminio.</li>
+                <li>Recomendado para carreteras muy oscuras y rutas largas.</li>
+                <li>Instalación plug & play en socket H4.</li>
+            </ul>
+            <div class="precio-container">
+                <span class="precio">
+                    <span class="precio-usd" data-usd="90">$90</span>
+                    <span class="precio-bs"></span>
+                </span>
+            </div>
+            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R33" class="btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> Comprar R33 ahora
+            </a>
+            <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
+            <div class="admin-image-controls" style="display: none; margin-top: 15px;">
+                <button class="edit-image-button" data-img-target="[data-detail-img='r33-1']">Editar Img 1</button>
+                <button class="edit-image-button" data-img-target="[data-detail-img='r33-2']">Editar Img 2</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DETALLES R36T -->
+<section id="detalle-r36t" class="detalle-producto">
+    <h2>Brutalux R36T</h2>
+    <p class="subtitulo">Faros LED bicolor · 3000K a 6500K · Ideal para lluvia y niebla</p>
+    <div class="detalle-grid">
+        <div class="detalle-media">
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R36T dorado" data-detail-img="r36t-1">
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R36T detalle chip" data-detail-img="r36t-2">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_R36T" title="Modos de color Brutalux R36T" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="detalle-texto">
+            <h3>Detalles técnicos</h3>
+            <ul>
+                <li>Flujo luminoso: 16.000 lm por par.</li>
+                <li>Chip 4575 CSP de 12 núcleos.</li>
+                <li>Temperatura de color 3000K–6500K (amarillo a blanco).</li>
+                <li>Enfriamiento por 4 tubos de cobre.</li>
+                <li>Perfecto para lluvia, neblina y autopista.</li>
+            </ul>
+            <div class="precio-container">
+                <span class="precio">
+                    <span class="precio-usd" data-usd="85">$85</span>
+                    <span class="precio-bs"></span>
+                </span>
+            </div>
+            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R36T" class="btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> Comprar R36T ahora
+            </a>
+            <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
+            <div class="admin-image-controls" style="display: none; margin-top: 15px;">
+                <button class="edit-image-button" data-img-target="[data-detail-img='r36t-1']">Editar Img 1</button>
+                <button class="edit-image-button" data-img-target="[data-detail-img='r36t-2']">Editar Img 2</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DETALLES R36 -->
+<section id="detalle-r36" class="detalle-producto">
+    <h2>Brutalux R36</h2>
+    <p class="subtitulo">Faros LED H4 · 27.000 lm · Balance potencia/precio</p>
+    <div class="detalle-grid">
+        <div class="detalle-media">
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36 vista frontal" data-detail-img="r36-1">
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36 detalle cuerpo" data-detail-img="r36-2">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_R36" title="Review Brutalux R36" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="detalle-texto">
+            <h3>Detalles técnicos</h3>
+            <ul>
+                <li>Flujo luminoso: 27.000 lm por par.</li>
+                <li>6500K blanco puro.</li>
+                <li>4 tubos de cobre + aletas de aluminio.</li>
+                <li>Ideal para uso diario urbano y extraurbano.</li>
+            </ul>
+            <div class="precio-container">
+                <span class="precio">
+                    <span class="precio-usd" data-usd="80">$80</span>
+                    <span class="precio-bs"></span>
+                </span>
+            </div>
+            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R36" class="btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> Comprar R36 ahora
+            </a>
+            <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
+            <div class="admin-image-controls" style="display: none; margin-top: 15px;">
+                <button class="edit-image-button" data-img-target="[data-detail-img='r36-1']">Editar Img 1</button>
+                <button class="edit-image-button" data-img-target="[data-detail-img='r36-2']">Editar Img 2</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DETALLES R20 -->
+<section id="detalle-r20" class="detalle-producto">
+    <h2>Brutalux R20</h2>
+    <p class="subtitulo">Opción económica · 20.000 lm · Excelente relación precio/rendimiento</p>
+    <div class="detalle-grid">
+        <div class="detalle-media">
+            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="R20 vista general" data-detail-img="r20-1">
+            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="R20 detalle base" data-detail-img="r20-2">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_R20" title="Instalación Brutalux R20" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="detalle-texto">
+            <h3>Detalles técnicos</h3>
+            <ul>
+                <li>Flujo luminoso: 20.000 lm por par.</li>
+                <li>Voltaje 12V/24V, ideal también para camiones y buses.</li>
+                <li>2 tubos de cobre + aletas de aluminio.</li>
+                <li>Mejora económica frente a halógenas tradicionales.</li>
+            </ul>
+            <div class="precio-container">
+                <span class="precio">
+                    <span class="precio-usd" data-usd="65">$65</span>
+                    <span class="precio-bs"></span>
+                </span>
+            </div>
+            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R20" class="btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> Comprar R20 ahora
+            </a>
+            <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
+            <div class="admin-image-controls" style="display: none; margin-top: 15px;">
+                <button class="edit-image-button" data-img-target="[data-detail-img='r20-1']">Editar Img 1</button>
+                <button class="edit-image-button" data-img-target="[data-detail-img='r20-2']">Editar Img 2</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="contacto">
+    <h2 style="margin-bottom: 2rem; color: #d4af37;">CONTÁCTANOS</h2>
+    <div class="contacto-info">
+        <div class="contacto-item">
+            <i class="fab fa-whatsapp"></i>
+            <p>WhatsApp</p>
+            <p style="font-weight: bold;">+58 412 6835635</p>
+        </div>
+        <div class="contacto-item">
+            <i class="fas fa-shipping-fast"></i>
+            <p>Envíos</p>
+            <p>Nacionales</p>
+        </div>
+        <div class="contacto-item">
+            <i class="fas fa-shield-alt"></i>
+            <p>Garantía</p>
+            <p>2 años en todas las series R</p>
+        </div>
+    </div>
+    
+    <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/584126835635"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    
+    <p style="margin-top: 2rem; color: #666; font-size: 0.9rem;">
+        &copy; 2024 Brutalux Venezuela. Potentes y Resistentes.
+    </p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    /* --- Admin Login & Panel Functionality --- */
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const loginModal = document.getElementById('loginModal');
+    const closeModal = document.querySelector('.close-button');
+    const adminUsernameInput = document.getElementById('adminUsername');
+    const adminPasswordInput = document.getElementById('adminPassword');
+    const loginSubmitBtn = document.getElementById('loginSubmit');
+    const loginError = document.getElementById('loginError');
+    const adminPanel = document.getElementById('adminPanel');
+    const adminTasaInput = document.getElementById('adminTasaInput');
+    const saveTasaBtn = document.getElementById('saveTasaBtn');
+    const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+
+    const CORRECT_USERNAME = 'Manuel255';
+    const CORRECT_PASSWORD = '30158858Jm';
+    const LOCAL_STORAGE_ADMIN_KEY = 'brutalux_admin_logged_in';
+    const LOCAL_STORAGE_TASA_KEY = 'brutalux_tasa_bcv';
+    const LOCAL_STORAGE_IMAGES_KEY_PREFIX = 'brutalux_img_';
+
+    let isAdminLoggedIn = localStorage.getItem(LOCAL_STORAGE_ADMIN_KEY) === 'true';
+
+    function toggleAdminMode(loggedIn) {
+        if (loggedIn) {
+            adminPanel.style.display = 'block';
+            document.querySelectorAll('.edit-image-button').forEach(btn => btn.style.display = 'inline-block');
+            document.querySelectorAll('.admin-image-controls').forEach(div => div.style.display = 'block');
+        } else {
+            adminPanel.style.display = 'none';
+            document.querySelectorAll('.edit-image-button').forEach(btn => btn.style.display = 'none');
+            document.querySelectorAll('.admin-image-controls').forEach(div => div.style.display = 'none');
+        }
+        isAdminLoggedIn = loggedIn;
+        localStorage.setItem(LOCAL_STORAGE_ADMIN_KEY, loggedIn);
+    }
+
+    // Check login status on page load
+    toggleAdminMode(isAdminLoggedIn);
+
+    adminLoginBtn.addEventListener('click', () => {
+        loginModal.style.display = 'flex';
+        loginError.style.display = 'none';
+        adminUsernameInput.value = '';
+        adminPasswordInput.value = '';
+    });
+
+    closeModal.addEventListener('click', () => {
+        loginModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == loginModal) {
+            loginModal.style.display = 'none';
+        }
+    });
+
+    loginSubmitBtn.addEventListener('click', () => {
+        const username = adminUsernameInput.value;
+        const password = adminPasswordInput.value;
+        if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
+            loginModal.style.display = 'none';
+            toggleAdminMode(true);
+            // Optionally, save the current tasa to the admin input
+            adminTasaInput.value = parseFloat(tasaSpan.dataset.tasa.replace(',', '.')).toFixed(2);
+        } else {
+            loginError.style.display = 'block';
+        }
+    });
+
+    adminLogoutBtn.addEventListener('click', () => {
+        toggleAdminMode(false);
+    });
+
+    /* --- TASA BCV Functionality --- */
+    const tasaSpan = document.getElementById('tasa-bcv');
+    let tasaBCV = 0;
+
+    function formatearBs(valor) {
+        try {
+            return new Intl.NumberFormat('es-VE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(valor);
+        } catch (e) {
+            return valor.toFixed(2);
+        }
+    }
+
+    function aplicarTasa() {
+        // Prioritize localStorage tasa, fallback to data-tasa
+        const storedTasa = localStorage.getItem(LOCAL_STORAGE_TASA_KEY);
+        let currentTasa = storedTasa ? parseFloat(storedTasa) : parseFloat(tasaSpan.dataset.tasa.replace(',', '.'));
+
+        if (isNaN(currentTasa) || currentTasa === 0) {
+            currentTasa = 1; // Default to 1 if no valid tasa
+        }
+        tasaBCV = currentTasa;
+        tasaSpan.textContent = 'Tasa BCV hoy: ' + formatearBs(tasaBCV) + ' Bs/USD';
+
+        // Update admin input if in admin mode
+        if (isAdminLoggedIn) {
+            adminTasaInput.value = tasaBCV.toFixed(2);
+        }
+
+        document.querySelectorAll('.precio-usd').forEach(el => {
+            const usd = parseFloat(el.dataset.usd);
+            if (!isNaN(usd)) {
+                const bs = usd * tasaBCV;
+                const spanBs = el.parentElement.querySelector('.precio-bs');
+                if (spanBs) {
+                    spanBs.textContent = ' (Bs ' + formatearBs(bs) + ')';
+                }
+            }
+        });
+    }
+
+    saveTasaBtn.addEventListener('click', () => {
+        const newTasa = parseFloat(adminTasaInput.value);
+        if (!isNaN(newTasa) && newTasa > 0) {
+            localStorage.setItem(LOCAL_STORAGE_TASA_KEY, newTasa.toFixed(2));
+            aplicarTasa();
+            alert('Tasa guardada correctamente (solo visible en este navegador).');
+        } else {
+            alert('Por favor, introduce una tasa válida.');
+        }
+    });
+
+    aplicarTasa(); // Initial application of tasa
+
+    /* --- Image Editing Functionality --- */
+    function applyStoredImages() {
+        document.querySelectorAll('.producto-img, [data-detail-img]').forEach(imgEl => {
+            const originalSrc = imgEl.src;
+            const key = imgEl.className.includes('producto-img') 
+                        ? LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgEl.closest('.producto-card').dataset.productId 
+                        : LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgEl.dataset.detailImg;
+            
+            const storedSrc = localStorage.getItem(key);
+            if (storedSrc) {
+                imgEl.src = storedSrc;
+            } else {
+                // If no stored image, ensure it uses the HTML's default
+                // This line is already handled by imgEl.src = originalSrc at start of loop
+                // but kept for clarity that we rely on HTML default if localStorage is empty
+            }
+        });
+    }
+
+    applyStoredImages(); // Apply images from localStorage on load
+
+    document.querySelectorAll('.edit-image-button').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const imgTargetSelector = event.target.dataset.imgTarget;
+            let imgElement = document.querySelector(imgTargetSelector);
+
+            if (!imgElement) {
+                // Fallback for detail images if selector is too specific
+                const productId = event.target.closest('.detalle-producto') ? event.target.closest('.detalle-producto').id.replace('detalle-', '') : null;
+                if (productId) {
+                    const detailImgId = event.target.dataset.imgTarget.match(/\[data-detail-img='(.*?)'\]/)[1];
+                    imgElement = document.querySelector(`#detalle-${productId} img[data-detail-img='${detailImgId}']`);
+                }
+            }
+
+            if (imgElement) {
+                const newImgUrl = prompt('Introduce la nueva URL de la imagen:', imgElement.src);
+                if (newImgUrl && newImgUrl.trim() !== '') {
+                    imgElement.src = newImgUrl.trim();
+                    
+                    const key = imgElement.className.includes('producto-img') 
+                                ? LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgElement.closest('.producto-card').dataset.productId 
+                                : LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgElement.dataset.detailImg;
+                    localStorage.setItem(key, newImgUrl.trim());
+                    alert('Imagen actualizada (solo visible en este navegador).');
+                }
+            } else {
+                alert('Error: No se encontró el elemento de imagen a editar.');
+            }
+        });
+    });
+
+    /* --- General Menu Functionality --- */
+    const menuIcon = document.querySelector('.menu-icon');
+    const nav = document.querySelector('nav ul');
+    menuIcon.addEventListener('click', function() {
+        nav.classList.toggle('active');
+    });
+});
+</script>
+
+</body>
+</html>
