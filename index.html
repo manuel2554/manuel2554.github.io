@@ -29,24 +29,6 @@
       --shadow:0 18px 60px rgba(0,0,0,.55);
       --r:18px;
     }
-    /* --- INVOICE UI PERF --- */
-.btnRemove{
-  border:1px solid #e5e7eb;
-  background:#fff;
-  border-radius:10px;
-  padding:6px 10px;
-  cursor:pointer;
-  font-weight:700;
-}
-.btnRemove:hover{ background:#f9fafb; }
-.btnRemove:active{ transform: scale(.98); }
-
-@media print {
-  body * { visibility: hidden; }
-  #invoicePreview, #invoicePreview * { visibility: visible; }
-  #invoicePreview { position: absolute; left: 0; top: 0; width: 100%; }
-  .btnRemove, [data-action], #adminModal { display: none !important; }
-}
 
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -493,6 +475,18 @@
     .totals .boxT .v{font-size:14px;font-weight:900;margin-top:4px}
     .invFoot{padding:12px;color:#444;font-size:11px;border-top:1px solid rgba(0,0,0,.12);background:#fafafa}
 
+    /* PERF/UX: botones quitar en preview */
+    .btnRemove{
+      border:1px solid #e5e7eb;
+      background:#fff;
+      border-radius:10px;
+      padding:6px 10px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .btnRemove:hover{ background:#f9fafb; }
+    .btnRemove:active{ transform: scale(.98); }
+
     /* Print */
     @media print{
       body{background:#fff}
@@ -502,6 +496,7 @@
       .panelHead,.adminGrid .box:not(.printOnly){display:none !important}
       .panelBody{padding:0}
       .invoicePreview{border:none;border-radius:0}
+      .btnRemove{display:none !important}
     }
 
     /* Responsive */
@@ -1011,11 +1006,6 @@
       heroBg: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=2200&q=80"
     };
 
-    // IMPORTANT: Product-image mapping corrected as per your last instruction set:
-    // R36 = left (gold Break Dark)
-    // R33 = middle (bronze/dark)
-    // R36T = right (silver/dual color photo)
-    // (If you want a different mapping later, just swap image URLs below.)
     const PRODUCTS = [
       {
         id: "R36",
@@ -1105,7 +1095,7 @@
           <article class="card">
             <div class="img">
               <div class="tagTop ${p.badge.cls}">${p.badge.text}</div>
-              <img src="${p.image}" alt="${p.name}">
+              <img src="${p.image}" alt="${p.name}" loading="lazy">
             </div>
             <div class="body">
               <div class="model orbitron">${p.modelLine}</div>
@@ -1136,9 +1126,7 @@
         `;
       }).join("");
 
-      // apply settings to logo and hero background
       document.querySelectorAll('.brand img').forEach(img=>img.src = st.logo);
-      document.querySelectorAll('.invBrand img').forEach(img=>img.src = st.logo);
       document.querySelector('.heroCard').style.backgroundImage =
         `linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.80)), url("${st.heroBg}")`;
     }
@@ -1158,19 +1146,15 @@
       window.__tipTO = setTimeout(()=> tip.style.display="none", 4200);
     }
     document.addEventListener("click", (e)=>{
-      // avoid on inputs/buttons within admin modal to not annoy
       const inAdmin = e.target.closest("#adminModal");
       if(inAdmin) return;
-      // avoid on links that navigate
       if(e.target.closest("a")) return;
       showTip();
     });
     document.getElementById("tipClose").addEventListener("click", ()=> document.getElementById("tip").style.display="none");
 
     /**********************
-     * COMPATIBILITY DATA (simple demo dataset)
-     * NOTE: A full 2000-2026 dataset for ALL Toyota/Ford/Chevrolet models is huge.
-     * Here we implement the UI + a starter dataset. You can expand the DATA table.
+     * COMPATIBILITY DATA
      **********************/
     const COMPAT = {
       Toyota: {
@@ -1193,7 +1177,10 @@
 
     function fillYears(){
       const y = document.getElementById("cYear");
-      y.innerHTML = `<option value="">Año</option>` + Array.from({length: 2026-2000+1}, (_,i)=>2000+i)
+      // más robusto: hasta el año actual + 1 (puedes ajustar)
+      const minY = 2000;
+      const maxY = Math.max(2026, new Date().getFullYear() + 1);
+      y.innerHTML = `<option value="">Año</option>` + Array.from({length: maxY-minY+1}, (_,i)=>minY+i)
         .map(v=>`<option value="${v}">${v}</option>`).join("");
     }
 
@@ -1250,20 +1237,17 @@
     function showModal(){ adminModal.classList.add("show"); adminModal.setAttribute("aria-hidden","false"); }
     function hideModal(){ adminModal.classList.remove("show"); adminModal.setAttribute("aria-hidden","true"); }
 
-    fabAdmin.addEventListener("click", ()=> { showModal(); });
-    openAdmin.addEventListener("click", ()=> { showModal(); });
-    closeAdmin.addEventListener("click", ()=> { hideModal(); });
+    fabAdmin.addEventListener("click", showModal);
+    openAdmin.addEventListener("click", showModal);
+    closeAdmin.addEventListener("click", hideModal);
 
     adminModal.addEventListener("click", (e)=>{
       if(e.target === adminModal) hideModal();
     });
 
-    function isLogged(){
-      return localStorage.getItem("brutalux_admin") === "1";
-    }
-    function setLogged(v){
-      localStorage.setItem("brutalux_admin", v ? "1" : "0");
-    }
+    function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
+    function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
+
     function syncAdminUI(){
       const logged = isLogged();
       document.getElementById("adminArea").style.display = logged ? "block" : "none";
@@ -1276,9 +1260,11 @@
         document.getElementById("warrantyInput").value = st.warranty;
         document.getElementById("logoInput").value = st.logo;
         document.getElementById("heroBgInput").value = st.heroBg;
+
         fillInvoiceProductSelect();
-        refreshInvoicePreview();
+        scheduleInvoicePreview();
       }
+    }
 
     btnLogin.addEventListener("click", ()=>{
       const u = document.getElementById("adminUser").value.trim();
@@ -1309,11 +1295,10 @@
         return;
       }
 
-      const next = {...st, rate, warranty, logo, heroBg};
-      setState(next);
+      setState({...st, rate, warranty, logo, heroBg});
       renderRate();
       renderCatalog();
-      refreshInvoicePreview();
+      scheduleInvoicePreview();
       alert("Guardado (local).");
     });
 
@@ -1326,242 +1311,106 @@
     });
 
     /**********************
- * INVOICE BUILDER (multi-item) - OPTIMIZED
- **********************/
-function getInvoice(){
-  const raw = localStorage.getItem("brutalux_invoice");
-  if(!raw) return { items: [] };
-  try { return JSON.parse(raw); } catch { return { items: [] }; }
-}
-function setInvoice(inv){
-  localStorage.setItem("brutalux_invoice", JSON.stringify(inv));
-}
+     * INVOICE BUILDER (OPTIMIZED)
+     **********************/
+    function getInvoice(){
+      const raw = localStorage.getItem("brutalux_invoice");
+      if(!raw) return { items: [] };
+      try { return JSON.parse(raw); } catch { return { items: [] }; }
+    }
+    function setInvoice(inv){
+      localStorage.setItem("brutalux_invoice", JSON.stringify(inv));
+    }
 
-/** Debounced preview to avoid freezing while typing */
-let invPreviewTimer = null;
-function scheduleInvoicePreview(){
-  clearTimeout(invPreviewTimer);
-  invPreviewTimer = setTimeout(() => {
-    refreshInvoicePreview();
-  }, 120);
-}
+    // Debounce to avoid freezing while typing
+    let invPreviewTimer = null;
+    function scheduleInvoicePreview(){
+      clearTimeout(invPreviewTimer);
+      invPreviewTimer = setTimeout(refreshInvoicePreview, 120);
+    }
 
-/** Ensure we don't attach listeners multiple times */
-let invoiceListenersMounted = false;
+    // Mount listeners once (avoid duplicates)
+    let invoiceListenersMounted = false;
 
-function fillInvoiceProductSelect(){
-  const sel = document.getElementById("invProduct");
-  if(!sel) return;
+    function fillInvoiceProductSelect(){
+      const sel = document.getElementById("invProduct");
+      if(!sel) return;
 
-  sel.innerHTML = PRODUCTS
-    .map(p=>`<option value="${p.id}">${p.id} - ${p.name} ($${p.usd})</option>`)
-    .join("");
+      sel.innerHTML = PRODUCTS
+        .map(p=>`<option value="${p.id}">${p.id} - ${p.name} ($${p.usd})</option>`)
+        .join("");
 
-  // Use onchange property to avoid stacking listeners
-  sel.onchange = () => {
-    const id = sel.value;
-    const p = PRODUCTS.find(x=>x.id===id);
-    if(p) document.getElementById("invPrice").value = p.usd;
-    scheduleInvoicePreview();
-  };
+      // IMPORTANT: no addEventListener stacking
+      sel.onchange = () => {
+        const p = PRODUCTS.find(x=>x.id===sel.value);
+        if(p) document.getElementById("invPrice").value = p.usd;
+        scheduleInvoicePreview();
+      };
 
-  // initial
-  const first = PRODUCTS[0];
-  if(first) document.getElementById("invPrice").value = first.usd;
-}
+      const first = PRODUCTS[0];
+      if(first) document.getElementById("invPrice").value = first.usd;
+    }
 
-function addItem(){
-  const inv = getInvoice();
+    function addItem(){
+      const inv = getInvoice();
+      const sel = document.getElementById("invProduct");
+      const id = sel?.value;
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(!p){ alert("Producto inválido."); return; }
 
-  const id = document.getElementById("invProduct").value;
-  const p = PRODUCTS.find(x=>x.id===id);
-  if(!p){ alert("Producto inválido."); return; }
+      const qty = parseInt(document.getElementById("invQty").value,10);
+      if(!isFinite(qty) || qty<=0){ alert("Cantidad inválida."); return; }
 
-  const qty = parseInt(document.getElementById("invQty").value,10);
-  if(!isFinite(qty) || qty<=0){ alert("Cantidad inválida."); return; }
+      const price = parseFloat(document.getElementById("invPrice").value);
+      if(!isFinite(price) || price<=0){ alert("Precio inválido."); return; }
 
-  const price = parseFloat(document.getElementById("invPrice").value);
-  if(!isFinite(price) || price<=0){ alert("Precio inválido."); return; }
+      inv.items.push({ id: p.id, desc: `${p.name} (${p.id})`, qty, usd: price });
+      setInvoice(inv);
+      scheduleInvoicePreview();
+    }
 
-  inv.items.push({
-    id: p.id,
-    desc: `${p.name} (${p.id})`,
-    qty,
-    usd: price
-  });
+    function clearItems(){
+      if(!confirm("¿Vaciar la factura?")) return;
+      setInvoice({items:[]});
+      scheduleInvoicePreview();
+    }
 
-  setInvoice(inv);
-  scheduleInvoicePreview();
-}
+    function removeItem(idx){
+      const inv = getInvoice();
+      if(idx<0 || idx>=inv.items.length) return;
+      inv.items.splice(idx,1);
+      setInvoice(inv);
+      scheduleInvoicePreview();
+    }
+    window.removeItem = removeItem; // por compatibilidad (ya no se usa inline)
 
-function clearItems(){
-  if(!confirm("¿Vaciar la factura?")) return;
-  setInvoice({items:[]});
-  scheduleInvoicePreview();
-}
+    function mountInvoiceListenersOnce(){
+      if(invoiceListenersMounted) return;
+      invoiceListenersMounted = true;
 
-function removeItem(idx){
-  const inv = getInvoice();
-  if(idx < 0 || idx >= inv.items.length) return;
-  inv.items.splice(idx,1);
-  setInvoice(inv);
-  scheduleInvoicePreview();
-}
+      document.getElementById("btnAddItem")?.addEventListener("click", addItem);
+      document.getElementById("btnClearItems")?.addEventListener("click", clearItems);
+      document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
 
-// expose if you still call it elsewhere
-window.removeItem = removeItem;
+      document.getElementById("btnPrint")?.addEventListener("click", ()=>{
+        refreshInvoicePreview();
+        setTimeout(()=> window.print(), 80);
+      });
 
-function mountInvoiceListenersOnce(){
-  if(invoiceListenersMounted) return;
-  invoiceListenersMounted = true;
+      // Debounced live updates
+      ["invClient","invId","invPhone","invAddr","invTax","invDiscount","invPrice","invQty"].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.addEventListener("input", scheduleInvoicePreview);
+      });
 
-  const btnAdd = document.getElementById("btnAddItem");
-  const btnClear = document.getElementById("btnClearItems");
-  const btnRefresh = document.getElementById("btnRefreshInvoice");
-  const btnPrint = document.getElementById("btnPrint");
-
-  if(btnAdd) btnAdd.addEventListener("click", addItem);
-  if(btnClear) btnClear.addEventListener("click", clearItems);
-  if(btnRefresh) btnRefresh.addEventListener("click", refreshInvoicePreview);
-
-  // Print must be direct user gesture.
-  if(btnPrint) btnPrint.addEventListener("click", ()=>{
-    refreshInvoicePreview();
-    setTimeout(()=> window.print(), 80);
-  });
-
-  // Update preview as user types (debounced)
-  ["invClient","invId","invPhone","invAddr","invTax","invDiscount","invPrice","invQty"].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.addEventListener("input", scheduleInvoicePreview);
-  });
-
-  // Event delegation for remove buttons inside preview
-  const pv = document.getElementById("invoicePreview");
-  if(pv){
-    pv.addEventListener("click", (e)=>{
-      const btn = e.target.closest("[data-remove]");
-      if(!btn) return;
-      const idx = parseInt(btn.dataset.remove, 10);
-      if(isFinite(idx)) removeItem(idx);
-    });
-  }
-}
-
-function refreshInvoicePreview(){
-  const st = getState();
-  const inv = getInvoice();
-
-  const client = document.getElementById("invClient")?.value || "";
-  const doc = document.getElementById("invId")?.value || "";
-  const phone = document.getElementById("invPhone")?.value || "";
-  const addr = document.getElementById("invAddr")?.value || "";
-
-  const taxPct = parseFloat(document.getElementById("invTax")?.value || "0") || 0;
-  const discount = parseFloat(document.getElementById("invDiscount")?.value || "0") || 0;
-
-  const sub = inv.items.reduce((a,it)=> a + (it.qty * it.usd), 0);
-  const tax = sub * (taxPct/100);
-  const totalUsd = Math.max(0, (sub + tax - discount));
-  const totalBs = totalUsd * st.rate;
-
-  const now = new Date();
-  const dateStr = now.toLocaleDateString("es-VE") + " " +
-    now.toLocaleTimeString("es-VE", {hour:'2-digit', minute:'2-digit'});
-
-  const rows = inv.items.map((it, idx)=>{
-    const line = it.qty * it.usd;
-    return `
-      <tr>
-        <td>${it.desc}</td>
-        <td class="r">${it.qty}</td>
-        <td class="r">$${fmtUsd(it.usd)}</td>
-        <td class="r">$${fmtUsd(line)}</td>
-        <td class="r">
-          <button type="button" class="btnRemove" data-remove="${idx}">Quitar</button>
-        </td>
-      </tr>
-    `;
-  }).join("");
-
-  const pv = document.getElementById("invoicePreview");
-  if(!pv) return;
-
-  pv.innerHTML = `
-    <div class="invTop">
-      <div class="invBrand">
-        <img src="${st.logo}" alt="logo">
-        <div>
-          <div class="t1">BRUTALUX</div>
-          <div class="t2">Potentes y resistentes • Garantía ${st.warranty}</div>
-          <div class="t2">WhatsApp: +58 412 6835635</div>
-        </div>
-      </div>
-      <div class="invMeta">
-        <b>Factura / Nota de venta</b>
-        <div>${dateStr}</div>
-        <div><b>Tasa BCV:</b> ${fmtBs(st.rate)} Bs/USD</div>
-      </div>
-    </div>
-
-    <div class="invPad">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-        <div style="border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px">
-          <div style="font-weight:900;margin-bottom:4px">Datos del cliente</div>
-          <div style="font-size:12px"><b>Nombre:</b> ${client || "—"}</div>
-          <div style="font-size:12px"><b>Cédula/RIF:</b> ${doc || "—"}</div>
-          <div style="font-size:12px"><b>Teléfono:</b> ${phone || "—"}</div>
-          <div style="font-size:12px"><b>Dirección:</b> ${addr || "—"}</div>
-        </div>
-
-        <div style="border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px">
-          <div style="font-weight:900;margin-bottom:4px">Resumen</div>
-          <div style="font-size:12px"><b>Subtotal:</b> $${fmtUsd(sub)}</div>
-          <div style="font-size:12px"><b>IVA (${taxPct}%):</b> $${fmtUsd(tax)}</div>
-          <div style="font-size:12px"><b>Descuento:</b> $${fmtUsd(discount)}</div>
-          <div style="margin-top:6px;font-size:12px"><b>Total USD:</b> $${fmtUsd(totalUsd)}</div>
-          <div style="font-size:12px"><b>Total Bs:</b> Bs ${fmtBs(totalBs)}</div>
-        </div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Descripción</th>
-            <th class="r">Cant</th>
-            <th class="r">Precio</th>
-            <th class="r">Total</th>
-            <th class="r">Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows || `<tr><td colspan="5" style="color:#555">Sin items. Agrega productos.</td></tr>`}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="totals">
-      <div class="boxT">
-        <div class="k">Total USD</div>
-        <div class="v">$${fmtUsd(totalUsd)}</div>
-      </div>
-      <div class="boxT">
-        <div class="k">Total Bs (ref.)</div>
-        <div class="v">Bs ${fmtBs(totalBs)}</div>
-      </div>
-    </div>
-
-    <div class="invFoot">
-      Esta impresión es una nota/recibo digital de referencia. Para facturación fiscal oficial se requiere sistema homologado e impresora fiscal (según normativa).
-    </div>
-  `;
-}
-    // PRINT: must be direct user gesture; this button is direct, so it should open.
-    document.getElementById("btnPrint").addEventListener("click", ()=>{
-      refreshInvoicePreview();
-      // give a small delay so DOM paints
-      setTimeout(()=> window.print(), 80);
-    });
+      // Delegation for remove buttons (fast, no inline handlers)
+      document.getElementById("invoicePreview")?.addEventListener("click", (e)=>{
+        const btn = e.target.closest("[data-remove]");
+        if(!btn) return;
+        const idx = parseInt(btn.dataset.remove,10);
+        if(isFinite(idx)) removeItem(idx);
+      });
+    }
 
     function refreshInvoicePreview(){
       const st = getState();
@@ -1581,7 +1430,8 @@ function refreshInvoicePreview(){
       const totalBs = totalUsd * st.rate;
 
       const now = new Date();
-      const dateStr = now.toLocaleDateString("es-VE") + " " + now.toLocaleTimeString("es-VE", {hour:'2-digit', minute:'2-digit'});
+      const dateStr = now.toLocaleDateString("es-VE") + " " +
+        now.toLocaleTimeString("es-VE", {hour:'2-digit', minute:'2-digit'});
 
       const rows = inv.items.map((it, idx)=>{
         const line = it.qty * it.usd;
@@ -1591,12 +1441,15 @@ function refreshInvoicePreview(){
             <td class="r">${it.qty}</td>
             <td class="r">$${fmtUsd(it.usd)}</td>
             <td class="r">$${fmtUsd(line)}</td>
-            <td class="r"><button onclick="removeItem(${idx})" style="border:1px solid #ddd;background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer">Quitar</button></td>
+            <td class="r"><button type="button" class="btnRemove" data-remove="${idx}">Quitar</button></td>
           </tr>
         `;
       }).join("");
 
-      const html = `
+      const pv = document.getElementById("invoicePreview");
+      if(!pv) return;
+
+      pv.innerHTML = `
         <div class="invTop">
           <div class="invBrand">
             <img src="${st.logo}" alt="logo">
@@ -1664,30 +1517,20 @@ function refreshInvoicePreview(){
           Esta impresión es una nota/recibo digital de referencia. Para facturación fiscal oficial se requiere sistema homologado e impresora fiscal (según normativa).
         </div>
       `;
-
-      const pv = document.getElementById("invoicePreview");
-      pv.innerHTML = html;
     }
-
-    // allow preview to update as user types
-    ["invClient","invId","invPhone","invAddr","invTax","invDiscount"].forEach(id=>{
-      const el = document.getElementById(id);
-      if(el) el.addEventListener("input", ()=> refreshInvoicePreview());
-    });
-
-    window.removeItem = removeItem;
 
     function openAdminAndPreselect(productId){
       showModal();
-      // if not logged, just open; once logged they can use invoice
       setTimeout(()=>{
         if(isLogged()){
+          fillInvoiceProductSelect(); // asegura select lleno
           const sel = document.getElementById("invProduct");
           if(sel){
             sel.value = productId;
             const p = PRODUCTS.find(x=>x.id===productId);
             if(p) document.getElementById("invPrice").value = p.usd;
           }
+          scheduleInvoicePreview();
         }
       }, 60);
     }
@@ -1698,11 +1541,9 @@ function refreshInvoicePreview(){
      **********************/
     document.getElementById("yearNow").textContent = new Date().getFullYear();
 
-    // rate + catalog
     renderRate();
     renderCatalog();
 
-    // compat selectors
     fillYears();
     document.getElementById("cBrand").addEventListener("change", (e)=>{
       const brand = e.target.value;
@@ -1719,16 +1560,14 @@ function refreshInvoicePreview(){
     });
     document.getElementById("btnCompat").addEventListener("click", doCompat);
 
+    // Invoice listeners once (prevents freezing due to duplicate listeners)
+    mountInvoiceListenersOnce();
+
     // admin init
     syncAdminUI();
-mountInvoiceListenersOnce();
-scheduleInvoicePreview();
-    /**********************
-     * PRINT ISSUE NOTE:
-     * window.print() only works reliably in response to a direct user click.
-     * Here we call it from btnPrint click handler. If on mobile, some browsers block it.
-     **********************/
+
+    // initial preview in case you open admin later
+    scheduleInvoicePreview();
   </script>
 </body>
 </html>
-
