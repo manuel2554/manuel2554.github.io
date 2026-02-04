@@ -68,10 +68,6 @@
       font-size:11px;color:var(--muted);
       letter-spacing:.18em;text-transform:uppercase;margin-top:2px;
     }
-    .brand .name{
-      font-weight:800;letter-spacing:.06em;
-      color:linear-gradient(90deg,var(--blue),var(--orange));
-    }
 
     .links{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
     .links a{
@@ -345,23 +341,28 @@
     .social a:hover{background:rgba(255,255,255,.07);border-color:rgba(0,200,255,.25)}
     .tiny{font-size:12px;color:var(--muted)}
 
-    /* Floating tip */
+    /* Floating tip (auto, not per click) */
     #tip{
       position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
-      background:rgba(0,200,255,.92);
+      background:rgba(0,200,255,.95);
       color:#05121a;
       border:1px solid rgba(255,255,255,.25);
       box-shadow:0 20px 50px rgba(0,200,255,.18);
       border-radius:999px;
-      padding:10px 14px;
+      padding:12px 14px;
       z-index:80;
-      max-width:min(760px,92vw);
+      max-width:min(860px,92vw);
       display:none;
       font-weight:900;
       gap:10px;
       align-items:center;
     }
-    #tip small{font-weight:700;opacity:.85}
+    #tip .dot{
+      width:10px;height:10px;border-radius:999px;background:rgba(0,0,0,.25);
+      box-shadow:0 0 0 5px rgba(255,255,255,.18) inset;
+      flex:0 0 auto;
+    }
+    #tip small{font-weight:800;opacity:.85}
     #tip .x{
       margin-left:auto;
       width:30px;height:30px;border-radius:999px;
@@ -401,6 +402,8 @@
       padding:18px;
     }
     .modal.show{display:flex}
+
+    /* ✅ SCROLL FIX: modal/panel with internal scroll */
     .panel{
       width:min(980px,96vw);
       border-radius:22px;
@@ -408,16 +411,28 @@
       background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.55));
       box-shadow:var(--shadow);
       overflow:hidden;
+
+      max-height: calc(100vh - 36px);
+      display:flex;
+      flex-direction:column;
     }
     .panelHead{
       padding:14px 14px;
       border-bottom:1px solid var(--line);
       display:flex;align-items:center;justify-content:space-between;gap:10px;
+      flex:0 0 auto;
     }
     .panelHead h3{margin:0;font-size:14px;letter-spacing:.12em;text-transform:uppercase}
     .close{cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
       border-radius:14px;padding:10px 12px;font-weight:900}
-    .panelBody{padding:14px}
+    .panelBody{
+      padding:14px;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
     .adminGrid{display:grid;grid-template-columns:1fr 1.2fr;gap:12px}
     .box{
       border:1px solid var(--line);
@@ -443,59 +458,174 @@
     .btnWide.green{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.28)}
     .btnWide.green:hover{background:rgba(34,197,94,.24)}
 
-    /* Invoice preview */
+    /* Invoice preview (improved design) */
     .invoicePreview{
-      background:#fff;color:#111;border-radius:16px;
-      border:1px solid rgba(0,0,0,.12);
+      background:#ffffff;
+      color:#0b1220;
+      border-radius:18px;
+      border:1px solid rgba(0,0,0,.10);
       overflow:hidden;
+      box-shadow: 0 14px 40px rgba(0,0,0,.10);
     }
-    .invPad{padding:14px}
+
+    .invHeaderBar{
+      background: linear-gradient(90deg, #00c8ff, #ff5c00);
+      color: #061018;
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .invHeaderBar .title{
+      font-weight:1000;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-family: Orbitron, Inter, system-ui;
+      font-size: 12px;
+    }
+    .invHeaderBar .chip{
+      background: rgba(255,255,255,.20);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
     .invTop{
       display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
-      border-bottom:1px solid rgba(0,0,0,.12);padding:14px;
+      padding:14px;
+      border-bottom:1px solid rgba(0,0,0,.10);
+      background:
+        radial-gradient(900px 300px at 10% 0%, rgba(0,200,255,.10), transparent 60%),
+        radial-gradient(900px 300px at 90% 0%, rgba(255,92,0,.10), transparent 60%),
+        #fff;
     }
-    .invBrand{display:flex;gap:10px;align-items:center}
-    .invBrand img{height:42px;border-radius:10px}
-    .invBrand .t1{font-weight:900}
-    .invBrand .t2{font-size:12px;color:#444;margin-top:2px}
-    .invMeta{font-size:12px;color:#222;text-align:right}
+    .invBrand{display:flex;gap:12px;align-items:center}
+    .invBrand img{
+      height:50px;
+      border-radius:12px;
+      border: 1px solid rgba(0,0,0,.08);
+      background:#fff;
+      object-fit:cover;
+    }
+    .invBrand .t1{font-weight:1000;letter-spacing:.06em}
+    .invBrand .t2{font-size:12px;color:#334155;margin-top:2px}
+    .invMeta{font-size:12px;color:#0f172a;text-align:right}
     .invMeta b{display:block;font-size:12px}
+    .invPad{padding:14px}
+
     table{width:100%;border-collapse:collapse}
-    th,td{padding:9px;border-bottom:1px solid rgba(0,0,0,.10);font-size:12px}
-    th{text-align:left;background:#f5f6f8}
+    th,td{padding:10px;border-bottom:1px solid rgba(0,0,0,.08);font-size:12px}
+    th{
+      text-align:left;
+      background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+      color:#0f172a;
+      font-weight: 900;
+    }
     td.r{text-align:right}
+
+    .btnRemove{
+      border:1px solid rgba(15, 23, 42, .12);
+      background:#fff;
+      border-radius:12px;
+      padding:7px 10px;
+      cursor:pointer;
+      font-weight:900;
+      color:#0f172a;
+    }
+    .btnRemove:hover{ background:#f8fafc; }
+    .btnRemove:active{ transform: scale(.98); }
+
+    .invCards{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .invCard{
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:14px;
+      padding:12px;
+      background:#fff;
+    }
+    .invCard .h{
+      font-weight:1000;
+      margin-bottom:6px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      color:#0f172a;
+    }
+    .invCard .h i{ color:#ff5c00; }
+    .invCard .l{ font-size:12px; color:#334155; line-height:1.45; }
+    .invCard .l b{ color:#0f172a; }
+
     .totals{
-      display:grid;grid-template-columns:1fr 1fr;gap:10px;
-      padding:14px;border-top:1px solid rgba(0,0,0,.12);
+      display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
+      padding:14px;
+      border-top:1px solid rgba(0,0,0,.10);
+      background: #fafafa;
     }
     .totals .boxT{
-      border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:12px;
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:14px;
+      padding:12px;
+      background: #fff;
     }
-    .totals .boxT .k{font-size:12px;color:#333}
-    .totals .boxT .v{font-size:14px;font-weight:900;margin-top:4px}
-    .invFoot{padding:12px;color:#444;font-size:11px;border-top:1px solid rgba(0,0,0,.12);background:#fafafa}
+    .totals .boxT .k{font-size:12px;color:#334155;font-weight:900}
+    .totals .boxT .v{font-size:16px;font-weight:1000;margin-top:6px;color:#0f172a}
+    .totals .boxT.primary{
+      background: linear-gradient(180deg, rgba(0,200,255,.12), rgba(255,92,0,.10));
+      border-color: rgba(255,92,0,.18);
+    }
 
-    /* PERF/UX: botones quitar en preview */
-    .btnRemove{
-      border:1px solid #e5e7eb;
-      background:#fff;
-      border-radius:10px;
-      padding:6px 10px;
-      cursor:pointer;
-      font-weight:800;
+    /* Sello / firma */
+    .stampSign{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      padding: 0 14px 14px;
+      background:#fafafa;
     }
-    .btnRemove:hover{ background:#f9fafb; }
-    .btnRemove:active{ transform: scale(.98); }
+    .stampBox{
+      border: 2px dashed rgba(15, 23, 42, .20);
+      border-radius: 16px;
+      min-height: 90px;
+      background: #fff;
+      padding: 10px;
+    }
+    .stampBox .t{
+      font-weight:1000;
+      font-size:12px;
+      color:#0f172a;
+      margin-bottom:6px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .stampBox .hint{
+      font-size:11px;color:#64748b;
+    }
+
+    .invFoot{
+      padding:12px 14px;
+      color:#475569;
+      font-size:11px;
+      border-top:1px solid rgba(0,0,0,.10);
+      background:#f8fafc;
+    }
 
     /* Print */
     @media print{
       body{background:#fff}
       header,.hero,.adminFab,#tip,footer{display:none !important}
       .modal{position:static;inset:auto;background:#fff;padding:0;display:block !important}
-      .panel{box-shadow:none;border:none;background:#fff}
+      .panel{box-shadow:none;border:none;background:#fff;max-height:none}
       .panelHead,.adminGrid .box:not(.printOnly){display:none !important}
-      .panelBody{padding:0}
-      .invoicePreview{border:none;border-radius:0}
+      .panelBody{padding:0;overflow:visible}
+      .invoicePreview{border:none;border-radius:0;box-shadow:none}
       .btnRemove{display:none !important}
     }
 
@@ -508,6 +638,9 @@
       .heroGrid{grid-template-columns:1fr}
       .formGrid{grid-template-columns:1fr 1fr}
       .adminGrid{grid-template-columns:1fr}
+      .invCards{grid-template-columns: 1fr;}
+      .totals{grid-template-columns: 1fr;}
+      .stampSign{grid-template-columns:1fr}
     }
     @media (max-width:560px){
       .formGrid{grid-template-columns:1fr}
@@ -834,6 +967,7 @@
 
   <!-- Floating tip -->
   <div id="tip">
+    <div class="dot"></div>
     <span id="tipText">Consejo</span>
     <small id="tipN"></small>
     <div class="x" id="tipClose"><i class="fa-solid fa-xmark"></i></div>
@@ -1132,26 +1266,37 @@
     }
 
     /**********************
-     * TIP ON CLICK
+     * TIPS (AUTO, NOT ON CLICK)
      **********************/
     let tipIdx = 0;
-    function showTip(){
+    const TIP_EVERY_MS = 32000;   // cada 32s aparece un tip
+    const TIP_SHOW_MS  = 12000;   // dura 12s visible (buena lectura)
+    let tipInterval = null;
+    let tipHideTO = null;
+
+    function showTipAuto(){
       const tip = document.getElementById("tip");
       const t = TIPS[tipIdx % TIPS.length];
       tipIdx++;
-      document.getElementById("tipText").textContent = "💡 Consejo Brutalux: " + t;
+
+      document.getElementById("tipText").textContent = "Consejo Brutalux: " + t;
       document.getElementById("tipN").textContent = `#${tipIdx}/${TIPS.length}`;
+
       tip.style.display = "flex";
-      clearTimeout(window.__tipTO);
-      window.__tipTO = setTimeout(()=> tip.style.display="none", 4200);
+
+      clearTimeout(tipHideTO);
+      tipHideTO = setTimeout(()=> tip.style.display="none", TIP_SHOW_MS);
     }
-    document.addEventListener("click", (e)=>{
-      const inAdmin = e.target.closest("#adminModal");
-      if(inAdmin) return;
-      if(e.target.closest("a")) return;
-      showTip();
+
+    function startTips(){
+      // muestra uno luego de unos segundos, y luego a intervalos
+      setTimeout(showTipAuto, 6000);
+      tipInterval = setInterval(showTipAuto, TIP_EVERY_MS);
+    }
+
+    document.getElementById("tipClose").addEventListener("click", ()=>{
+      document.getElementById("tip").style.display="none";
     });
-    document.getElementById("tipClose").addEventListener("click", ()=> document.getElementById("tip").style.display="none");
 
     /**********************
      * COMPATIBILITY DATA
@@ -1177,7 +1322,6 @@
 
     function fillYears(){
       const y = document.getElementById("cYear");
-      // más robusto: hasta el año actual + 1 (puedes ajustar)
       const minY = 2000;
       const maxY = Math.max(2026, new Date().getFullYear() + 1);
       y.innerHTML = `<option value="">Año</option>` + Array.from({length: maxY-minY+1}, (_,i)=>minY+i)
@@ -1234,8 +1378,16 @@
     const btnLogin = document.getElementById("btnLogin");
     const btnLogout = document.getElementById("btnLogout");
 
-    function showModal(){ adminModal.classList.add("show"); adminModal.setAttribute("aria-hidden","false"); }
-    function hideModal(){ adminModal.classList.remove("show"); adminModal.setAttribute("aria-hidden","true"); }
+    function showModal(){
+      adminModal.classList.add("show");
+      adminModal.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";  // ✅ bloquea scroll fondo
+    }
+    function hideModal(){
+      adminModal.classList.remove("show");
+      adminModal.setAttribute("aria-hidden","true");
+      document.body.style.overflow = "";        // ✅ restaura
+    }
 
     fabAdmin.addEventListener("click", showModal);
     openAdmin.addEventListener("click", showModal);
@@ -1311,7 +1463,7 @@
     });
 
     /**********************
-     * INVOICE BUILDER (OPTIMIZED)
+     * INVOICE BUILDER
      **********************/
     function getInvoice(){
       const raw = localStorage.getItem("brutalux_invoice");
@@ -1322,14 +1474,12 @@
       localStorage.setItem("brutalux_invoice", JSON.stringify(inv));
     }
 
-    // Debounce to avoid freezing while typing
     let invPreviewTimer = null;
     function scheduleInvoicePreview(){
       clearTimeout(invPreviewTimer);
       invPreviewTimer = setTimeout(refreshInvoicePreview, 120);
     }
 
-    // Mount listeners once (avoid duplicates)
     let invoiceListenersMounted = false;
 
     function fillInvoiceProductSelect(){
@@ -1340,7 +1490,6 @@
         .map(p=>`<option value="${p.id}">${p.id} - ${p.name} ($${p.usd})</option>`)
         .join("");
 
-      // IMPORTANT: no addEventListener stacking
       sel.onchange = () => {
         const p = PRODUCTS.find(x=>x.id===sel.value);
         if(p) document.getElementById("invPrice").value = p.usd;
@@ -1382,7 +1531,6 @@
       setInvoice(inv);
       scheduleInvoicePreview();
     }
-    window.removeItem = removeItem; // por compatibilidad (ya no se usa inline)
 
     function mountInvoiceListenersOnce(){
       if(invoiceListenersMounted) return;
@@ -1397,13 +1545,11 @@
         setTimeout(()=> window.print(), 80);
       });
 
-      // Debounced live updates
       ["invClient","invId","invPhone","invAddr","invTax","invDiscount","invPrice","invQty"].forEach(id=>{
         const el = document.getElementById(id);
         if(el) el.addEventListener("input", scheduleInvoicePreview);
       });
 
-      // Delegation for remove buttons (fast, no inline handlers)
       document.getElementById("invoicePreview")?.addEventListener("click", (e)=>{
         const btn = e.target.closest("[data-remove]");
         if(!btn) return;
@@ -1450,6 +1596,11 @@
       if(!pv) return;
 
       pv.innerHTML = `
+        <div class="invHeaderBar">
+          <div class="title">Factura / Nota de Venta</div>
+          <div class="chip">Tasa BCV: ${fmtBs(st.rate)} Bs/USD</div>
+        </div>
+
         <div class="invTop">
           <div class="invBrand">
             <img src="${st.logo}" alt="logo">
@@ -1460,29 +1611,29 @@
             </div>
           </div>
           <div class="invMeta">
-            <b>Factura / Nota de venta</b>
+            <b>Emisión</b>
             <div>${dateStr}</div>
-            <div><b>Tasa BCV:</b> ${fmtBs(st.rate)} Bs/USD</div>
+            <div style="margin-top:6px"><b>Moneda:</b> USD (Ref. Bs)</div>
           </div>
         </div>
 
         <div class="invPad">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-            <div style="border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px">
-              <div style="font-weight:900;margin-bottom:4px">Datos del cliente</div>
-              <div style="font-size:12px"><b>Nombre:</b> ${client || "—"}</div>
-              <div style="font-size:12px"><b>Cédula/RIF:</b> ${doc || "—"}</div>
-              <div style="font-size:12px"><b>Teléfono:</b> ${phone || "—"}</div>
-              <div style="font-size:12px"><b>Dirección:</b> ${addr || "—"}</div>
+          <div class="invCards">
+            <div class="invCard">
+              <div class="h"><i class="fa-solid fa-user"></i> Datos del cliente</div>
+              <div class="l"><b>Nombre:</b> ${client || "—"}</div>
+              <div class="l"><b>Cédula/RIF:</b> ${doc || "—"}</div>
+              <div class="l"><b>Teléfono:</b> ${phone || "—"}</div>
+              <div class="l"><b>Dirección:</b> ${addr || "—"}</div>
             </div>
 
-            <div style="border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px">
-              <div style="font-weight:900;margin-bottom:4px">Resumen</div>
-              <div style="font-size:12px"><b>Subtotal:</b> $${fmtUsd(sub)}</div>
-              <div style="font-size:12px"><b>IVA (${taxPct}%):</b> $${fmtUsd(tax)}</div>
-              <div style="font-size:12px"><b>Descuento:</b> $${fmtUsd(discount)}</div>
-              <div style="margin-top:6px;font-size:12px"><b>Total USD:</b> $${fmtUsd(totalUsd)}</div>
-              <div style="font-size:12px"><b>Total Bs:</b> Bs ${fmtBs(totalBs)}</div>
+            <div class="invCard">
+              <div class="h"><i class="fa-solid fa-receipt"></i> Resumen</div>
+              <div class="l"><b>Subtotal:</b> $${fmtUsd(sub)}</div>
+              <div class="l"><b>IVA (${taxPct}%):</b> $${fmtUsd(tax)}</div>
+              <div class="l"><b>Descuento:</b> $${fmtUsd(discount)}</div>
+              <div class="l" style="margin-top:8px"><b>Total USD:</b> $${fmtUsd(totalUsd)}</div>
+              <div class="l"><b>Total Bs (ref.):</b> Bs ${fmtBs(totalBs)}</div>
             </div>
           </div>
 
@@ -1497,19 +1648,34 @@
               </tr>
             </thead>
             <tbody>
-              ${rows || `<tr><td colspan="5" style="color:#555">Sin items. Agrega productos.</td></tr>`}
+              ${rows || `<tr><td colspan="5" style="color:#64748b">Sin items. Agrega productos.</td></tr>`}
             </tbody>
           </table>
         </div>
 
         <div class="totals">
           <div class="boxT">
-            <div class="k">Total USD</div>
-            <div class="v">$${fmtUsd(totalUsd)}</div>
+            <div class="k">Subtotal</div>
+            <div class="v">$${fmtUsd(sub)}</div>
           </div>
           <div class="boxT">
-            <div class="k">Total Bs (ref.)</div>
-            <div class="v">Bs ${fmtBs(totalBs)}</div>
+            <div class="k">Impuestos / Descuento</div>
+            <div class="v">$${fmtUsd(Math.max(0, tax - discount))}</div>
+          </div>
+          <div class="boxT primary">
+            <div class="k">Total a pagar</div>
+            <div class="v">$${fmtUsd(totalUsd)} <span style="font-size:12px;font-weight:900;color:#334155"> / Bs ${fmtBs(totalBs)}</span></div>
+          </div>
+        </div>
+
+        <div class="stampSign">
+          <div class="stampBox">
+            <div class="t">Sello</div>
+            <div class="hint">Coloca aquí el sello al imprimir.</div>
+          </div>
+          <div class="stampBox">
+            <div class="t">Firma</div>
+            <div class="hint">Firma y nombre del responsable.</div>
           </div>
         </div>
 
@@ -1523,7 +1689,7 @@
       showModal();
       setTimeout(()=>{
         if(isLogged()){
-          fillInvoiceProductSelect(); // asegura select lleno
+          fillInvoiceProductSelect();
           const sel = document.getElementById("invProduct");
           if(sel){
             sel.value = productId;
@@ -1560,14 +1726,12 @@
     });
     document.getElementById("btnCompat").addEventListener("click", doCompat);
 
-    // Invoice listeners once (prevents freezing due to duplicate listeners)
     mountInvoiceListenersOnce();
-
-    // admin init
     syncAdminUI();
-
-    // initial preview in case you open admin later
     scheduleInvoicePreview();
+
+    // ✅ start tips automatically
+    startTips();
   </script>
 </body>
 </html>
