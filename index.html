@@ -1759,9 +1759,10 @@
       const st = getState();
       const wrap = document.getElementById("productCards");
       wrap.innerHTML = PRODUCTS.map(p=>{
-        const bs = p.usd * st.rate;
-        return `
-          <article class="card">
+  const bs = p.usd * st.rate;
+  return `
+    <article class="card" data-pid="${p.id}">
+   <article class="card">
             <div class="img">
               <div class="tagTop ${p.badge.cls}">${p.badge.text}</div>
               <img src="${p.image}" alt="${p.name}" loading="lazy">
@@ -1781,15 +1782,21 @@
                 </div>
               </div>
 
-              <div class="actions">
-                <a class="btnSmall btnGreen orbitron" target="_blank" rel="noopener"
-                  href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.waText + ' Tasa BCV: ' + fmtBs(st.rate) + ' Bs/USD')}">
-                  <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
-                </a>
-                <button class="btnSmall btnOrange orbitron" onclick="openAdminAndPreselect('${p.id}')">
-                  <i class="fa-solid fa-file-invoice"></i> Facturar
-                </button>
-              </div>
+             <div class="actions">
+  <a class="btnSmall btnGreen orbitron" target="_blank" rel="noopener"
+    href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.waText + ' Tasa BCV: ' + fmtBs(st.rate) + ' Bs/USD')}">
+    <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
+  </a>
+
+  <button class="btnSmall orbitron" data-addcart="${p.id}"
+    style="background:rgba(0,200,255,.14);border-color:rgba(0,200,255,.24)">
+    <i class="fa-solid fa-cart-plus"></i> Agregar
+  </button>
+
+  <button class="btnSmall btnOrange orbitron" onclick="openAdminAndPreselect('${p.id}')">
+    <i class="fa-solid fa-file-invoice"></i> Facturar
+  </button>
+</div>
             </div>
           </article>
         `;
@@ -2587,6 +2594,170 @@ Te envío foto del bombillo/faro para confirmar el socket (baja/alta/neblina).`;
   updateHelpLink();
   box.appendChild(help);
 })();
+  /**********************
+ * CART / PEDIDO RAPIDO (FIXED)
+ **********************/
+const CART_KEY = "brutalux_cart";
+
+function getCart(){
+  try{
+    const raw = localStorage.getItem(CART_KEY);
+    if(!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  }catch{ return []; }
+}
+function setCart(items){
+  localStorage.setItem(CART_KEY, JSON.stringify(items));
+}
+function cartCount(){
+  return getCart().reduce((a,it)=>a+(it.qty||0),0);
+}
+function updateCartBadge(){
+  const el = document.getElementById("cartCount");
+  if(el) el.textContent = String(cartCount());
+}
+
+function addToCart(productId, qtyAdd=1){
+  const p = PRODUCTS.find(x=>x.id===productId);
+  if(!p) return;
+
+  const cart = getCart();
+  const idx = cart.findIndex(x=>x.id===productId);
+  if(idx>=0) cart[idx].qty += qtyAdd;
+  else cart.push({ id: p.id, name: p.name, usd: p.usd, qty: qtyAdd, modelLine: p.modelLine });
+
+  setCart(cart);
+  updateCartBadge();
+}
+
+function calcCart(){
+  const st = getState();
+  const cart = getCart();
+  const subUsd = cart.reduce((a,it)=>a+(it.usd*it.qty),0);
+  const subBs  = subUsd * st.rate;
+  return { cart, subUsd, subBs, rate: st.rate };
+}
+
+function renderCart(){
+  const wrap = document.getElementById("cartItems");
+  if(!wrap) return;
+
+  const {cart, subUsd, subBs, rate} = calcCart();
+
+  wrap.innerHTML = cart.length ? cart.map((it, idx)=>`
+    <div class="cartItem">
+      <div>
+        <div class="t">${it.name}</div>
+        <div class="m">${it.modelLine || it.id} • $${it.usd}</div>
+      </div>
+      <input class="cartQty" type="number" min="1" value="${it.qty}" data-qty="${idx}">
+      <button class="btnRemove" type="button" data-del="${idx}">Quitar</button>
+    </div>
+  `).join("") : `<div class="tiny" style="color:#64748b">Tu carrito está vacío. Agrega productos del catálogo.</div>`;
+
+  document.getElementById("cartSubUsd").textContent = `$${fmtUsd(subUsd)}`;
+  document.getElementById("cartSubBs").textContent  = `Bs ${fmtBs(subBs)}`;
+  document.getElementById("cartRate").textContent   = `${fmtBs(rate)} Bs/USD`;
+
+  const name = document.getElementById("cartName")?.value?.trim() || "";
+  const car  = document.getElementById("cartCar")?.value?.trim() || "";
+  const city = document.getElementById("cartCity")?.value?.trim() || "";
+  const note = document.getElementById("cartNote")?.value?.trim() || "";
+
+  const lines = cart.map(it=>`- ${it.qty} x ${it.name} (${it.id}) = $${fmtUsd(it.qty*it.usd)}`).join("\n");
+  const msg =
+`Hola BRUTALUX, quiero hacer un pedido.
+Nombre: ${name || "—"}
+Vehículo: ${car || "—"}
+Ciudad/Estado: ${city || "—"}
+
+Items:
+${lines || "- (sin items)"}
+
+Subtotal: $${fmtUsd(subUsd)}
+Referencia Bs: Bs ${fmtBs(subBs)}
+Tasa BCV: ${fmtBs(rate)} Bs/USD
+
+Observaciones: ${note || "—"}`;
+
+  document.getElementById("cartWhatsapp").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+}
+
+function showCart(){
+  const m = document.getElementById("cartModal");
+  if(!m) return;
+  m.classList.add("show");
+  m.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+  renderCart();
+}
+
+function hideCart(){
+  const m = document.getElementById("cartModal");
+  if(!m) return;
+  m.classList.remove("show");
+  m.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+
+function mountCart(){
+  document.getElementById("openCart")?.addEventListener("click", showCart);
+  document.getElementById("closeCart")?.addEventListener("click", hideCart);
+
+  document.getElementById("cartModal")?.addEventListener("click", (e)=>{
+    if(e.target?.id === "cartModal") hideCart();
+  });
+
+  document.getElementById("cartClear")?.addEventListener("click", ()=>{
+    if(!confirm("¿Vaciar carrito?")) return;
+    setCart([]);
+    updateCartBadge();
+    renderCart();
+  });
+
+  document.getElementById("cartItems")?.addEventListener("input", (e)=>{
+    const inp = e.target.closest("[data-qty]");
+    if(!inp) return;
+    const idx = parseInt(inp.dataset.qty,10);
+    const qty = parseInt(inp.value,10);
+    const cart = getCart();
+    if(!Number.isFinite(idx) || !cart[idx]) return;
+    cart[idx].qty = Math.max(1, Number.isFinite(qty) ? qty : 1);
+    setCart(cart);
+    updateCartBadge();
+    renderCart();
+  });
+
+  document.getElementById("cartItems")?.addEventListener("click", (e)=>{
+    const btn = e.target.closest("[data-del]");
+    if(!btn) return;
+    const idx = parseInt(btn.dataset.del,10);
+    const cart = getCart();
+    if(!Number.isFinite(idx) || !cart[idx]) return;
+    cart.splice(idx,1);
+    setCart(cart);
+    updateCartBadge();
+    renderCart();
+  });
+
+  ["cartName","cartCar","cartCity","cartNote"].forEach(id=>{
+    document.getElementById(id)?.addEventListener("input", renderCart);
+  });
+
+  // Delegación: botones Agregar en catálogo
+  document.getElementById("productCards")?.addEventListener("click", (e)=>{
+    const b = e.target.closest("[data-addcart]");
+    if(!b) return;
+    addToCart(b.dataset.addcart, 1);
+    showCart();
+  });
+
+  updateCartBadge();
+}
+
+if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountCart);
+else mountCart();
   </script>
 <!-- CART MODAL -->
 <div class="modal" id="cartModal" aria-hidden="true">
@@ -2647,6 +2818,7 @@ Te envío foto del bombillo/faro para confirmar el socket (baja/alta/neblina).`;
 </div>
 </body>
 </html>
+
 
 
 
