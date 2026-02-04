@@ -15,45 +15,57 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Fetch EURVES rate (external BCV reference)
+      - name: Fetch EURVES rate (with fallback sources)
         run: |
           set -e
 
-          # Fuente externa: devuelve JSON.
-          # Si algún día cambia, ajustamos esta URL.
-          URL="https://pydolarve.org/api/v1/dollar?page=bcv&monitor=eur"
-          echo "Fetching: $URL"
+          # Fuente 1
+          URL1="https://pydolarve.org/api/v1/dollar?page=bcv&monitor=eur"
 
-          curl -sS "$URL" -o api.json
-          echo "API response saved to api.json"
+          # Fuente 2 (fallback): cambiar por otra si quieres
+          # Nota: esta es de ejemplo; si no devuelve EUR, la ajustamos.
+          URL2="https://api.exchangerate.host/latest?base=EUR&symbols=VES"
+
+          echo "Trying source 1: $URL1"
+          if curl -fsSL "$URL1" -o api.json; then
+            echo "Source 1 OK"
+          else
+            echo "Source 1 FAILED. Trying source 2: $URL2"
+            curl -fsSL "$URL2" -o api.json
+            echo "Source 2 OK"
+          fi
+
+          echo "Saved api.json (first 300 chars):"
+          head -c 300 api.json || true
+          echo ""
 
           RATE=$(node -e "
             const fs=require('fs');
             const j=JSON.parse(fs.readFileSync('api.json','utf8'));
 
-            // Intentar extraer la tasa de varios formatos posibles:
-            let rate = null;
+            let rate=null;
 
-            // Caso 1: rate directo
-            const direct = [j?.price, j?.rate, j?.data?.price, j?.data?.rate];
-            for(const c of direct){
-              const n = Number(c);
+            // Formato posible de pydolarve (intentos)
+            const candidates = [
+              j?.price, j?.rate, j?.data?.price, j?.data?.rate,
+              j?.monitors?.eur?.price, j?.monitors?.eur?.price_old,
+              j?.eur?.price
+            ];
+            for(const c of candidates){
+              const n=Number(c);
               if(Number.isFinite(n) && n>0){ rate=n; break; }
             }
 
-            // Caso 2: si viene en array
-            if(!rate && Array.isArray(j)){
-              for(const it of j){
-                const n = Number(it?.price || it?.rate);
-                if(Number.isFinite(n) && n>0){ rate=n; break; }
-              }
+            // Formato exchangerate.host
+            if(!rate){
+              const n = Number(j?.rates?.VES);
+              if(Number.isFinite(n) && n>0) rate = n;
             }
 
             if(!rate){
-              console.error('No se pudo extraer RATE. Revisa api.json');
+              console.error('No se pudo extraer RATE. Revisa api.json completo.');
               process.exit(1);
             }
-
             process.stdout.write(String(rate));
           ")
 
@@ -65,11 +77,14 @@ jobs:
           node -e "
             const fs=require('fs');
             const rate=Number(process.env.RATE);
-            if(!Number.isFinite(rate) || rate<=0) process.exit(1);
+            if(!Number.isFinite(rate) || rate<=0){
+              console.error('RATE invalida:', process.env.RATE);
+              process.exit(1);
+            }
 
             const data={
               pair:'EURVES',
-              source:'BCV (referencial)',
+              source:'Auto (6h)',
               rate: rate,
               updated: new Date().toISOString()
             };
@@ -87,5 +102,5 @@ jobs:
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "Update EURVES rate (BCV)"
+          git commit -m "Update EURVES rate"
           git push
