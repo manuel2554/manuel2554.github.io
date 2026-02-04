@@ -685,8 +685,15 @@
       margin: 12mm;
     }
     @media print{
+      /* Ocultar todo */
       body *{ visibility: hidden !important; }
-      #invoicePreview, #invoicePreview *{ visibility: visible !important; }
+
+      /* Mostrar solo la factura */
+      #invoicePreview, #invoicePreview *{
+        visibility: visible !important;
+      }
+
+      /* Posicionar factura para que sea lo único */
       #invoicePreview{
         position: fixed;
         left: 0;
@@ -696,6 +703,8 @@
         border-radius:0 !important;
         box-shadow:none !important;
       }
+
+      /* Ocultar acciones */
       .btnRemove{display:none !important;}
     }
 
@@ -1339,7 +1348,7 @@
     }
 
     /**********************
-     * CLICK SOUND (interactive only)
+     * CLICK SOUND (whole page)
      **********************/
     let audioCtx = null;
     function clickSound(){
@@ -1361,6 +1370,8 @@
         o.stop(audioCtx.currentTime + 0.07);
       }catch(e){}
     }
+
+    // Only for real taps/clicks on interactive elements
     document.addEventListener("click", (e)=>{
       if(e.target.closest("button, a, summary, .tipClose, input, select")) clickSound();
     }, {passive:true});
@@ -1369,8 +1380,9 @@
      * TIPS (AUTO)
      **********************/
     let tipIdx = 0;
-    const TIP_EVERY_MS = 32000;
-    const TIP_SHOW_MS  = 12000;
+    const TIP_EVERY_MS = 32000;   // cada 32s
+    const TIP_SHOW_MS  = 12000;   // visible 12s
+    let tipInterval = null;
     let tipHideTO = null;
 
     function showTipAuto(){
@@ -1389,7 +1401,7 @@
 
     function startTips(){
       setTimeout(showTipAuto, 6000);
-      setInterval(showTipAuto, TIP_EVERY_MS);
+      tipInterval = setInterval(showTipAuto, TIP_EVERY_MS);
     }
 
     document.getElementById("tipClose").addEventListener("click", ()=>{
@@ -1397,83 +1409,39 @@
     });
 
     /**********************
-     * ✅ COMPATIBILITY DATA (ranges + no guessing)
+     * COMPATIBILITY DATA
      **********************/
     const COMPAT = {
       Toyota: {
-        "Land Cruiser": [
-          { from: 1998, to: 2007, low: "9006 (HB4)", high: "9005 (HB3)", note: "Confirmar según mercado/faro (100 series)" },
-          { from: 2008, to: 2021, low: "H11", high: "9005 (HB3)", note: "Varía por versión (200 series)" },
-          { from: 2022, to: 2026, low: "H11 / LED", high: "H11 / LED", note: "Muchas versiones LED OEM" }
-        ],
-        "4Runner": [
-          { from: 2003, to: 2009, low: "9006 (HB4)", high: "9005 (HB3)", note: "Confirmar según faro" },
-          { from: 2010, to: 2013, low: "H11", high: "9005 (HB3)", note: "Confirmar" },
-          { from: 2014, to: 2020, low: "H11", high: "9005 (HB3)", note: "Confirmar si proyector" },
-          { from: 2021, to: 2026, low: "H11 / LED", high: "9005 / LED", note: "Algunas versiones LED OEM" }
-        ],
-        "Corolla": [
-          { from: 2000, to: 2007, low: "9006 (HB4)", high: "9005 (HB3)", note: "Confirmar según mercado/faro" },
-          { from: 2008, to: 2013, low: "H11", high: "9005 (HB3)", note: "Confirmar según versión" },
-          { from: 2014, to: 2019, low: "H11", high: "9005 (HB3)", note: "Confirmar si proyector" },
-          { from: 2020, to: 2026, low: "H11 / LED", high: "9005 / LED", note: "Algunas versiones LED OEM" }
-        ],
-        "Hilux": [
-          { from: 2005, to: 2015, low: "H4", high: "H4", note: "Bifocal común en muchos mercados" },
-          { from: 2016, to: 2026, low: "H11", high: "9005 (HB3)", note: "Varía por versión/mercado" }
-        ]
+        "Land Cruiser": { socket: "H4 (varía por versión)", rec:"R33 / R36", years:[2000,2026] },
+        "4Runner": { socket: "H11 / HB3 (varía)", rec:"R36 / R33", years:[2000,2026] },
+        "Corolla": { socket: "H4 / H11 (varía)", rec:"R36", years:[2000,2026] },
+        "Hilux": { socket: "H4 / H11 (varía)", rec:"R36 / R33", years:[2000,2026] }
       },
       Ford: {
-        "Fiesta": [
-          { from: 2003, to: 2013, low: "H4", high: "H4", note: "Bifocal común (varía)" },
-          { from: 2014, to: 2019, low: "H11", high: "9005 (HB3)", note: "Varía por faro/mercado" },
-          { from: 2020, to: 2026, low: "H11 / LED", high: "9005 / LED", note: "Depende de versión" }
-        ],
-        "Ranger": [
-          { from: 2000, to: 2011, low: "H4", high: "H4", note: "Confirmar según mercado" },
-          { from: 2012, to: 2018, low: "H4 / H11", high: "H4 / 9005", note: "Varía por mercado/faro" },
-          { from: 2019, to: 2026, low: "H11", high: "9005 (HB3)", note: "Varía por faro" }
-        ],
-        "Explorer": [
-          { from: 2002, to: 2005, low: "9006 (HB4)", high: "9005 (HB3)", note: "Confirmar" },
-          { from: 2006, to: 2019, low: "H11", high: "9005 (HB3)", note: "Varía por versión" },
-          { from: 2020, to: 2026, low: "H11 / LED", high: "9005 / LED", note: "Muchas versiones LED OEM" }
-        ]
+        "Fiesta": { socket:"H4 (varía)", rec:"R36", years:[2000,2026] },
+        "Ranger": { socket:"H4 / H11 (varía)", rec:"R36 / R33", years:[2000,2026] },
+        "Explorer": { socket:"H11 / HB3 (varía)", rec:"R36 / R33", years:[2000,2026] }
       },
       Chevrolet: {
-        "Corsa": [
-          { from: 2000, to: 2026, low: "H4", high: "H4", note: "Bifocal común (confirmar)" }
-        ],
-        "Aveo": [
-          { from: 2004, to: 2017, low: "H4", high: "H4", note: "Aveo clásico común (varía por año)" },
-          { from: 2018, to: 2026, low: "H11 / H7", high: "9005 / H1", note: "Depende de generación/mercado" }
-        ],
-        "Spark": [
-          { from: 2006, to: 2015, low: "H4", high: "H4", note: "Muy común" },
-          { from: 2016, to: 2026, low: "H4 / H7", high: "H4 / H1", note: "Varía por faro" }
-        ]
+        "Corsa": { socket:"H4 (varía)", rec:"R20 / R36", years:[2000,2026] },
+        "Aveo": { socket:"H4 (varía)", rec:"R36", years:[2000,2026] },
+        "Spark": { socket:"H4 (varía)", rec:"R20 / R36", years:[2000,2026] }
       }
     };
 
     function fillYears(){
       const y = document.getElementById("cYear");
-      const minY = 1998;
+      const minY = 2000;
       const maxY = Math.max(2026, new Date().getFullYear() + 1);
       y.innerHTML = `<option value="">Año</option>` + Array.from({length: maxY-minY+1}, (_,i)=>minY+i)
         .map(v=>`<option value="${v}">${v}</option>`).join("");
     }
 
-    /* ✅ FIX: Fill models from COMPAT (your previous file lacked this after changes) */
     function fillModels(brand){
       const m = document.getElementById("cModel");
       const models = COMPAT[brand] ? Object.keys(COMPAT[brand]) : [];
       m.innerHTML = `<option value="">Selecciona modelo</option>` + models.map(x=>`<option value="${x}">${x}</option>`).join("");
-    }
-
-    function findCompatRow(brand, model, year){
-      const rows = COMPAT?.[brand]?.[model];
-      if(!rows) return null;
-      return rows.find(r => year >= r.from && year <= r.to) || null;
     }
 
     function doCompat(){
@@ -1487,35 +1455,25 @@
         out.innerHTML = `⚠️ Completa <strong>marca, modelo y año</strong>.`;
         return;
       }
-
-      const row = findCompatRow(b,m,y);
-
+      const row = COMPAT[b]?.[m];
       if(!row){
         out.style.display="block";
-        out.innerHTML = `
-          ⚠️ <strong>${b} ${m} ${y}</strong><br>
-          No tenemos una coincidencia exacta verificada en la tabla.<br>
-          <div class="tiny" style="margin-top:8px;color:#6b7280">
-            Envíanos por WhatsApp una <b>foto del bombillo</b> o del <b>faro</b> para confirmar el socket (bajas/altas).
-          </div>
-        `;
+        out.innerHTML = `No encontramos datos para <strong>${b} ${m}</strong>. Escríbenos por WhatsApp y te asesoramos.`;
         return;
       }
-
-      const hasLedOem = (String(row.low).includes("LED") || String(row.high).includes("LED"));
-      const rec = hasLedOem
-        ? "Si tu faro es LED OEM, necesitamos foto para recomendar el kit correcto."
-        : "Recomendación: R36 (balance) / R33 (máxima potencia) / R36T (dual).";
+      if(y < row.years[0] || y > row.years[1]){
+        out.style.display="block";
+        out.innerHTML = `Año fuera de rango para nuestra tabla. Escríbenos por WhatsApp.`;
+        return;
+      }
 
       out.style.display="block";
       out.innerHTML = `
         ✅ <strong>${b} ${m} ${y}</strong><br>
-        • Luz baja: <strong>${row.low || "—"}</strong><br>
-        • Luz alta: <strong>${row.high || "—"}</strong><br>
-        • Nota: <strong>${row.note || "—"}</strong><br>
-        • ${rec}
+        • Tipo de luz (referencial): <strong>${row.socket}</strong><br>
+        • Recomendación Brutalux: <strong>${row.rec}</strong><br>
         <div class="tiny" style="margin-top:8px;color:#6b7280">
-          Importante: puede variar por versión/mercado. Si difiere, mándanos foto del socket.
+          Si tu versión cambia de socket, mándanos foto del bombillo o del faro.
         </div>
       `;
     }
@@ -1866,172 +1824,22 @@
     renderRate();
     renderCatalog();
 
-    // ✅ Compatibility wiring (fixed)
     fillYears();
     document.getElementById("cBrand").addEventListener("change", (e)=>{
       const brand = e.target.value;
       const modelSel = document.getElementById("cModel");
       const yearSel = document.getElementById("cYear");
-
-      document.getElementById("compatResult").style.display = "none";
-      document.getElementById("compatResult").innerHTML = "";
-
       if(!brand){
-        modelSel.disabled = true;
-        yearSel.disabled = true;
+        modelSel.disabled = true; yearSel.disabled = true;
         modelSel.innerHTML = `<option value="">Primero marca</option>`;
-        yearSel.innerHTML = `<option value="">Año</option>`;
-        fillYears(); // keep years consistent
         return;
       }
-
       fillModels(brand);
       modelSel.disabled = false;
-
-      // enable years too
       yearSel.disabled = false;
     });
-
     document.getElementById("btnCompat").addEventListener("click", doCompat);
 
-    // Invoice/admin init
-    function getInvoice(){
-      const raw = localStorage.getItem("brutalux_invoice");
-      if(!raw) return { items: [] };
-      try { return JSON.parse(raw); } catch { return { items: [] }; }
-    }
-    function setInvoice(inv){
-      localStorage.setItem("brutalux_invoice", JSON.stringify(inv));
-    }
-
-    let invPreviewTimer = null;
-    function scheduleInvoicePreview(){
-      clearTimeout(invPreviewTimer);
-      invPreviewTimer = setTimeout(refreshInvoicePreview, 120);
-    }
-
-    let invoiceListenersMounted = false;
-    function mountInvoiceListenersOnce(){
-      if(invoiceListenersMounted) return;
-      invoiceListenersMounted = true;
-
-      document.getElementById("btnAddItem")?.addEventListener("click", addItem);
-      document.getElementById("btnClearItems")?.addEventListener("click", clearItems);
-      document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
-
-      document.getElementById("btnPrint")?.addEventListener("click", ()=>{
-        refreshInvoicePreview();
-        setTimeout(()=> window.print(), 80);
-      });
-
-      ["invClient","invId","invPhone","invAddr","invTax","invDiscount","invPrice","invQty"].forEach(id=>{
-        const el = document.getElementById(id);
-        if(el) el.addEventListener("input", scheduleInvoicePreview);
-      });
-
-      document.getElementById("invoicePreview")?.addEventListener("click", (e)=>{
-        const btn = e.target.closest("[data-remove]");
-        if(!btn) return;
-        const idx = parseInt(btn.dataset.remove,10);
-        if(isFinite(idx)) removeItem(idx);
-      });
-    }
-
-    // Admin functions kept here (same)
-    function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
-    function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
-
-    function syncAdminUI(){
-      const logged = isLogged();
-      document.getElementById("adminArea").style.display = logged ? "block" : "none";
-      document.getElementById("btnLogout").style.display = logged ? "inline-block" : "none";
-      document.getElementById("btnLogin").style.display = logged ? "none" : "inline-block";
-
-      if(logged){
-        const st = getState();
-        document.getElementById("rateInput").value = String(st.rate).replace(".", ",");
-        document.getElementById("warrantyInput").value = st.warranty;
-        document.getElementById("logoInput").value = st.logo;
-        document.getElementById("heroBgInput").value = st.heroBg;
-
-        fillInvoiceProductSelect();
-        scheduleInvoicePreview();
-      }
-    }
-
-    // Modal wiring
-    const adminModal = document.getElementById("adminModal");
-    document.getElementById("fabAdmin").addEventListener("click", showModal);
-    document.getElementById("openAdmin").addEventListener("click", showModal);
-    document.getElementById("closeAdmin").addEventListener("click", hideModal);
-    adminModal.addEventListener("click", (e)=>{ if(e.target===adminModal) hideModal(); });
-
-    document.getElementById("btnLogin").addEventListener("click", ()=>{
-      const u = document.getElementById("adminUser").value.trim();
-      const p = document.getElementById("adminPass").value.trim();
-      if(u === ADMIN_USER && p === ADMIN_PASS){
-        setLogged(true);
-        syncAdminUI();
-      } else alert("Usuario o contraseña incorrectos.");
-    });
-    document.getElementById("btnLogout").addEventListener("click", ()=>{
-      setLogged(false);
-      syncAdminUI();
-    });
-
-    document.getElementById("btnSaveSettings").addEventListener("click", ()=>{
-      const st = getState();
-      const rateRaw = document.getElementById("rateInput").value.trim().replace(".", "").replace(",", ".");
-      const rate = parseFloat(rateRaw);
-      const warranty = document.getElementById("warrantyInput").value.trim() || DEFAULTS.warranty;
-      const logo = document.getElementById("logoInput").value.trim() || DEFAULTS.logo;
-      const heroBg = document.getElementById("heroBgInput").value.trim() || DEFAULTS.heroBg;
-
-      if(!isFinite(rate) || rate <= 0){ alert("Tasa inválida. Ej: 375,08"); return; }
-
-      setState({...st, rate, warranty, logo, heroBg});
-      renderRate(); renderCatalog(); scheduleInvoicePreview();
-      alert("Guardado (local).");
-    });
-
-    document.getElementById("btnResetSettings").addEventListener("click", ()=>{
-      if(!confirm("¿Restaurar valores por defecto?")) return;
-      setState({...DEFAULTS});
-      renderRate(); renderCatalog(); syncAdminUI();
-    });
-
-    // Invoice CRUD
-    function addItem(){
-      const inv = getInvoice();
-      const sel = document.getElementById("invProduct");
-      const id = sel?.value;
-      const p = PRODUCTS.find(x=>x.id===id);
-      if(!p){ alert("Producto inválido."); return; }
-
-      const qty = parseInt(document.getElementById("invQty").value,10);
-      if(!isFinite(qty) || qty<=0){ alert("Cantidad inválida."); return; }
-
-      const price = parseFloat(document.getElementById("invPrice").value);
-      if(!isFinite(price) || price<=0){ alert("Precio inválido."); return; }
-
-      inv.items.push({ id: p.id, desc: `${p.name} (${p.id})`, qty, usd: price });
-      setInvoice(inv);
-      scheduleInvoicePreview();
-    }
-    function clearItems(){
-      if(!confirm("¿Vaciar la factura?")) return;
-      setInvoice({items:[]});
-      scheduleInvoicePreview();
-    }
-    function removeItem(idx){
-      const inv = getInvoice();
-      if(idx<0 || idx>=inv.items.length) return;
-      inv.items.splice(idx,1);
-      setInvoice(inv);
-      scheduleInvoicePreview();
-    }
-
-    // Start
     mountInvoiceListenersOnce();
     syncAdminUI();
     scheduleInvoicePreview();
