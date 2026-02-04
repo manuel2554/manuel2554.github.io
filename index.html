@@ -1,676 +1,668 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BRUTALUX | Catálogo + Facturación</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRUTALUX | Catálogo y Facturación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-principal: #06070b;
+            --bg-card: #0d1018;
+            --texto: #e9edf5;
+            --texto-muted: #9aa3b2;
+            --lineas: rgba(255,255,255,0.08);
+            --azul-bruta: #00c8ff;
+            --naranja-bruta: #ff5c00;
+            --verde: #22c55e;
+            --amarillo: #fbbf24;
+        }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+        * {
+            box-sizing: border-box;
+        }
 
-  <style>
-    :root{
-      --bg:#06070b; --card:#0d1018; --muted:#9aa3b2; --text:#e9edf5;
-      --line:rgba(255,255,255,.08); --blue:#00c8ff; --orange:#ff5c00;
-      --green:#22c55e; --yellow:#fbbf24;
-    }
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;overflow-x:hidden;}
-    .container{max-width:1200px;margin:0 auto;padding:0 18px}
-    .orbitron{font-family:Orbitron,sans-serif}
-    
-    header{position:sticky;top:0;z-index:50;background:rgba(6,7,11,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(10px);}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;}
-    .brand{display:flex;align-items:center;gap:12px;}
-    .brand img{height:44px;border-radius:10px;}
-    .links a{text-decoration:none;font-size:13px;font-weight:600;color:var(--text);padding:8px 10px;margin-left:8px;border-radius:8px;}
-    .links a:hover{background:rgba(255,255,255,.05);}
-    .pill{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);font-size:12px;font-weight:700;}
-    .cta-wa{text-decoration:none;padding:10px 14px;border-radius:999px;background:var(--green);color:#000;font-weight:900;}
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-principal);
+            color: var(--texto);
+            line-height: 1.6;
+        }
 
-    .hero{padding:40px 0;}
-    .heroCard{border:1px solid var(--line);background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.8)),url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=1920');background-size:cover;border-radius:24px;padding:40px;}
-    .hero h1{font-size:42px;margin:0 0 16px;text-transform:uppercase;}
-    .grad{background:linear-gradient(90deg,var(--blue),var(--orange));-webkit-background-clip:text;color:transparent;}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);text-decoration:none;font-weight:700;margin-right:8px;}
-    .btn-primary{background:var(--orange);border:none;color:#1a0a00;}
-    
-    section{padding:40px 0;}
-    .section-title{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;}
-    h2{font-size:24px;text-transform:uppercase;letter-spacing:2px;margin:0;}
-    
-    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;}
-    .card-img{height:200px;position:relative;}
-    .card-img img{width:100%;height:100%;object-fit:cover;}
-    .badge{position:absolute;top:12px;left:12px;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.2);}
-    .card-body{padding:20px;}
-    .card h3{margin:0 0 10px;}
-    .price{font-size:28px;font-weight:900;}
-    .price-bs{color:var(--muted);font-size:14px;display:block;margin-bottom:12px;}
-    
-    .compat-box{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:20px;border-radius:20px;}
-    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px;}
-    label{display:block;font-size:12px;margin-bottom:6px;color:var(--muted);}
-    input,select{width:100%;padding:12px;background:rgba(0,0,0,.3);border:1px solid var(--line);color:var(--text);border-radius:12px;}
-    
-    footer{border-top:1px solid var(--line);padding:40px 0;text-align:center;color:var(--muted);}
-    
-    /* Admin Modal */
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:100;padding:20px;}
-    .modal.show{display:flex;}
-    .panel{width:100%;max-width:1000px;max-height:90vh;background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;}
-    .panel-head{padding:20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
-    .panel-body{padding:20px;overflow-y:auto;}
-    .btn-close{background:none;border:1px solid var(--line);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;}
-    
-    .admin-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:20px;}
-    @media(max-width:768px){.admin-grid{grid-template-columns:1fr;}}
-    
-    .box{border:1px solid var(--line);padding:20px;border-radius:16px;background:rgba(255,255,255,.02);}
-    .box h4{margin:0 0 16px;color:var(--blue);font-size:14px;text-transform:uppercase;letter-spacing:1px;}
-    
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-    .form-group{margin-bottom:12px;}
-    
-    .btn-wide{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);font-weight:700;cursor:pointer;margin-bottom:8px;}
-    .btn-green{background:var(--green);border:none;color:#000;}
-    .btn-orange{background:var(--orange);border:none;color:#1a0a00;}
-    
-    /* Invoice Preview */
-    .invoice-preview{background:#fff;color:#111;border-radius:16px;overflow:hidden;border:1px solid #ddd;}
-    .inv-header{background:#f5f5f5;padding:20px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;}
-    .inv-logo{height:50px;border-radius:8px;}
-    .inv-body{padding:20px;}
-    .inv-client{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #eee;}
-    .inv-table{width:100%;border-collapse:collapse;margin-bottom:20px;}
-    .inv-table th{background:#f5f5f5;padding:12px;text-align:left;font-size:13px;border-bottom:2px solid #ddd;}
-    .inv-table td{padding:12px;border-bottom:1px solid #eee;font-size:13px;}
-    .inv-table td.r{text-align:right;}
-    .inv-totals{background:#f9f9f9;padding:20px;border-radius:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-    .inv-total-box{text-align:center;padding:12px;background:#fff;border-radius:8px;border:1px solid #ddd;}
-    .inv-total-box .label{font-size:12px;color:#666;}
-    .inv-total-box .amount{font-size:18px;font-weight:900;color:var(--orange);}
-    .inv-footer{padding:15px;background:#f5f5f5;font-size:11px;color:#666;text-align:center;}
-    
-    .fab{position:fixed;bottom:20px;right:20px;padding:16px 24px;border-radius:999px;background:var(--blue);color:#000;font-weight:900;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,200,255,.3);}
-    
-    #login-box{margin-bottom:20px;}
-    #admin-area{display:none;}
-    
-    @media print{
-      body{background:#fff;}
-      header,footer,.fab,.hero,.btn,section:not(#facturar){display:none!important;}
-      .modal{position:static;display:block!important;background:#fff;}
-      .panel{box-shadow:none;border:none;max-height:none;}
-      .panel-head,.admin-grid .box:not(.print-only){display:none!important;}
-      .panel-body{padding:0;}
-      .invoice-preview{border:none;}
-    }
-  </style>
+        h1, h2, h3, h4, .orbitron {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.04em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        /* HEADER */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(6, 7, 11, 0.95);
+            border-bottom: 1px solid var(--lineas);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand img {
+            height: 48px;
+            border-radius: 10px;
+        }
+
+        .brand-text .main {
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        .brand-text .sub {
+            font-size: 11px;
+            color: var(--texto-muted);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--texto);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .pill {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--lineas);
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .btn-wa {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: var(--verde);
+            color: #000;
+            font-weight: 900;
+            text-decoration: none;
+            transition: filter 0.2s;
+        }
+
+        .btn-wa:hover {
+            filter: brightness(1.1);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 60px 0;
+        }
+
+        .hero-card {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 24px;
+            border: 1px solid var(--lineas);
+            padding: 48px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin: 0 0 16px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, var(--azul-bruta), var(--naranja-bruta));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 560px;
+            color: var(--texto-muted);
+            margin-bottom: 24px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--lineas);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--texto);
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--naranja-bruta);
+            border: none;
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: var(--azul-bruta);
+            border: none;
+            color: #000;
+        }
+
+        section {
+            padding: 40px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        /* CATALOGO */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--lineas);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 200, 255, 0.1);
+        }
+
+        .product-img {
+            height: 200px;
+            position: relative;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .product-body {
+            padding: 20px;
+        }
+
+        .product-body h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .product-specs {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px 0;
+        }
+
+        .product-specs li {
+            font-size: 13px;
+            color: var(--texto-muted);
+            margin-bottom: 4px;
+        }
+
+        .product-price-usd {
+            font-size: 26px;
+            font-weight: 900;
+        }
+
+        .product-price-bs {
+            font-size: 13px;
+            color: var(--texto-muted);
+            margin-bottom: 12px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 13px;
+            padding: 10px;
+        }
+
+        /* COMPATIBILIDAD */
+        .compat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--lineas);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .compat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--texto-muted);
+            margin-bottom: 6px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--lineas);
+            border-radius: 12px;
+            color: var(--texto);
+            font-size: 14px;
+        }
+
+        .compat-result {
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(0, 200, 255, 0.1);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            margin-top: 16px;
+            display: none;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--lineas);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--lineas);
+            color: var(--texto);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            background: rgba(255, 92, 0, 0.1);
+            border-color: var(--naranja-bruta);
+        }
+
+        footer .copyright {
+            font-size: 13px;
+            color: var(--texto-muted);
+        }
+
+        /* BOTON ADMIN FLOTANTE */
+        .fab-admin {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 60;
+            padding: 14px 24px;
+            border-radius: 999px;
+            background: var(--azul-bruta);
+            color: #000;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 200, 255, 0.3);
+        }
+
+        /* MODAL ADMIN */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-panel {
+            width: 100%;
+            max-width: 1100px;
+            max-height: 90vh;
+            background: var(--bg-card);
+            border: 1px solid var(--lineas);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--lineas);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .btn-close {
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--lineas);
+            color: var(--texto);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        /* LOGIN */
+        .login-box {
+            max-width: 400px;
+            margin: 0 auto 24px auto;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--lineas);
+            border-radius: 16px;
+        }
+
+        .login-box.hidden {
+            display: none;
+        }
+
+        .login-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .admin-card {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--lineas);
+            border-radius: 16px;
+        }
+
+        .admin-card h4 {
+            margin: 0 0 16px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: var(--azul-bruta);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .btn-green {
+            background: var(--verde);
+            color: #000;
+        }
+
+        .btn-orange {
+            background: var(--naranja-bruta);
+            color: #000;
+        }
+
+        .btn-gray {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--texto);
+            border: 1px solid var(--lineas);
+        }
+
+        .invoice-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        .invoice-items-table th, .invoice-items-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--lineas);
+            text-align: left;
+        }
+
+        .invoice-items-table th {
+            color: var(--azul-bruta);
+        }
+
+        .text-right {
+            text-align: right !important;
+        }
+
+        /* VISTA PREVIA DE FACTURA */
+        .invoice-preview {
+            margin-top: 16px;
+            background: #fff;
+            color: #111;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .invoice-header {
+            padding: 24px;
+            background: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .invoice-header img {
+            height: 48px;
+        }
+
+        .invoice-body {
+            padding: 24px;
+        }
+
+        .invoice-client {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .invoice-table th {
+            background: #f5f5f5;
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .invoice-table td {
+            padding: 12px;
+            font-size: 13px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-totals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .total-box {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .total-box .label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .total-box .amount {
+            font-size: 18px;
+            font-weight: 900;
+            margin-top: 4px;
+        }
+
+        .total-box.highlight {
+            background: var(--bg-card);
+            color: var(--texto);
+            border: 2px solid var(--naranja-bruta);
+        }
+
+        .invoice-footer {
+            padding: 16px;
+            background: #f5f5f5;
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        /* IMPRESION */
+        @media print {
+            body { background: #fff; color: #000; }
+            header, .hero, section, footer, .fab-admin, .modal-header, .login-box, .admin-card:not(.print-area) {
+                display: none !important;
+            }
+            .modal {
+                position: static !important;
+                background: #fff !important;
+                display: block !important;
+            }
+            .modal-panel {
+                border: none !important;
+                max-height: none !important;
+            }
+            .invoice-preview {
+                border: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <div class="container">
-    <div class="nav">
-      <div class="brand">
-        <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" alt="Logo">
-        <div>
-          <div class="orbitron" style="font-weight:900;letter-spacing:2px;">BRUTA<span style="color:var(--orange)">LUX</span></div>
-          <div style="font-size:11px;color:var(--muted);">5 años de garantía</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div class="pill">Tasa BCV: <b id="header-rate">—</b></div>
-        <a href="https://wa.me/584126835635" class="cta-wa"><i class="fa-brands fa-whatsapp"></i> Contacto</a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<div class="hero">
-  <div class="container">
-    <div class="heroCard">
-      <h1 class="orbitron">Serie R <span class="grad">BRUTALUX</span></h1>
-      <p style="max-width:600px;margin-bottom:24px;">Faros LED para Toyota y cualquier vehículo. Más luz, mejor corte, menor consumo y <b style="color:var(--yellow)">5 años de garantía</b>.</p>
-      <div>
-        <a href="#catalogo" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Ver catálogo</a>
-        <a href="#admin" onclick="openAdmin();return false;" class="btn"><i class="fa-solid fa-file-invoice"></i> Facturar</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<section id="catalogo">
-  <div class="container">
-    <div class="section-title">
-      <div>
-        <h2 class="orbitron">Catálogo</h2>
-        <div style="color:var(--muted);font-size:14px;">Precios en USD y referencia en Bs</div>
-      </div>
-    </div>
-    <div id="product-list" class="cards"></div>
-  </div>
-</section>
-
-<section id="compat">
-  <div class="container">
-    <h2 class="orbitron" style="margin-bottom:20px;">¿Qué luz usa mi auto?</h2>
-    <div class="compat-box">
-      <div class="form-grid">
-        <div>
-          <label>Marca</label>
-          <select id="brand-sel" onchange="updateModels()">
-            <option value="">Seleccionar</option>
-            <option value="toyota">Toyota</option>
-            <option value="ford">Ford</option>
-            <option value="chevrolet">Chevrolet</option>
-          </select>
-        </div>
-        <div>
-          <label>Modelo</label>
-          <select id="model-sel" disabled>
-            <option value="">Primero selecciona marca</option>
-          </select>
-        </div>
-        <div>
-          <label>Año</label>
-          <select id="year-sel">
-            <option value="">Año</option>
-            ${Array.from({length:27},(_,i)=>`<option value="${2000+i}">${2000+i}</option>`).join('')}
-          </select>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="checkCompat()" style="width:100%;"><i class="fa-solid fa-search"></i> Consultar compatibilidad</button>
-      <div id="compat-result" style="margin-top:16px;padding:16px;background:rgba(0,200,255,.1);border-radius:12px;display:none;"></div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <div style="margin-bottom:20px;">
-      <a href="https://www.instagram.com/bruta_lux?igsh=MXN5ZTg0ZG1uc2k5cw==" target="_blank" style="margin:0 10px;"><i class="fa-brands fa-instagram fa-2x"></i></a>
-      <a href="https://www.tiktok.com/@brutaluxlighting?_r=1&_t=ZS-93e9bBF4ckc" target="_blank" style="margin:0 10px;"><i class="fa-brands fa-tiktok fa-2x"></i></a>
-      <a href="https://wa.me/584126835635" target="_blank" style="margin:0 10px;"><i class="fa-brands fa-whatsapp fa-2x"></i></a>
-    </div>
-    <p>© 2025 BRUTALUX Venezuela. Potentes y resistentes.</p>
-  </div>
-</footer>
-
-<button class="fab orbitron" onclick="openAdmin()"><i class="fa-solid fa-lock"></i> ADMIN</button>
-
-<div class="modal" id="admin-modal">
-  <div class="panel">
-    <div class="panel-head">
-      <h3 class="orbitron">Panel de Administración</h3>
-      <button class="btn-close" onclick="closeAdmin()"><i class="fa-solid fa-xmark"></i> Cerrar</button>
-    </div>
-    <div class="panel-body">
-      
-      <!-- Login -->
-      <div id="login-box" class="box">
-        <h4><i class="fa-solid fa-lock"></i> Acceso</h4>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Usuario</label>
-            <input type="text" id="username" placeholder="Manuel255">
-          </div>
-          <div class="form-group">
-            <label>Contraseña</label>
-            <input type="password" id="password" placeholder="••••••••">
-          </div>
-        </div>
-        <button class="btn-wide btn-green" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
-      </div>
-
-      <!-- Admin Area -->
-      <div id="admin-area">
-        <div class="admin-grid">
-          
-          <!-- Config -->
-          <div class="box">
-            <h4><i class="fa-solid fa-gear"></i> Configuración</h4>
-            <div class="form-group">
-              <label>Tasa BCV (Bs/USD)</label>
-              <input type="text" id="config-rate" value="375,08">
-            </div>
-            <div class="form-group">
-              <label>Garantía</label>
-              <input type="text" id="config-warranty" value="5 años">
-            </div>
-            <button class="btn-wide btn-orange" onclick="saveConfig()"><i class="fa-solid fa-save"></i> Guardar cambios</button>
-            <button class="btn-wide" onclick="doLogout()" style="margin-top:8px;"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
-          </div>
-
-          <!-- Invoice Builder -->
-          <div class="box print-only">
-            <h4><i class="fa-solid fa-file-invoice-dollar"></i> Nueva Factura</h4>
-            
-            <div class="form-row">
-              <div class="form-group">
-                <label>Cliente</label>
-                <input type="text" id="inv-client" placeholder="Nombre completo">
-              </div>
-              <div class="form-group">
-                <label>Cédula/RIF</label>
-                <input type="text" id="inv-id" placeholder="V-12345678">
-              </div>
-            </div>
-            
-            <div class="form-row">
-              <div class="form-group">
-                <label>Teléfono</label>
-                <input type="text" id="inv-phone" placeholder="+58 412...">
-              </div>
-              <div class="form-group">
-                <label>Dirección</label>
-                <input type="text" id="inv-addr" placeholder="Ciudad, dirección">
-              </div>
-            </div>
-
-            <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-bottom:12px;">
-              <div class="form-group">
-                <label>Producto</label>
-                <select id="inv-product" onchange="updatePrice()"></select>
-              </div>
-              <div class="form-group">
-                <label>Cant.</label>
-                <input type="number" id="inv-qty" value="1" min="1">
-              </div>
-              <div class="form-group">
-                <label>Precio $</label>
-                <input type="number" id="inv-price" step="0.01">
-              </div>
-            </div>
-
-            <button class="btn-wide btn-green" onclick="addItem()"><i class="fa-solid fa-plus"></i> Agregar a factura</button>
-            
-            <div class="form-row" style="margin-top:12px;">
-              <div class="form-group">
-                <label>IVA %</label>
-                <input type="number" id="inv-tax" value="0" step="0.01">
-              </div>
-              <div class="form-group">
-                <label>Descuento $</label>
-                <input type="number" id="inv-discount" value="0" step="0.01">
-              </div>
-            </div>
-
-            <div style="display:flex;gap:8px;margin-top:12px;">
-              <button class="btn-wide btn-orange" onclick="renderInvoice()" style="flex:1;"><i class="fa-solid fa-rotate"></i> Actualizar</button>
-              <button class="btn-wide btn-green" onclick="printInvoice()" style="flex:1;"><i class="fa-solid fa-print"></i> Imprimir / PDF</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Invoice Preview -->
-        <div class="box print-only" style="margin-top:20px;">
-          <h4><i class="fa-solid fa-eye"></i> Vista previa de la factura</h4>
-          <div id="invoice-preview" class="invoice-preview">
-            <!-- La factura se renderiza aquí -->
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-// Configuración
-const CONFIG = {
-  user: 'Manuel255',
-  pass: '30158858Jm',
-  whatsapp: '584126835635',
-  defaultRate: 375.08
-};
-
-// Datos de productos (CORREGIDO según tus últimas instrucciones)
-const PRODUCTS = [
-  {
-    id: 'R36',
-    name: 'Brutalux R36',
-    subtitle: '27.000 LM · Alta potencia',
-    price: 80,
-    image: 'https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg',
-    badge: '⚡ ALTA POTENCIA',
-    desc: '27.000 lm · 6500K · 4 tubos cobre'
-  },
-  {
-    id: 'R33',
-    name: 'Brutalux R33',
-    subtitle: '33.000 LM · Top potencia',
-    price: 90,
-    image: 'https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg',
-    badge: '👑 TOP POTENCIA',
-    desc: '33.000 lm · 6500K · Zinc + 3 tubos'
-  },
-  {
-    id: 'R36T',
-    name: 'Brutalux R36T',
-    subtitle: '16.000 LM · Dual color',
-    price: 85,
-    image: 'https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg',
-    badge: '🌓 DUAL COLOR',
-    desc: '16.000 lm · 3000K-6500K · Chip CSP'
-  },
-  {
-    id: 'R20',
-    name: 'Brutalux R20',
-    subtitle: '20.000 LM · Económica',
-    price: 65,
-    image: 'https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?w=800',
-    badge: '👍 ECONÓMICA',
-    desc: '20.000 lm · 12V/24V · Calidad/precio'
-  }
-];
-
-// Estado
-let currentRate = CONFIG.defaultRate;
-let invoiceItems = [];
-
-// Inicializar
-window.onload = function() {
-  renderCatalog();
-  loadConfig();
-  checkLogin();
-  populateProductSelect();
-};
-
-// Render catálogo
-function renderCatalog() {
-  const container = document.getElementById('product-list');
-  container.innerHTML = PRODUCTS.map(p => `
-    <div class="card">
-      <div class="card-img">
-        <img src="${p.image}" alt="${p.name}">
-        <div class="badge">${p.badge}</div>
-      </div>
-      <div class="card-body">
-        <h3 class="orbitron">${p.name}</h3>
-        <div style="color:var(--muted);font-size:13px;margin-bottom:8px;">${p.subtitle}</div>
-        <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">${p.desc}</div>
-        <div class="price">$${p.price}</div>
-        <span class="price-bs">≈ Bs ${(p.price * currentRate).toLocaleString('es-VE', {minimumFractionDigits:2})}</span>
-        <div style="display:flex;gap:8px;">
-          <a href="https://wa.me/${CONFIG.whatsapp}?text=Hola%20quiero%20${p.name}%20($${p.price})" class="btn" style="flex:1;background:var(--green);color:#000;border:none;"><i class="fa-brands fa-whatsapp"></i> Pedir</a>
-          <button onclick="openAdmin('${p.id}')" class="btn" style="flex:1;"><i class="fa-solid fa-file-invoice"></i> Facturar</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-  
-  document.getElementById('header-rate').textContent = currentRate.toLocaleString('es-VE');
-}
-
-// Compatibilidad
-const COMPAT_DATA = {
-  toyota: ['Land Cruiser', '4Runner', 'Corolla', 'Hilux', 'Prado', 'Yaris'],
-  ford: ['Fiesta', 'Ranger', 'Explorer', 'Focus', 'EcoSport'],
-  chevrolet: ['Corsa', 'Aveo', 'Spark', 'Silverado', 'Blazer']
-};
-
-function updateModels() {
-  const brand = document.getElementById('brand-sel').value;
-  const modelSel = document.getElementById('model-sel');
-  if (!brand) {
-    modelSel.innerHTML = '<option>Primero selecciona marca</option>';
-    modelSel.disabled = true;
-    return;
-  }
-  modelSel.innerHTML = '<option value="">Seleccionar modelo</option>' + 
-    COMPAT_DATA[brand].map(m => `<option value="${m}">${m}</option>`).join('');
-  modelSel.disabled = false;
-}
-
-function checkCompat() {
-  const brand = document.getElementById('brand-sel').value;
-  const model = document.getElementById('model-sel').value;
-  const year = document.getElementById('year-sel').value;
-  const result = document.getElementById('compat-result');
-  
-  if (!brand || !model || !year) {
-    result.style.display = 'block';
-    result.innerHTML = '⚠️ Completa todos los campos';
-    return;
-  }
-  
-  result.style.display = 'block';
-  result.innerHTML = `
-    <div style="font-weight:700;margin-bottom:8px;">✅ Compatible: ${model} ${year}</div>
-    <div style="font-size:14px;">Recomendación: <b>R36 o R33</b> según uso.<br>
-    Socket común: <b>H4 / H11</b> (verificar según versión específica).</div>
-    <div style="margin-top:12px;">
-      <a href="https://wa.me/${CONFIG.whatsapp}?text=Consulta%20compatibilidad%20${model}%20${year}" class="btn btn-primary" style="font-size:13px;">
-        <i class="fa-brands fa-whatsapp"></i> Consultar por WhatsApp
-      </a>
-    </div>
-  `;
-}
-
-// Admin Modal
-function openAdmin(preselectProduct = null) {
-  document.getElementById('admin-modal').classList.add('show');
-  if (preselectProduct) {
-    setTimeout(() => {
-      if (document.getElementById('admin-area').style.display !== 'none') {
-        document.getElementById('inv-product').value = preselectProduct;
-        updatePrice();
-      }
-    }, 100);
-  }
-}
-
-function closeAdmin() {
-  document.getElementById('admin-modal').classList.remove('show');
-}
-
-// Login
-function doLogin() {
-  const u = document.getElementById('username').value;
-  const p = document.getElementById('password').value;
-  if (u === CONFIG.user && p === CONFIG.pass) {
-    localStorage.setItem('brutalux_admin', '1');
-    checkLogin();
-  } else {
-    alert('Usuario o contraseña incorrectos');
-  }
-}
-
-function doLogout() {
-  localStorage.removeItem('brutalux_admin');
-  checkLogin();
-}
-
-function checkLogin() {
-  const isLogged = localStorage.getItem('brutalux_admin') === '1';
-  document.getElementById('login-box').style.display = isLogged ? 'none' : 'block';
-  document.getElementById('admin-area').style.display = isLogged ? 'block' : 'none';
-  if (isLogged) {
-    renderInvoice();
-  }
-}
-
-// Config
-function loadConfig() {
-  const saved = localStorage.getItem('brutalux_config');
-  if (saved) {
-    const cfg = JSON.parse(saved);
-    currentRate = parseFloat(cfg.rate) || CONFIG.defaultRate;
-    document.getElementById('config-rate').value = currentRate.toString().replace('.', ',');
-    document.getElementById('config-warranty').value = cfg.warranty || '5 años';
-  }
-}
-
-function saveConfig() {
-  const rateStr = document.getElementById('config-rate').value.replace(',', '.');
-  const rate = parseFloat(rateStr);
-  const warranty = document.getElementById('config-warranty').value;
-  
-  if (!rate || rate <= 0) {
-    alert('Tasa inválida');
-    return;
-  }
-  
-  currentRate = rate;
-  localStorage.setItem('brutalux_config', JSON.stringify({rate, warranty}));
-  renderCatalog();
-  renderInvoice();
-  alert('Configuración guardada');
-}
-
-// Invoice System
-function populateProductSelect() {
-  const sel = document.getElementById('inv-product');
-  sel.innerHTML = PRODUCTS.map(p => `<option value="${p.id}">${p.id} - ${p.name} ($${p.price})</option>`).join('');
-  updatePrice();
-}
-
-function updatePrice() {
-  const id = document.getElementById('inv-product').value;
-  const product = PRODUCTS.find(p => p.id === id);
-  if (product) {
-    document.getElementById('inv-price').value = product.price;
-  }
-}
-
-function addItem() {
-  const id = document.getElementById('inv-product').value;
-  const qty = parseInt(document.getElementById('inv-qty').value);
-  const price = parseFloat(document.getElementById('inv-price').value);
-  
-  if (!qty || qty < 1 || !price) {
-    alert('Cantidad o precio inválido');
-    return;
-  }
-  
-  const product = PRODUCTS.find(p => p.id === id);
-  invoiceItems.push({
-    id: id,
-    name: product.name,
-    qty: qty,
-    price: price
-  });
-  
-  renderInvoice();
-  alert('Producto agregado');
-}
-
-function renderInvoice() {
-  const client = document.getElementById('inv-client').value || 'Cliente';
-  const id = document.getElementById('inv-id').value || '-';
-  const phone = document.getElementById('inv-phone').value || '-';
-  const addr = document.getElementById('inv-addr').value || '-';
-  const taxRate = parseFloat(document.getElementById('inv-tax').value) || 0;
-  const discount = parseFloat(document.getElementById('inv-discount').value) || 0;
-  
-  const subtotal = invoiceItems.reduce((sum, item) => sum + (item.qty * item.price), 0);
-  const tax = subtotal * (taxRate / 100);
-  const total = Math.max(0, subtotal + tax - discount);
-  const totalBs = total * currentRate;
-  
-  const date = new Date().toLocaleDateString('es-VE');
-  
-  const itemsHtml = invoiceItems.length === 0 ? 
-    '<tr><td colspan="5" style="text-align:center;color:#999;padding:20px;">Sin productos agregados</td></tr>' :
-    invoiceItems.map((item, idx) => `
-      <tr>
-        <td>${item.name}</td>
-        <td>${item.id}</td>
-        <td class="r">${item.qty}</td>
-        <td class="r">$${item.price.toFixed(2)}</td>
-        <td class="r">$${(item.qty * item.price).toFixed(2)}</td>
-      </tr>
-    `).join('');
-  
-  const html = `
-    <div class="inv-header">
-      <div class="inv-brand">
-        <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" class="inv-logo" alt="Logo">
-        <div>
-          <div class="t1" style="font-size:18px;font-weight:900;">BRUTALUX</div>
-          <div class="t2">Potentes y resistentes • Garantía 5 años</div>
-          <div class="t2">WhatsApp: +58 412 6835635</div>
-        </div>
-      </div>
-      <div class="inv-meta">
-        <div style="font-size:11px;color:#666;">FACTURA / NOTA DE ENTREGA</div>
-        <div style="font-size:14px;font-weight:700;">${date}</div>
-        <div style="font-size:12px;margin-top:4px;">Tasa BCV: ${currentRate.toLocaleString('es-VE')} Bs/USD</div>
-      </div>
-    </div>
-    
-    <div class="inv-body">
-      <div class="inv-client">
-        <div style="font-weight:700;margin-bottom:8px;color:var(--orange);">DATOS DEL CLIENTE</div>
-        <div style="font-size:13px;line-height:1.6;">
-          <b>Nombre:</b> ${client}<br>
-          <b>Cédula/RIF:</b> ${id}<br>
-          <b>Teléfono:</b> ${phone}<br>
-          <b>Dirección:</b> ${addr}
-        </div>
-      </div>
-      
-      <table class="inv-table">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Modelo</th>
-            <th class="r">Cant.</th>
-            <th class="r">P.Unit ($)</th>
-            <th class="r">Total ($)</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${itemsHtml}
-        </tbody>
-      </table>
-      
-      <div class="inv-totals">
-        <div class="inv-total-box">
-          <div class="label">Subtotal</div>
-          <div class="amount">$${subtotal.toFixed(2)}</div>
-        </div>
-        <div class="inv-total-box">
-          <div class="label">IVA (${taxRate}%)</div>
-          <div class="amount">$${tax.toFixed(2)}</div>
-        </div>
-        <div class="inv-total-box">
-          <div class="label">Descuento</div>
-          <div class="amount" style="color:#c00;">-$${discount.toFixed(2)}</div>
-        </div>
-        <div class="inv-total-box" style="border:2px solid var(--orange);">
-          <div class="label">TOTAL USD</div>
-          <div class="amount" style="font-size:24px;">$${total.toFixed(2)}</div>
-        </div>
-        <div class="inv-total-box" style="grid-column:1/-1;background:var(--card);color:var(--text);">
-          <div class="label">Total en Bolívares (ref.)</div>
-          <div class="amount" style="font-size:20px;">Bs ${totalBs.toLocaleString('es-VE', {minimumFractionDigits:2})}</div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="inv-footer">
-      Documento generado electrónicamente • BRUTALUX Venezuela<br>
-      Esta factura es un comprobante de venta. Para facturación fiscal ante SENIAT, contactar directamente.
-    </div>
-  `;
-  
-  document.getElementById('invoice-preview').innerHTML = html;
-}
-
-function printInvoice() {
-  if (invoiceItems.length === 0) {
-    alert('Agrega al menos un producto');
-    return;
-  }
-  renderInvoice();
-  setTimeout(() => window.print(), 100);
-}
-</script>
-
-</body>
-</html>
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="nav">
+                <div class="brand">
+                    <img src="https://i.postimg
