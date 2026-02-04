@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brutalux - Faros LED Serie R</title>
+    <title>Brutalux Venezuela - Faros LED de Alta Potencia para Tu Vehículo</title>
+    <meta name="description" content="Brutalux Venezuela: Faros LED de alta potencia para vehículos. Mejora la visibilidad y seguridad en tu Toyota, Ford, Chevrolet. Garantía y envíos a nivel nacional.">
+    <meta name="keywords" content="luces led, faros led, led automotriz, brutalux, h4 led, luces para toyota, luces venezuela, led car, bombillas led, R33, R36T, R36, R20">
+    <meta name="author" content="Brutalux Venezuela">
+    <link rel="icon" href="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" type="image/png"> <!-- Favicon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* CSS Reset & Base */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         body { line-height: 1.6; color: #333; scroll-behavior: smooth; background: #0b0b0d; }
 
@@ -59,7 +64,7 @@
 
         /* Login Modal */
         .modal {
-            display: none;
+            display: none; /* Hidden by default */
             position: fixed;
             z-index: 2000;
             left: 0;
@@ -136,8 +141,13 @@
             position: sticky;
             top: 60px; /* Below the header */
             z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .admin-panel label { margin-right: 10px; }
+        .admin-panel label { margin-right: 5px; }
         .admin-panel input[type="number"],
         .admin-panel input[type="text"] {
             padding: 5px;
@@ -145,8 +155,7 @@
             border: 1px solid #555;
             background-color: #333;
             color: white;
-            width: 100px;
-            margin-right: 10px;
+            width: 80px; /* Adjusted width */
         }
         .admin-panel button {
             background-color: #d4af37;
@@ -173,10 +182,15 @@
             cursor: pointer;
             margin-top: 10px;
             font-size: 0.85rem;
+            display: none; /* Hidden by default, shown when admin logged in */
         }
         .edit-image-button:hover { background-color: #2980b9; }
+        .admin-image-controls { /* Wrapper for image buttons on detail pages */
+            display: none; /* Hidden by default, shown when admin logged in */
+            margin-top: 15px;
+        }
 
-        /* BANNER con vehículos de noche */
+        /* Banner con vehículos de noche */
         .banner {
             background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.9)),
                 url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1920&q=80');
@@ -219,7 +233,7 @@
             box-shadow: 0 5px 15px rgba(212,175,55,0.4);
         }
 
-        /* CATALOGO */
+        /* Catalogo */
         .catalogo { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; color: #eee; }
         .catalogo-header { text-align: center; margin-bottom: 3rem; }
         .catalogo-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #ffffff; }
@@ -304,7 +318,7 @@
         }
         .btn-detalle:hover { text-decoration: underline; }
 
-        /* SECCIONES DETALLE */
+        /* Secciones Detalle */
         .detalle-producto {
             display: none;
             padding: 4rem 5%;
@@ -341,7 +355,56 @@
         }
         .detalle-volver i { margin-right: 0.4rem; }
 
-        /* FOOTER */
+        /* Sobre Nosotros */
+        #nosotros { padding: 5rem 5%; background: #0b0b0d; color: #eee; text-align: center; }
+        #nosotros h2 { color: #fff; margin-bottom: 2rem; }
+        #nosotros p { max-width: 800px; margin: 0 auto 1rem; line-height: 1.8; }
+        #nosotros ul { list-style: none; max-width: 600px; margin: 2rem auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; }
+        #nosotros ul li { flex: 1 1 250px; background: #111319; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        #nosotros ul li i { font-size: 2rem; color: #d4af37; margin-bottom: 1rem; }
+
+        /* FAQ */
+        #faq { padding: 5rem 5%; background: #050509; color: #eee; }
+        #faq h2 { text-align: center; color: #fff; margin-bottom: 3rem; }
+        .faq-item { max-width: 800px; margin: 0 auto 1.5rem; background: #111319; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .faq-item h3 { color: #d4af37; margin-bottom: 0.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-item h3 i { transition: transform 0.3s; }
+        .faq-item h3.active i { transform: rotate(180deg); }
+        .faq-item p { margin-top: 1rem; color: #ccc; display: none; }
+        .faq-item p.active { display: block; }
+
+        /* Compatibilidad */
+        #compatibilidad { padding: 5rem 5%; background: #0b0b0d; color: #eee; text-align: center; }
+        #compatibilidad h2 { color: #fff; margin-bottom: 2rem; }
+        #compatibilidad p { max-width: 800px; margin: 0 auto 1rem; line-height: 1.8; }
+        .compatibilidad-form { max-width: 500px; margin: 2rem auto; background: #111319; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .compatibilidad-form div { margin-bottom: 1rem; text-align: left; }
+        .compatibilidad-form label { display: block; margin-bottom: 0.5rem; color: #ccc; }
+        .compatibilidad-form input, .compatibilidad-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #222;
+            color: #eee;
+        }
+        .compatibilidad-form button {
+            background-color: #d4af37;
+            color: #1a1a1a;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            transition: background 0.3s;
+        }
+        .compatibilidad-form button:hover { background-color: #b8960c; }
+        #compatibilidad-resultado { margin-top: 2rem; font-size: 1.1rem; font-weight: bold; color: #d4af37; }
+        #compatibilidad-disclaimer { font-size: 0.85rem; color: #888; margin-top: 1rem; }
+
+        /* Footer */
         footer {
             background: #050509;
             color: white;
@@ -362,7 +425,66 @@
         .social-icons a { color: white; font-size: 1.8rem; transition: color 0.3s; }
         .social-icons a:hover { color: #d4af37; }
 
-        /* RESPONSIVE */
+        /* Pestaña de Consejos */
+        .tip-pestana {
+            display: none; /* Hidden by default */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            max-width: 300px;
+            z-index: 1001;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .tip-pestana.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .tip-pestana.hide {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .tip-pestana .close-tip {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #d4af37;
+        }
+
+        /* Botón Flotante de WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px; /* Cambiado a izquierda para no chocar con la pestaña de consejos */
+            width: 60px;
+            height: 60px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            line-height: 60px;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128c7e;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .menu-icon { display: block; }
             nav ul {
@@ -381,6 +503,25 @@
             nav ul li { margin: 1rem 0; }
             .banner-content h2 { font-size: 2rem; }
             .producto-img { height: 260px; }
+            .admin-panel {
+                flex-direction: column;
+                padding: 1rem 2%;
+            }
+            .admin-panel input, .admin-panel button { width: 100%; margin: 5px 0; }
+            .whatsapp-float {
+                bottom: 15px;
+                left: 15px;
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+                line-height: 50px;
+            }
+            .tip-pestana {
+                bottom: 15px;
+                right: 15px;
+                max-width: calc(100% - 70px);
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -388,13 +529,16 @@
 
 <header>
     <div class="logo">
-        <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" alt="Brutalux - Potentes y resistentes">
+        <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026_02_03_at-9-11-46-PM.jpg" alt="Brutalux - Potentes y resistentes">
         <div class="logo-text">POTENTES Y RESISTENTES</div>
     </div>
     <nav>
         <ul>
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#catalogo">Catálogo</a></li>
+            <li><a href="#compatibilidad">¿Qué luz usa mi auto?</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#faq">FAQ</a></li>
             <li><a href="#contacto">Contacto</a></li>
         </ul>
     </nav>
@@ -445,7 +589,7 @@
             <div class="potencia-badge premium">
                 <i class="fas fa-crown"></i> R33 · TOP POTENCIA
             </div>
-            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R33" class="producto-img">
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R33" class="producto-img" data-img-key="r33-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R33 · 33.000 lm</span>
                 <h3>Brutalux R33</h3>
@@ -467,7 +611,7 @@
                     <i class="fab fa-whatsapp"></i> Pedir R33 por WhatsApp
                 </a>
                 <a href="#detalle-r33" class="btn-detalle">Ver más fotos y detalles</a>
-                <button class="edit-image-button" style="display: none;" data-img-target=".producto-card[data-product-id='r33'] .producto-img">Editar Imagen</button>
+                <button class="edit-image-button" data-img-key="r33-main">Editar Imagen</button>
             </div>
         </div>
 
@@ -476,7 +620,7 @@
             <div class="potencia-badge versatil">
                 <i class="fas fa-adjust"></i> R36T · BLANCO / AMARILLO
             </div>
-            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36T" class="producto-img">
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36T" class="producto-img" data-img-key="r36t-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R36T · 16.000 lm</span>
                 <h3>Brutalux R36T</h3>
@@ -498,7 +642,7 @@
                     <i class="fab fa-whatsapp"></i> Pedir R36T por WhatsApp
                 </a>
                 <a href="#detalle-r36t" class="btn-detalle">Ver más fotos y detalles</a>
-                <button class="edit-image-button" style="display: none;" data-img-target=".producto-card[data-product-id='r36t'] .producto-img">Editar Imagen</button>
+                <button class="edit-image-button" data-img-key="r36t-main">Editar Imagen</button>
             </div>
         </div>
 
@@ -507,7 +651,7 @@
             <div class="potencia-badge alta">
                 <i class="fas fa-bolt"></i> R36 · ALTA POTENCIA
             </div>
-            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36" class="producto-img">
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36" class="producto-img" data-img-key="r36-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R36 · 27.000 lm</span>
                 <h3>Brutalux R36</h3>
@@ -528,7 +672,7 @@
                     <i class="fab fa-whatsapp"></i> Pedir R36 por WhatsApp
                 </a>
                 <a href="#detalle-r36" class="btn-detalle">Ver más fotos y detalles</a>
-                <button class="edit-image-button" style="display: none;" data-img-target=".producto-card[data-product-id='r36'] .producto-img">Editar Imagen</button>
+                <button class="edit-image-button" data-img-key="r36-main">Editar Imagen</button>
             </div>
         </div>
 
@@ -537,7 +681,7 @@
             <div class="potencia-badge basico">
                 <i class="fas fa-thumbs-up"></i> R20 · LÍNEA ECONÓMICA
             </div>
-            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Brutalux R20" class="producto-img">
+            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Brutalux R20" class="producto-img" data-img-key="r20-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R20 · 20.000 lm</span>
                 <h3>Brutalux R20</h3>
@@ -558,7 +702,7 @@
                     <i class="fab fa-whatsapp"></i> Pedir R20 por WhatsApp
                 </a>
                 <a href="#detalle-r20" class="btn-detalle">Ver más fotos y detalles</a>
-                <button class="edit-image-button" style="display: none;" data-img-target=".producto-card[data-product-id='r20'] .producto-img">Editar Imagen</button>
+                <button class="edit-image-button" data-img-key="r20-main">Editar Imagen</button>
             </div>
         </div>
 
@@ -571,8 +715,9 @@
     <p class="subtitulo">Faros LED H4 · 33.000 lúmenes el par · Uso intensivo</p>
     <div class="detalle-grid">
         <div class="detalle-media">
-            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R33 vista frontal" data-detail-img="r33-1">
-            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R33 detalle disipador" data-detail-img="r33-2">
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R33 vista frontal" data-img-key="r33-detail-1">
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R33 detalle disipador" data-img-key="r33-detail-2">
+            <!-- REEMPLAZA VIDEO_ID_R33 por el ID real de tu video de YouTube -->
             <iframe src="https://www.youtube.com/embed/VIDEO_ID_R33" title="Instalación Brutalux R33" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="detalle-texto">
@@ -594,9 +739,9 @@
                 <i class="fab fa-whatsapp"></i> Comprar R33 ahora
             </a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
-            <div class="admin-image-controls" style="display: none; margin-top: 15px;">
-                <button class="edit-image-button" data-img-target="[data-detail-img='r33-1']">Editar Img 1</button>
-                <button class="edit-image-button" data-img-target="[data-detail-img='r33-2']">Editar Img 2</button>
+            <div class="admin-image-controls">
+                <button class="edit-image-button" data-img-key="r33-detail-1">Editar Img 1</button>
+                <button class="edit-image-button" data-img-key="r33-detail-2">Editar Img 2</button>
             </div>
         </div>
     </div>
@@ -608,8 +753,9 @@
     <p class="subtitulo">Faros LED bicolor · 3000K a 6500K · Ideal para lluvia y niebla</p>
     <div class="detalle-grid">
         <div class="detalle-media">
-            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R36T dorado" data-detail-img="r36t-1">
-            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R36T detalle chip" data-detail-img="r36t-2">
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R36T dorado" data-img-key="r36t-detail-1">
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R36T detalle chip" data-img-key="r36t-detail-2">
+            <!-- REEMPLAZA VIDEO_ID_R36T por el ID real de tu video de YouTube -->
             <iframe src="https://www.youtube.com/embed/VIDEO_ID_R36T" title="Modos de color Brutalux R36T" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="detalle-texto">
@@ -631,9 +777,9 @@
                 <i class="fab fa-whatsapp"></i> Comprar R36T ahora
             </a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
-            <div class="admin-image-controls" style="display: none; margin-top: 15px;">
-                <button class="edit-image-button" data-img-target="[data-detail-img='r36t-1']">Editar Img 1</button>
-                <button class="edit-image-button" data-img-target="[data-detail-img='r36t-2']">Editar Img 2</button>
+            <div class="admin-image-controls">
+                <button class="edit-image-button" data-img-key="r36t-detail-1">Editar Img 1</button>
+                <button class="edit-image-button" data-img-key="r36t-detail-2">Editar Img 2</button>
             </div>
         </div>
     </div>
@@ -645,8 +791,9 @@
     <p class="subtitulo">Faros LED H4 · 27.000 lm · Balance potencia/precio</p>
     <div class="detalle-grid">
         <div class="detalle-media">
-            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36 vista frontal" data-detail-img="r36-1">
-            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36 detalle cuerpo" data-detail-img="r36-2">
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36 vista frontal" data-img-key="r36-detail-1">
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36 detalle cuerpo" data-img-key="r36-detail-2">
+            <!-- REEMPLAZA VIDEO_ID_R36 por el ID real de tu video de YouTube -->
             <iframe src="https://www.youtube.com/embed/VIDEO_ID_R36" title="Review Brutalux R36" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="detalle-texto">
@@ -667,9 +814,9 @@
                 <i class="fab fa-whatsapp"></i> Comprar R36 ahora
             </a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
-            <div class="admin-image-controls" style="display: none; margin-top: 15px;">
-                <button class="edit-image-button" data-img-target="[data-detail-img='r36-1']">Editar Img 1</button>
-                <button class="edit-image-button" data-img-target="[data-detail-img='r36-2']">Editar Img 2</button>
+            <div class="admin-image-controls">
+                <button class="edit-image-button" data-img-key="r36-detail-1">Editar Img 1</button>
+                <button class="edit-image-button" data-img-key="r36-detail-2">Editar Img 2</button>
             </div>
         </div>
     </div>
@@ -681,8 +828,9 @@
     <p class="subtitulo">Opción económica · 20.000 lm · Excelente relación precio/rendimiento</p>
     <div class="detalle-grid">
         <div class="detalle-media">
-            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="R20 vista general" data-detail-img="r20-1">
-            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="R20 detalle base" data-detail-img="r20-2">
+            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="R20 vista general" data-img-key="r20-detail-1">
+            <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="R20 detalle base" data-img-key="r20-detail-2">
+            <!-- REEMPLAZA VIDEO_ID_R20 por el ID real de tu video de YouTube -->
             <iframe src="https://www.youtube.com/embed/VIDEO_ID_R20" title="Instalación Brutalux R20" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="detalle-texto">
@@ -703,11 +851,83 @@
                 <i class="fab fa-whatsapp"></i> Comprar R20 ahora
             </a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
-            <div class="admin-image-controls" style="display: none; margin-top: 15px;">
-                <button class="edit-image-button" data-img-target="[data-detail-img='r20-1']">Editar Img 1</button>
-                <button class="edit-image-button" data-img-target="[data-detail-img='r20-2']">Editar Img 2</button>
+            <div class="admin-image-controls">
+                <button class="edit-image-button" data-img-key="r20-detail-1">Editar Img 1</button>
+                <button class="edit-image-button" data-img-key="r20-detail-2">Editar Img 2</button>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- SECCIÓN COMPATIBILIDAD -->
+<section id="compatibilidad">
+    <h2>¿Qué Luz LED Usa Mi Auto?</h2>
+    <p>¡No te compliques! Selecciona la marca, año y modelo de tu vehículo para encontrar la bombilla LED Brutalux compatible. Si tu modelo no aparece, contáctanos por WhatsApp para asesoría personalizada.</p>
+
+    <div class="compatibilidad-form">
+        <div>
+            <label for="marcaSelect">Marca:</label>
+            <select id="marcaSelect">
+                <option value="">Selecciona una marca</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Ford">Ford</option>
+                <option value="Chevrolet">Chevrolet</option>
+                <!-- Agrega más marcas aquí si expandes la base de datos -->
+            </select>
+        </div>
+        <div>
+            <label for="modeloSelect">Modelo:</label>
+            <select id="modeloSelect" disabled>
+                <option value="">Selecciona un modelo</option>
+            </select>
+        </div>
+        <div>
+            <label for="anoSelect">Año:</label>
+            <select id="anoSelect" disabled>
+                <option value="">Selecciona un año</option>
+            </select>
+        </div>
+        <button id="buscarCompatibilidad">Buscar Compatibilidad</button>
+        <div id="compatibilidad-resultado"></div>
+        <p id="compatibilidad-disclaimer">Nota: Esta base de datos es una muestra. Para modelos no listados o asesoría experta, contáctanos.</p>
+    </div>
+</section>
+
+<!-- SECCIÓN SOBRE NOSOTROS -->
+<section id="nosotros">
+    <h2>Sobre Brutalux Venezuela</h2>
+    <p>Somos Brutalux, tu aliado en iluminación LED automotriz de alta potencia. Con años de experiencia en el mercado, nos especializamos en ofrecer soluciones de vanguardia que combinan tecnología, durabilidad y un diseño impactante.</p>
+    <p>Nuestra misión es transformar tu experiencia al volante, garantizando la máxima visibilidad y seguridad en cualquier condición, de día o de noche. Elegir Brutalux es invertir en calidad superior y resistencia inigualable.</p>
+    <ul>
+        <li><i class="fas fa-car-battery"></i><h3>Tecnología Avanzada</h3><p>Innovación constante para el mejor rendimiento lumínico.</p></li>
+        <li><i class="fas fa-award"></i><h3>Calidad Certificada</h3><p>Productos con los más altos estándares de fabricación.</p></li>
+        <li><i class="fas fa-tools"></i><h3>Asesoría Experta</h3><p>Te ayudamos a elegir la luz perfecta para tu vehículo.</p></li>
+        <li><i class="fas fa-shipping-fast"></i><h3>Envíos Rápidos</h3><p>Llevamos la luz a cada rincón del país.</p></li>
+    </ul>
+</section>
+
+<!-- SECCIÓN FAQ -->
+<section id="faq">
+    <h2>Preguntas Frecuentes (FAQ)</h2>
+    <div class="faq-item">
+        <h3>¿Por qué debo cambiar a luces LED Brutalux? <i class="fas fa-chevron-down"></i></h3>
+        <p>Las luces LED Brutalux ofrecen una visibilidad superior, consumen menos energía que las halógenas tradicionales, tienen una vida útil mucho más larga y le dan un aspecto moderno y premium a tu vehículo. Mejoran significativamente tu seguridad al conducir de noche o en condiciones de baja visibilidad.</p>
+    </div>
+    <div class="faq-item">
+        <h3>¿Son compatibles mis luces con cualquier vehículo? <i class="fas fa-chevron-down"></i></h3>
+        <p>Nuestras luces LED vienen en diferentes tipos de socket (H4, H7, etc.) para adaptarse a la mayoría de los vehículos. Te recomendamos usar nuestra herramienta de compatibilidad o contactarnos por WhatsApp para asegurarte de elegir el modelo correcto para tu auto, año y modelo.</p>
+    </div>
+    <div class="faq-item">
+        <h3>¿Las luces LED Brutalux generan error en el tablero? <i class="fas fa-chevron-down"></i></h3>
+        <p>Muchos de nuestros modelos (como la R33) incluyen tecnología CANBUS integrada para evitar el error de luz fundida en el tablero de tu vehículo. Sin embargo, algunos vehículos de alta gama pueden requerir un decodificador adicional. Consúltanos para tu modelo específico.</p>
+    </div>
+    <div class="faq-item">
+        <h3>¿Qué tipo de garantía ofrecen? <i class="fas fa-chevron-down"></i></h3>
+        <p>Ofrecemos una garantía de 2 años en todas nuestras luces LED Serie R. Esto cubre defectos de fabricación. Si tienes algún problema, contáctanos y te asistiremos con el proceso de garantía.</p>
+    </div>
+    <div class="faq-item">
+        <h3>¿Hacen instalaciones? <i class="fas fa-chevron-down"></i></h3>
+        <p>Actualmente no realizamos instalaciones directamente, pero podemos recomendarte talleres aliados en tu zona que tengan experiencia con nuestros productos. Nuestros kits son Plug & Play, lo que facilita la instalación por un técnico automotriz.</p>
     </div>
 </section>
 
@@ -735,13 +955,24 @@
         <a href="#"><i class="fab fa-facebook"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-tiktok"></i></a>
-        <a href="https://wa.me/584126835635"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://wa.me/584126835635" target="_blank"><i class="fab fa-whatsapp"></i></a>
     </div>
     
     <p style="margin-top: 2rem; color: #666; font-size: 0.9rem;">
         &copy; 2024 Brutalux Venezuela. Potentes y Resistentes.
     </p>
 </footer>
+
+<!-- Botón Flotante de WhatsApp -->
+<a href="https://wa.me/584126835635" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- Pestaña de Consejos -->
+<div id="tipPestana" class="tip-pestana">
+    <span class="close-tip">&times;</span>
+    <p id="tipText"></p>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -759,7 +990,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const adminLogoutBtn = document.getElementById('adminLogoutBtn');
 
     const CORRECT_USERNAME = 'Manuel255';
-    const CORRECT_PASSWORD = '30158858Jm';
+    const CORRECT_PASSWORD = '30158858Jm'; 
     const LOCAL_STORAGE_ADMIN_KEY = 'brutalux_admin_logged_in';
     const LOCAL_STORAGE_TASA_KEY = 'brutalux_tasa_bcv';
     const LOCAL_STORAGE_IMAGES_KEY_PREFIX = 'brutalux_img_';
@@ -768,7 +999,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function toggleAdminMode(loggedIn) {
         if (loggedIn) {
-            adminPanel.style.display = 'block';
+            adminPanel.style.display = 'flex'; // Use flex for better layout
             document.querySelectorAll('.edit-image-button').forEach(btn => btn.style.display = 'inline-block');
             document.querySelectorAll('.admin-image-controls').forEach(div => div.style.display = 'block');
         } else {
@@ -784,7 +1015,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleAdminMode(isAdminLoggedIn);
 
     adminLoginBtn.addEventListener('click', () => {
-        loginModal.style.display = 'flex';
+        loginModal.style.display = 'flex'; // Use flex to center modal
         loginError.style.display = 'none';
         adminUsernameInput.value = '';
         adminPasswordInput.value = '';
@@ -801,13 +1032,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     loginSubmitBtn.addEventListener('click', () => {
-        const username = adminUsernameInput.value;
-        const password = adminPasswordInput.value;
+        const username = adminUsernameInput.value.trim(); // Use trim() for safety
+        const password = adminPasswordInput.value.trim(); // Use trim() for safety
         if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
             loginModal.style.display = 'none';
             toggleAdminMode(true);
-            // Optionally, save the current tasa to the admin input
-            adminTasaInput.value = parseFloat(tasaSpan.dataset.tasa.replace(',', '.')).toFixed(2);
+            aplicarTasa(); // Re-apply tasa to update admin input field
         } else {
             loginError.style.display = 'block';
         }
@@ -833,12 +1063,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function aplicarTasa() {
-        // Prioritize localStorage tasa, fallback to data-tasa
         const storedTasa = localStorage.getItem(LOCAL_STORAGE_TASA_KEY);
+        // Use storedTasa if available, else use data-tasa from HTML
         let currentTasa = storedTasa ? parseFloat(storedTasa) : parseFloat(tasaSpan.dataset.tasa.replace(',', '.'));
 
         if (isNaN(currentTasa) || currentTasa === 0) {
-            currentTasa = 1; // Default to 1 if no valid tasa
+            currentTasa = 1; // Fallback to 1 if no valid tasa
         }
         tasaBCV = currentTasa;
         tasaSpan.textContent = 'Tasa BCV hoy: ' + formatearBs(tasaBCV) + ' Bs/USD';
@@ -861,13 +1091,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     saveTasaBtn.addEventListener('click', () => {
-        const newTasa = parseFloat(adminTasaInput.value);
+        const newTasa = parseFloat(adminTasaInput.value.replace(',', '.')); // Handle comma as decimal separator
         if (!isNaN(newTasa) && newTasa > 0) {
             localStorage.setItem(LOCAL_STORAGE_TASA_KEY, newTasa.toFixed(2));
             aplicarTasa();
             alert('Tasa guardada correctamente (solo visible en este navegador).');
         } else {
-            alert('Por favor, introduce una tasa válida.');
+            alert('Por favor, introduce una tasa válida (ej: 375.08).');
         }
     });
 
@@ -875,19 +1105,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* --- Image Editing Functionality --- */
     function applyStoredImages() {
-        document.querySelectorAll('.producto-img, [data-detail-img]').forEach(imgEl => {
-            const originalSrc = imgEl.src;
-            const key = imgEl.className.includes('producto-img') 
-                        ? LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgEl.closest('.producto-card').dataset.productId 
-                        : LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgEl.dataset.detailImg;
-            
-            const storedSrc = localStorage.getItem(key);
+        document.querySelectorAll('img[data-img-key]').forEach(imgEl => {
+            const imgKey = imgEl.dataset.imgKey;
+            const storedSrc = localStorage.getItem(LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgKey);
             if (storedSrc) {
                 imgEl.src = storedSrc;
-            } else {
-                // If no stored image, ensure it uses the HTML's default
-                // This line is already handled by imgEl.src = originalSrc at start of loop
-                // but kept for clarity that we rely on HTML default if localStorage is empty
             }
         });
     }
@@ -896,32 +1118,197 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelectorAll('.edit-image-button').forEach(button => {
         button.addEventListener('click', (event) => {
-            const imgTargetSelector = event.target.dataset.imgTarget;
-            let imgElement = document.querySelector(imgTargetSelector);
-
-            if (!imgElement) {
-                // Fallback for detail images if selector is too specific
-                const productId = event.target.closest('.detalle-producto') ? event.target.closest('.detalle-producto').id.replace('detalle-', '') : null;
-                if (productId) {
-                    const detailImgId = event.target.dataset.imgTarget.match(/\[data-detail-img='(.*?)'\]/)[1];
-                    imgElement = document.querySelector(`#detalle-${productId} img[data-detail-img='${detailImgId}']`);
-                }
-            }
+            const imgKey = event.target.dataset.imgKey;
+            const imgElement = document.querySelector(`img[data-img-key="${imgKey}"]`);
 
             if (imgElement) {
-                const newImgUrl = prompt('Introduce la nueva URL de la imagen:', imgElement.src);
+                const newImgUrl = prompt('Introduce la nueva URL de la imagen (enlace directo):', imgElement.src);
                 if (newImgUrl && newImgUrl.trim() !== '') {
                     imgElement.src = newImgUrl.trim();
-                    
-                    const key = imgElement.className.includes('producto-img') 
-                                ? LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgElement.closest('.producto-card').dataset.productId 
-                                : LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgElement.dataset.detailImg;
-                    localStorage.setItem(key, newImgUrl.trim());
+                    localStorage.setItem(LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgKey, newImgUrl.trim());
                     alert('Imagen actualizada (solo visible en este navegador).');
                 }
             } else {
                 alert('Error: No se encontró el elemento de imagen a editar.');
             }
+        });
+    });
+
+    /* --- Pestaña de Consejos (Tips) --- */
+    const tips = [
+        "Las luces LED ofrecen hasta 5 veces más brillo que las halógenas, mejorando tu visibilidad nocturna.",
+        "Ahorra energía: las luces LED consumen hasta un 80% menos que las bombillas tradicionales.",
+        "Mayor durabilidad: los LED pueden durar hasta 50.000 horas, ¡olvídate de cambiarlos a menudo!",
+        "Seguridad primero: la luz blanca y clara de los LED reduce la fatiga visual y te permite ver obstáculos antes.",
+        "Diseño moderno: Actualiza el look de tu vehículo con la estética premium de los faros LED Brutalux.",
+        "Encendido instantáneo: Los LED se encienden al 100% al instante, crucial en luces de freno para mayor seguridad.",
+        "Resistencia a vibraciones: Son más robustos que los halógenos, perfectos para cualquier camino.",
+        "Menos calor: Aunque potentes, los LED generan menos calor en el faro, protegiendo sus componentes.",
+        "Mejor visión periférica: Amplían tu campo visual, ideal para conducir en condiciones adversas.",
+        "Luces Brutalux: Diseñadas para ser potentes y resistentes, garantizando tu seguridad y satisfacción."
+    ];
+    const tipPestana = document.getElementById('tipPestana');
+    const tipText = document.getElementById('tipText');
+    const closeTipBtn = document.querySelector('.close-tip');
+    let tipInterval;
+    let currentTipIndex = -1;
+    const TIP_DISPLAY_DURATION = 8000; // 8 segundos visible
+    const TIP_CYCLE_DELAY = 12000; // 12 segundos para el siguiente (8s visible + 4s oculto)
+
+    function showRandomTip() {
+        if (tipPestana.classList.contains('showing') || tipPestana.classList.contains('hiding')) {
+            return; // Already animating
+        }
+        currentTipIndex = (currentTipIndex + 1) % tips.length;
+        tipText.textContent = tips[currentTipIndex];
+        tipPestana.style.display = 'block';
+        tipPestana.classList.remove('hide');
+        tipPestana.classList.add('show', 'showing'); // Add 'showing' to prevent re-triggering
+
+        setTimeout(() => {
+            tipPestana.classList.remove('showing');
+            tipPestana.classList.add('hide'); // Start fade out
+            setTimeout(() => {
+                tipPestana.style.display = 'none';
+            }, 500); // After fade out animation (0.5s)
+        }, TIP_DISPLAY_DURATION);
+    }
+
+    function startTipCycle() {
+        stopTipCycle(); // Clear any existing interval first
+        tipInterval = setInterval(showRandomTip, TIP_CYCLE_DELAY);
+        setTimeout(showRandomTip, 3000); // Show first tip after 3 seconds
+    }
+
+    function stopTipCycle() {
+        if (tipInterval) {
+            clearInterval(tipInterval);
+            tipInterval = null;
+        }
+        if (tipPestana.classList.contains('show')) {
+            tipPestana.classList.remove('show');
+            tipPestana.classList.add('hide');
+            setTimeout(() => {
+                tipPestana.style.display = 'none';
+                tipPestana.classList.remove('hide'); // Reset for next show
+            }, 500);
+        } else {
+             tipPestana.style.display = 'none';
+        }
+    }
+
+    closeTipBtn.addEventListener('click', () => {
+        stopTipCycle();
+        localStorage.setItem('brutalux_tip_closed', 'true'); // Persist close state
+        tipPestana.style.display = 'none'; // Ensure it stays hidden
+    });
+
+    // Only start tip cycle if user hasn't manually closed it in this session
+    if (localStorage.getItem('brutalux_tip_closed') !== 'true') {
+        startTipCycle();
+    } else {
+        // If closed, remove item after some time or interaction for next session
+        // Or simply wait for page reload to show again if localStorage is cleared
+    }
+
+    /* --- Compatibilidad de Vehículos --- */
+    const COMPATIBILITY_DATA = [
+        { marca: "Toyota", modelo: "Hilux", anos: "2016-2023", tipoLuz: "H11 (baja), 9005 (alta)" },
+        { marca: "Toyota", modelo: "Corolla", anos: "2014-2019", tipoLuz: "H11 (baja), 9005 (alta)" },
+        { marca: "Toyota", modelo: "Fortuner", anos: "2016-2023", tipoLuz: "H11 (baja), 9005 (alta)" },
+        { marca: "Toyota", modelo: "Yaris", anos: "2006-2015", tipoLuz: "H4 (baja/alta)" },
+        { marca: "Ford", modelo: "F-150", anos: "2015-2020", tipoLuz: "H11 (baja), H1 (alta)" },
+        { marca: "Ford", modelo: "Fiesta", anos: "2011-2019", tipoLuz: "H7 (baja), H1 (alta)" },
+        { marca: "Ford", modelo: "Ranger", anos: "2012-2022", tipoLuz: "H11 (baja), H9 (alta)" },
+        { marca: "Chevrolet", modelo: "Silverado", anos: "2014-2018", tipoLuz: "H11 (baja), 9005 (alta)" },
+        { marca: "Chevrolet", modelo: "Aveo", anos: "2007-2017", tipoLuz: "H4 (baja/alta)" },
+        { marca: "Chevrolet", modelo: "Spark", anos: "2010-2015", tipoLuz: "H4 (baja/alta)" },
+        { marca: "Chevrolet", modelo: "Cruze", anos: "2011-2016", tipoLuz: "H7 (baja), H1 (alta)" },
+        // Puedes agregar más datos aquí
+    ];
+
+    const marcaSelect = document.getElementById('marcaSelect');
+    const modeloSelect = document.getElementById('modeloSelect');
+    const anoSelect = document.getElementById('anoSelect');
+    const buscarCompatibilidadBtn = document.getElementById('buscarCompatibilidad');
+    const compatibilidadResultado = document.getElementById('compatibilidad-resultado');
+
+    // Populate Marcas
+    const uniqueMarcas = [...new Set(COMPATIBILITY_DATA.map(item => item.marca))];
+    uniqueMarcas.forEach(marca => {
+        const option = document.createElement('option');
+        option.value = marca;
+        option.textContent = marca;
+        marcaSelect.appendChild(option);
+    });
+
+    marcaSelect.addEventListener('change', () => {
+        modeloSelect.innerHTML = '<option value="">Selecciona un modelo</option>';
+        modeloSelect.disabled = true;
+        anoSelect.innerHTML = '<option value="">Selecciona un año</option>';
+        anoSelect.disabled = true;
+        compatibilidadResultado.textContent = '';
+
+        const selectedMarca = marcaSelect.value;
+        if (selectedMarca) {
+            const modelosDeMarca = [...new Set(COMPATIBILITY_DATA.filter(item => item.marca === selectedMarca).map(item => item.modelo))];
+            modelosDeMarca.forEach(modelo => {
+                const option = document.createElement('option');
+                option.value = modelo;
+                option.textContent = modelo;
+                modeloSelect.appendChild(option);
+            });
+            modeloSelect.disabled = false;
+        }
+    });
+
+    modeloSelect.addEventListener('change', () => {
+        anoSelect.innerHTML = '<option value="">Selecciona un año</option>';
+        anoSelect.disabled = true;
+        compatibilidadResultado.textContent = '';
+
+        const selectedMarca = marcaSelect.value;
+        const selectedModelo = modeloSelect.value;
+        if (selectedMarca && selectedModelo) {
+            const anosDeModelo = [...new Set(COMPATIBILITY_DATA.filter(item => item.marca === selectedMarca && item.modelo === selectedModelo).map(item => item.anos))];
+            anosDeModelo.forEach(anos => {
+                const option = document.createElement('option');
+                option.value = anos;
+                option.textContent = anos;
+                anoSelect.appendChild(option);
+            });
+            anoSelect.disabled = false;
+        }
+    });
+
+    buscarCompatibilidadBtn.addEventListener('click', () => {
+        const selectedMarca = marcaSelect.value;
+        const selectedModelo = modeloSelect.value;
+        const selectedAno = anoSelect.value;
+
+        if (selectedMarca && selectedModelo && selectedAno) {
+            const result = COMPATIBILITY_DATA.find(item =>
+                item.marca === selectedMarca &&
+                item.modelo === selectedModelo &&
+                item.anos === selectedAno
+            );
+
+            if (result) {
+                compatibilidadResultado.innerHTML = `Para tu ${selectedMarca} ${selectedModelo} (${selectedAno}), la luz LED compatible es: <strong>${result.tipoLuz}</strong>`;
+            } else {
+                compatibilidadResultado.textContent = 'No encontramos compatibilidad para este modelo. ¡Contáctanos para ayudarte!';
+            }
+        } else {
+            compatibilidadResultado.textContent = 'Por favor, selecciona Marca, Modelo y Año.';
+        }
+    });
+
+    /* --- FAQ Accordion --- */
+    document.querySelectorAll('.faq-item h3').forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            header.classList.toggle('active');
+            content.classList.toggle('active');
         });
     });
 
