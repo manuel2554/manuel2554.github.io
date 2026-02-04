@@ -1371,7 +1371,6 @@
     let tipIdx = 0;
     const TIP_EVERY_MS = 32000;
     const TIP_SHOW_MS  = 12000;
-    let tipInterval = null;
     let tipHideTO = null;
 
     function showTipAuto(){
@@ -1390,7 +1389,7 @@
 
     function startTips(){
       setTimeout(showTipAuto, 6000);
-      tipInterval = setInterval(showTipAuto, TIP_EVERY_MS);
+      setInterval(showTipAuto, TIP_EVERY_MS);
     }
 
     document.getElementById("tipClose").addEventListener("click", ()=>{
@@ -1398,7 +1397,7 @@
     });
 
     /**********************
-     * ✅ COMPATIBILITY DATA (replaced: ranges + no guessing)
+     * ✅ COMPATIBILITY DATA (ranges + no guessing)
      **********************/
     const COMPAT = {
       Toyota: {
@@ -1455,6 +1454,21 @@
         ]
       }
     };
+
+    function fillYears(){
+      const y = document.getElementById("cYear");
+      const minY = 1998;
+      const maxY = Math.max(2026, new Date().getFullYear() + 1);
+      y.innerHTML = `<option value="">Año</option>` + Array.from({length: maxY-minY+1}, (_,i)=>minY+i)
+        .map(v=>`<option value="${v}">${v}</option>`).join("");
+    }
+
+    /* ✅ FIX: Fill models from COMPAT (your previous file lacked this after changes) */
+    function fillModels(brand){
+      const m = document.getElementById("cModel");
+      const models = COMPAT[brand] ? Object.keys(COMPAT[brand]) : [];
+      m.innerHTML = `<option value="">Selecciona modelo</option>` + models.map(x=>`<option value="${x}">${x}</option>`).join("");
+    }
 
     function findCompatRow(brand, model, year){
       const rows = COMPAT?.[brand]?.[model];
@@ -1852,22 +1866,172 @@
     renderRate();
     renderCatalog();
 
+    // ✅ Compatibility wiring (fixed)
     fillYears();
     document.getElementById("cBrand").addEventListener("change", (e)=>{
       const brand = e.target.value;
       const modelSel = document.getElementById("cModel");
       const yearSel = document.getElementById("cYear");
+
+      document.getElementById("compatResult").style.display = "none";
+      document.getElementById("compatResult").innerHTML = "";
+
       if(!brand){
-        modelSel.disabled = true; yearSel.disabled = true;
+        modelSel.disabled = true;
+        yearSel.disabled = true;
         modelSel.innerHTML = `<option value="">Primero marca</option>`;
+        yearSel.innerHTML = `<option value="">Año</option>`;
+        fillYears(); // keep years consistent
         return;
       }
+
       fillModels(brand);
       modelSel.disabled = false;
+
+      // enable years too
       yearSel.disabled = false;
     });
+
     document.getElementById("btnCompat").addEventListener("click", doCompat);
 
+    // Invoice/admin init
+    function getInvoice(){
+      const raw = localStorage.getItem("brutalux_invoice");
+      if(!raw) return { items: [] };
+      try { return JSON.parse(raw); } catch { return { items: [] }; }
+    }
+    function setInvoice(inv){
+      localStorage.setItem("brutalux_invoice", JSON.stringify(inv));
+    }
+
+    let invPreviewTimer = null;
+    function scheduleInvoicePreview(){
+      clearTimeout(invPreviewTimer);
+      invPreviewTimer = setTimeout(refreshInvoicePreview, 120);
+    }
+
+    let invoiceListenersMounted = false;
+    function mountInvoiceListenersOnce(){
+      if(invoiceListenersMounted) return;
+      invoiceListenersMounted = true;
+
+      document.getElementById("btnAddItem")?.addEventListener("click", addItem);
+      document.getElementById("btnClearItems")?.addEventListener("click", clearItems);
+      document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
+
+      document.getElementById("btnPrint")?.addEventListener("click", ()=>{
+        refreshInvoicePreview();
+        setTimeout(()=> window.print(), 80);
+      });
+
+      ["invClient","invId","invPhone","invAddr","invTax","invDiscount","invPrice","invQty"].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.addEventListener("input", scheduleInvoicePreview);
+      });
+
+      document.getElementById("invoicePreview")?.addEventListener("click", (e)=>{
+        const btn = e.target.closest("[data-remove]");
+        if(!btn) return;
+        const idx = parseInt(btn.dataset.remove,10);
+        if(isFinite(idx)) removeItem(idx);
+      });
+    }
+
+    // Admin functions kept here (same)
+    function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
+    function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
+
+    function syncAdminUI(){
+      const logged = isLogged();
+      document.getElementById("adminArea").style.display = logged ? "block" : "none";
+      document.getElementById("btnLogout").style.display = logged ? "inline-block" : "none";
+      document.getElementById("btnLogin").style.display = logged ? "none" : "inline-block";
+
+      if(logged){
+        const st = getState();
+        document.getElementById("rateInput").value = String(st.rate).replace(".", ",");
+        document.getElementById("warrantyInput").value = st.warranty;
+        document.getElementById("logoInput").value = st.logo;
+        document.getElementById("heroBgInput").value = st.heroBg;
+
+        fillInvoiceProductSelect();
+        scheduleInvoicePreview();
+      }
+    }
+
+    // Modal wiring
+    const adminModal = document.getElementById("adminModal");
+    document.getElementById("fabAdmin").addEventListener("click", showModal);
+    document.getElementById("openAdmin").addEventListener("click", showModal);
+    document.getElementById("closeAdmin").addEventListener("click", hideModal);
+    adminModal.addEventListener("click", (e)=>{ if(e.target===adminModal) hideModal(); });
+
+    document.getElementById("btnLogin").addEventListener("click", ()=>{
+      const u = document.getElementById("adminUser").value.trim();
+      const p = document.getElementById("adminPass").value.trim();
+      if(u === ADMIN_USER && p === ADMIN_PASS){
+        setLogged(true);
+        syncAdminUI();
+      } else alert("Usuario o contraseña incorrectos.");
+    });
+    document.getElementById("btnLogout").addEventListener("click", ()=>{
+      setLogged(false);
+      syncAdminUI();
+    });
+
+    document.getElementById("btnSaveSettings").addEventListener("click", ()=>{
+      const st = getState();
+      const rateRaw = document.getElementById("rateInput").value.trim().replace(".", "").replace(",", ".");
+      const rate = parseFloat(rateRaw);
+      const warranty = document.getElementById("warrantyInput").value.trim() || DEFAULTS.warranty;
+      const logo = document.getElementById("logoInput").value.trim() || DEFAULTS.logo;
+      const heroBg = document.getElementById("heroBgInput").value.trim() || DEFAULTS.heroBg;
+
+      if(!isFinite(rate) || rate <= 0){ alert("Tasa inválida. Ej: 375,08"); return; }
+
+      setState({...st, rate, warranty, logo, heroBg});
+      renderRate(); renderCatalog(); scheduleInvoicePreview();
+      alert("Guardado (local).");
+    });
+
+    document.getElementById("btnResetSettings").addEventListener("click", ()=>{
+      if(!confirm("¿Restaurar valores por defecto?")) return;
+      setState({...DEFAULTS});
+      renderRate(); renderCatalog(); syncAdminUI();
+    });
+
+    // Invoice CRUD
+    function addItem(){
+      const inv = getInvoice();
+      const sel = document.getElementById("invProduct");
+      const id = sel?.value;
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(!p){ alert("Producto inválido."); return; }
+
+      const qty = parseInt(document.getElementById("invQty").value,10);
+      if(!isFinite(qty) || qty<=0){ alert("Cantidad inválida."); return; }
+
+      const price = parseFloat(document.getElementById("invPrice").value);
+      if(!isFinite(price) || price<=0){ alert("Precio inválido."); return; }
+
+      inv.items.push({ id: p.id, desc: `${p.name} (${p.id})`, qty, usd: price });
+      setInvoice(inv);
+      scheduleInvoicePreview();
+    }
+    function clearItems(){
+      if(!confirm("¿Vaciar la factura?")) return;
+      setInvoice({items:[]});
+      scheduleInvoicePreview();
+    }
+    function removeItem(idx){
+      const inv = getInvoice();
+      if(idx<0 || idx>=inv.items.length) return;
+      inv.items.splice(idx,1);
+      setInvoice(inv);
+      scheduleInvoicePreview();
+    }
+
+    // Start
     mountInvoiceListenersOnce();
     syncAdminUI();
     scheduleInvoicePreview();
