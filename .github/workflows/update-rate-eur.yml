@@ -15,16 +15,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Fetch EURVES rate (with fallback sources)
+            - name: Fetch EURVES rate (with fallback sources)
         run: |
           set -e
 
-          # Fuente 1
           URL1="https://pydolarve.org/api/v1/dollar?page=bcv&monitor=eur"
-
-          # Fuente 2 (fallback): cambiar por otra si quieres
-          # Nota: esta es de ejemplo; si no devuelve EUR, la ajustamos.
-          URL2="https://api.exchangerate.host/latest?base=EUR&symbols=VES"
+          URL2="https://open.er-api.com/v6/latest/EUR"
 
           echo "Trying source 1: $URL1"
           if curl -fsSL "$URL1" -o api.json; then
@@ -45,18 +41,17 @@ jobs:
 
             let rate=null;
 
-            // Formato posible de pydolarve (intentos)
+            // Intento formato pydolarve (si algún día funciona)
             const candidates = [
               j?.price, j?.rate, j?.data?.price, j?.data?.rate,
-              j?.monitors?.eur?.price, j?.monitors?.eur?.price_old,
-              j?.eur?.price
+              j?.monitors?.eur?.price, j?.eur?.price
             ];
             for(const c of candidates){
               const n=Number(c);
               if(Number.isFinite(n) && n>0){ rate=n; break; }
             }
 
-            // Formato exchangerate.host
+            // Formato open.er-api.com (gratis, sin key)
             if(!rate){
               const n = Number(j?.rates?.VES);
               if(Number.isFinite(n) && n>0) rate = n;
