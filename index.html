@@ -3,1275 +3,674 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BRUTALUX | Catálogo + Compatibilidad + Facturación</title>
+  <title>BRUTALUX | Catálogo + Facturación</title>
 
-  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-  <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
     :root{
-      --bg:#06070b;
-      --card:#0d1018;
-      --card2:#0b0d14;
-      --muted:#9aa3b2;
-      --text:#e9edf5;
-      --line:rgba(255,255,255,.08);
-      --blue:#00c8ff;
-      --orange:#ff5c00;
-      --green:#22c55e;
-      --yellow:#fbbf24;
-      --purple:#a855f7;
-      --shadow:0 18px 60px rgba(0,0,0,.55);
-      --r:18px;
+      --bg:#06070b; --card:#0d1018; --muted:#9aa3b2; --text:#e9edf5;
+      --line:rgba(255,255,255,.08); --blue:#00c8ff; --orange:#ff5c00;
+      --green:#22c55e; --yellow:#fbbf24;
     }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background: radial-gradient(1200px 600px at 20% 10%, rgba(0,200,255,.10), transparent 60%),
-                  radial-gradient(900px 500px at 80% 20%, rgba(255,92,0,.10), transparent 60%),
-                  var(--bg);
-      color:var(--text);
-      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      overflow-x:hidden;
-    }
-
-    a{color:inherit}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;overflow-x:hidden;}
     .container{max-width:1200px;margin:0 auto;padding:0 18px}
-    .orbitron{font-family:Orbitron, Inter, system-ui}
-
-    /* Header */
-    header{
-      position:sticky;top:0;z-index:50;
-      backdrop-filter: blur(10px);
-      background:rgba(6,7,11,.72);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:12px 0; gap:14px;
-    }
-    .brand{
-      display:flex;align-items:center;gap:12px;min-width:220px;
-    }
-    .brand img{
-      height:44px;width:auto;display:block;border-radius:10px;
-      box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;
-    }
-    .brand .tag{
-      font-size:11px;color:var(--muted);
-      letter-spacing:.18em;text-transform:uppercase;margin-top:2px;
-    }
-
-    .links{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-    .links a{
-      text-decoration:none;
-      font-size:13px;font-weight:600;
-      color:rgba(233,237,245,.9);
-      padding:8px 10px;border-radius:12px;
-      border:1px solid transparent;
-    }
-    .links a:hover{border-color:var(--line);background:rgba(255,255,255,.04)}
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 12px;border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      font-weight:700;font-size:12px;
-      white-space:nowrap;
-    }
-    .pill b{color:var(--yellow)}
-    .cta-wa{
-      text-decoration:none;
-      display:inline-flex;align-items:center;gap:10px;
-      padding:10px 14px;border-radius:999px;
-      background:linear-gradient(90deg,#22c55e,#16a34a);
-      color:#05130a;font-weight:900;
-      box-shadow:0 12px 30px rgba(34,197,94,.25);
-      border:1px solid rgba(255,255,255,.12);
-      white-space:nowrap;
-    }
-    .cta-wa:hover{filter:brightness(1.05)}
-
-    /* Hero */
-    .hero{
-      position:relative;
-      padding:54px 0 28px;
-      overflow:hidden;
-    }
-    .heroCard{
-      position:relative;
-      border:1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.80)),
-        url("https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=2200&q=80") center/cover no-repeat;
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      padding:54px 22px;
-    }
-    .heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:center}
-    .hero h1{
-      margin:0 0 10px;
-      font-size:clamp(28px,4vw,46px);
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      text-shadow:0 0 30px rgba(255,92,0,.30);
-    }
-    .hero h1 .grad{
-      background:linear-gradient(90deg,var(--blue),var(--orange));
-      -webkit-background-clip:text;background-clip:text;color:transparent;
-    }
-    .hero p{margin:0 0 18px;color:rgba(233,237,245,.86);max-width:60ch}
-    .heroBtns{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      color:var(--text);
-      padding:12px 16px;border-radius:14px;
-      font-weight:800;text-decoration:none;
-      display:inline-flex;align-items:center;gap:10px;
-    }
-    .btn:hover{background:rgba(255,255,255,.08)}
-    .btnPrimary{
-      background:linear-gradient(90deg,var(--orange),#ff8a00);
-      color:#1a0a00;border-color:rgba(255,255,255,.18);
-      box-shadow:0 16px 45px rgba(255,92,0,.22);
-    }
-    .btnPrimary:hover{filter:brightness(1.05)}
-    .heroStats{
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.35);
-      border-radius:22px;
-      padding:18px;
-    }
-    .statGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .stat{
-      padding:12px;border-radius:16px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.06);
-    }
-    .stat .k{font-weight:900;font-size:18px}
-    .stat .s{color:var(--muted);font-size:12px;margin-top:4px}
-    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .badge{
-      font-size:12px;font-weight:900;
-      border-radius:999px;padding:8px 10px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.05);
-    }
-    .bBlue{box-shadow:0 0 0 1px rgba(0,200,255,.22) inset}
-    .bOrange{box-shadow:0 0 0 1px rgba(255,92,0,.22) inset}
-    .bGreen{box-shadow:0 0 0 1px rgba(34,197,94,.22) inset}
-
-    /* Section title */
-    section{padding:26px 0}
-    .sectionTitle{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
-      margin:0 0 14px;
-    }
-    .sectionTitle h2{
-      margin:0;
-      font-size:20px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-    .sectionTitle p{margin:0;color:var(--muted);font-size:13px}
-
-    /* Feature strip */
-    .features{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-    }
-    .feature{
-      background:rgba(255,255,255,.03);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:14px;
-      display:flex;gap:12px;align-items:flex-start;
-    }
-    .feature i{
-      width:38px;height:38px;border-radius:14px;
-      display:grid;place-items:center;
-      background:rgba(0,200,255,.12);
-      border:1px solid rgba(0,200,255,.18);
-      color:var(--blue);
-      flex:0 0 auto;
-    }
-    .feature .t{font-weight:900}
-    .feature .d{color:var(--muted);font-size:12px;margin-top:3px}
-
-    /* Catalog cards */
-    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      border:1px solid var(--line);
-      border-radius:22px;
-      overflow:hidden;
-      box-shadow:0 10px 30px rgba(0,0,0,.25);
-      display:flex;flex-direction:column;
-      min-height:100%;
-    }
-    .card .img{
-      height:200px;background:#000;position:relative;overflow:hidden;
-    }
-    .card .img img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:.5s}
-    .card:hover .img img{transform:scale(1.08)}
-    .tagTop{
-      position:absolute;left:12px;top:12px;
-      font-size:12px;font-weight:900;
-      padding:8px 12px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.45);
-      backdrop-filter: blur(8px);
-      display:inline-flex;align-items:center;gap:8px;
-    }
-    .tGold{box-shadow:0 0 0 1px rgba(251,191,36,.25) inset}
-    .tPurple{box-shadow:0 0 0 1px rgba(168,85,247,.25) inset}
-    .tBlue{box-shadow:0 0 0 1px rgba(0,200,255,.25) inset}
-    .tGray{box-shadow:0 0 0 1px rgba(148,163,184,.18) inset}
-
-    .card .body{padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;flex:1}
-    .card .model{color:rgba(255,255,255,.65);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
-    .card .name{margin:0;font-size:18px;letter-spacing:.04em}
-    .spec{display:grid;gap:6px;margin:2px 0 0;padding:0;list-style:none}
-    .spec li{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
-    .spec i{color:var(--blue);margin-top:2px}
-    .priceRow{
-      margin-top:auto;
-      padding-top:10px;border-top:1px solid var(--line);
-      display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;
-    }
-    .usd{font-weight:900;font-size:20px}
-    .bs{font-size:12px;color:rgba(233,237,245,.65)}
-    .card .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .btnSmall{
-      flex:1;
-      display:inline-flex;align-items:center;justify-content:center;gap:10px;
-      padding:10px 12px;border-radius:14px;
-      text-decoration:none;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      font-weight:900;font-size:12px;
-    }
-    .btnSmall:hover{background:rgba(255,255,255,.07)}
-    .btnGreen{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.25)}
-    .btnGreen:hover{background:rgba(34,197,94,.22)}
-    .btnOrange{background:rgba(255,92,0,.15);border-color:rgba(255,92,0,.25)}
-    .btnOrange:hover{background:rgba(255,92,0,.22)}
-
-    /* Compatibility */
-    .compatBox{
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.35));
-      border-radius:22px;
-      padding:16px;
-      box-shadow:0 12px 40px rgba(0,0,0,.22);
-    }
-    .formGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:end}
-    label{display:block;font-size:12px;color:rgba(233,237,245,.72);margin:0 0 6px}
-    select,input{
-      width:100%;
-      padding:12px 12px;border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.35);
-      color:var(--text);
-      outline:none;
-    }
-    select:focus,input:focus{border-color:rgba(0,200,255,.35);box-shadow:0 0 0 4px rgba(0,200,255,.12)}
-    .result{
-      margin-top:12px;
-      border:1px dashed rgba(255,255,255,.12);
-      border-radius:18px;
-      padding:12px;
-      color:rgba(233,237,245,.86);
-      background:rgba(255,255,255,.02);
-    }
-    .result strong{color:#fff}
-    .note{color:var(--muted);font-size:12px;margin-top:8px}
-
-    /* Testimonials */
-    .testGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .test{
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:14px;
-      background:rgba(255,255,255,.03);
-    }
-    .test .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-    .stars{color:var(--yellow);font-size:12px;white-space:nowrap}
-    .test .name{font-weight:900}
-    .test .meta{color:var(--muted);font-size:12px;margin-top:2px}
-    .test p{color:rgba(233,237,245,.82);font-size:13px;margin:10px 0 0;line-height:1.4}
-
-    /* FAQ */
-    details{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:12px 14px;
-      background:rgba(255,255,255,.02);
-    }
-    details + details{margin-top:10px}
-    summary{cursor:pointer;font-weight:900}
-    details p{color:rgba(233,237,245,.80);margin:10px 0 0}
-
-    /* Footer */
-    footer{
-      border-top:1px solid var(--line);
-      padding:28px 0 40px;
-      color:rgba(233,237,245,.70);
-    }
-    .footGrid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
-    .social{
-      display:flex;gap:10px;flex-wrap:wrap;margin-top:10px
-    }
-    .social a{
-      width:44px;height:44px;border-radius:14px;
-      display:grid;place-items:center;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      text-decoration:none;
-    }
-    .social a:hover{background:rgba(255,255,255,.07);border-color:rgba(0,200,255,.25)}
-    .tiny{font-size:12px;color:var(--muted)}
-
-    /* Floating tip */
-    #tip{
-      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
-      background:rgba(0,200,255,.92);
-      color:#05121a;
-      border:1px solid rgba(255,255,255,.25);
-      box-shadow:0 20px 50px rgba(0,200,255,.18);
-      border-radius:999px;
-      padding:10px 14px;
-      z-index:80;
-      max-width:min(760px,92vw);
-      display:none;
-      font-weight:900;
-      gap:10px;
-      align-items:center;
-    }
-    #tip small{font-weight:700;opacity:.85}
-    #tip .x{
-      margin-left:auto;
-      width:30px;height:30px;border-radius:999px;
-      background:rgba(0,0,0,.18);
-      display:grid;place-items:center;
-      cursor:pointer;
-    }
-
-    /* --- Admin Modal (Improved UI) --- */
-    .adminFab {
-      position: fixed; right: 16px; bottom: 16px; z-index: 90;
-    }
-    .fabBtn {
-      border-radius: 999px; padding: 12px 14px; border: 1px solid var(--line);
-      background: rgba(255,255,255,.05); color: var(--text); text-decoration: none;
-      font-weight: 900; display: inline-flex; gap: 10px; align-items: center;
-      cursor: pointer;
-    }
-    .fabBtn:hover { background: rgba(255,255,255,.09); }
-    .fabBtn.primary {
-      background: linear-gradient(90deg,var(--blue),#3bd9ff);
-      color: #041018; border-color: rgba(255,255,255,.14);
-      box-shadow: 0 16px 45px rgba(0,200,255,.20);
-    }
+    .orbitron{font-family:Orbitron,sans-serif}
     
-    .modal {
-      position: fixed; inset: 0; z-index: 100;
-      background: rgba(6, 7, 11, 0.8);
-      backdrop-filter: blur(10px);
-      display: flex; align-items: center; justify-content: center;
-      padding: 18px;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-    }
-    .modal.show { opacity: 1; pointer-events: all; }
-    
-    .panel {
-      width: min(1080px, 96vw);
-      max-height: 94vh;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: var(--card); /* SOLID BACKGROUND TO PREVENT OVERLAP */
-      box-shadow: var(--shadow);
-      overflow-y: auto;
-      display: flex; flex-direction: column;
-    }
-    
-    .panelHead {
-      padding: 14px 20px; border-bottom: 1px solid var(--line);
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      position: sticky; top: 0; background: var(--card); z-index: 1;
-    }
-    .panelHead h3 { margin: 0; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; }
-    
-    .close {
-      cursor: pointer; border: 1px solid var(--line); background: rgba(255,255,255,.03);
-      color: var(--text); border-radius: 14px; padding: 10px 12px; font-weight: 900;
-    }
-    
-    .panelBody { padding: 20px; }
-    
-    .adminGrid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 18px; }
-    
-    .box {
-      border: 1px solid var(--line); border-radius: 18px;
-      background: rgba(255,255,255,.02); padding: 18px;
-    }
-    .box h4 {
-      margin: 0 0 16px; font-size: 13px; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--blue);
-      display: flex; align-items: center; gap: 8px;
-    }
-    
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .form-row + .form-row, .form-group + .form-group { margin-top: 16px; }
-    
-    .btnWide {
-      width: 100%; padding: 12px 14px; border-radius: 14px;
-      border: 1px solid var(--line); background: rgba(255,255,255,.05);
-      color: var(--text); font-weight: 900; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-    }
-    .btnWide:hover { background: rgba(255,255,255,.08); }
-    .btnWide.orange { background: rgba(255,92,0,.18); border-color: rgba(255,92,0,.28); }
-    .btnWide.orange:hover { background: rgba(255,92,0,.24); }
-    .btnWide.green { background: rgba(34,197,94,.18); border-color: rgba(34,197,94,.28); }
-    .btnWide.green:hover { background: rgba(34,197,94,.24); }
+    header{position:sticky;top:0;z-index:50;background:rgba(6,7,11,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(10px);}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;}
+    .brand{display:flex;align-items:center;gap:12px;}
+    .brand img{height:44px;border-radius:10px;}
+    .links a{text-decoration:none;font-size:13px;font-weight:600;color:var(--text);padding:8px 10px;margin-left:8px;border-radius:8px;}
+    .links a:hover{background:rgba(255,255,255,.05);}
+    .pill{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);font-size:12px;font-weight:700;}
+    .cta-wa{text-decoration:none;padding:10px 14px;border-radius:999px;background:var(--green);color:#000;font-weight:900;}
 
-    /* Invoice preview */
-    .invoicePreview{
-      background:#fff;color:#111;border-radius:16px;
-      border:1px solid rgba(0,0,0,.12);
-      overflow:hidden;
-    }
-    .invPad{padding:14px}
-    .invTop{
-      display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
-      border-bottom:1px solid rgba(0,0,0,.12);padding:14px;
-    }
-    .invBrand{display:flex;gap:10px;align-items:center}
-    .invBrand img{height:42px;border-radius:10px}
-    .invBrand .t1{font-weight:900}
-    .invBrand .t2{font-size:12px;color:#444;margin-top:2px}
-    .invMeta{font-size:12px;color:#222;text-align:right}
-    .invMeta b{display:block;font-size:12px}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:9px;border-bottom:1px solid rgba(0,0,0,.10);font-size:12px}
-    th{text-align:left;background:#f5f6f8}
-    td.r{text-align:right}
-    .totals{
-      display:grid;grid-template-columns:1fr 1fr;gap:10px;
-      padding:14px;border-top:1px solid rgba(0,0,0,.12);
-    }
-    .totals .boxT{
-      border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:12px;
-    }
-    .totals .boxT .k{font-size:12px;color:#333}
-    .totals .boxT .v{font-size:14px;font-weight:900;margin-top:4px}
-    .invFoot{padding:12px;color:#444;font-size:11px;border-top:1px solid rgba(0,0,0,.12);background:#fafafa}
-
-    /* Print */
+    .hero{padding:40px 0;}
+    .heroCard{border:1px solid var(--line);background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.8)),url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=1920');background-size:cover;border-radius:24px;padding:40px;}
+    .hero h1{font-size:42px;margin:0 0 16px;text-transform:uppercase;}
+    .grad{background:linear-gradient(90deg,var(--blue),var(--orange));-webkit-background-clip:text;color:transparent;}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);text-decoration:none;font-weight:700;margin-right:8px;}
+    .btn-primary{background:var(--orange);border:none;color:#1a0a00;}
+    
+    section{padding:40px 0;}
+    .section-title{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;}
+    h2{font-size:24px;text-transform:uppercase;letter-spacing:2px;margin:0;}
+    
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;}
+    .card-img{height:200px;position:relative;}
+    .card-img img{width:100%;height:100%;object-fit:cover;}
+    .badge{position:absolute;top:12px;left:12px;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.2);}
+    .card-body{padding:20px;}
+    .card h3{margin:0 0 10px;}
+    .price{font-size:28px;font-weight:900;}
+    .price-bs{color:var(--muted);font-size:14px;display:block;margin-bottom:12px;}
+    
+    .compat-box{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:20px;border-radius:20px;}
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px;}
+    label{display:block;font-size:12px;margin-bottom:6px;color:var(--muted);}
+    input,select{width:100%;padding:12px;background:rgba(0,0,0,.3);border:1px solid var(--line);color:var(--text);border-radius:12px;}
+    
+    footer{border-top:1px solid var(--line);padding:40px 0;text-align:center;color:var(--muted);}
+    
+    /* Admin Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:100;padding:20px;}
+    .modal.show{display:flex;}
+    .panel{width:100%;max-width:1000px;max-height:90vh;background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;}
+    .panel-head{padding:20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+    .panel-body{padding:20px;overflow-y:auto;}
+    .btn-close{background:none;border:1px solid var(--line);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;}
+    
+    .admin-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:20px;}
+    @media(max-width:768px){.admin-grid{grid-template-columns:1fr;}}
+    
+    .box{border:1px solid var(--line);padding:20px;border-radius:16px;background:rgba(255,255,255,.02);}
+    .box h4{margin:0 0 16px;color:var(--blue);font-size:14px;text-transform:uppercase;letter-spacing:1px;}
+    
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+    .form-group{margin-bottom:12px;}
+    
+    .btn-wide{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);font-weight:700;cursor:pointer;margin-bottom:8px;}
+    .btn-green{background:var(--green);border:none;color:#000;}
+    .btn-orange{background:var(--orange);border:none;color:#1a0a00;}
+    
+    /* Invoice Preview */
+    .invoice-preview{background:#fff;color:#111;border-radius:16px;overflow:hidden;border:1px solid #ddd;}
+    .inv-header{background:#f5f5f5;padding:20px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;}
+    .inv-logo{height:50px;border-radius:8px;}
+    .inv-body{padding:20px;}
+    .inv-client{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #eee;}
+    .inv-table{width:100%;border-collapse:collapse;margin-bottom:20px;}
+    .inv-table th{background:#f5f5f5;padding:12px;text-align:left;font-size:13px;border-bottom:2px solid #ddd;}
+    .inv-table td{padding:12px;border-bottom:1px solid #eee;font-size:13px;}
+    .inv-table td.r{text-align:right;}
+    .inv-totals{background:#f9f9f9;padding:20px;border-radius:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .inv-total-box{text-align:center;padding:12px;background:#fff;border-radius:8px;border:1px solid #ddd;}
+    .inv-total-box .label{font-size:12px;color:#666;}
+    .inv-total-box .amount{font-size:18px;font-weight:900;color:var(--orange);}
+    .inv-footer{padding:15px;background:#f5f5f5;font-size:11px;color:#666;text-align:center;}
+    
+    .fab{position:fixed;bottom:20px;right:20px;padding:16px 24px;border-radius:999px;background:var(--blue);color:#000;font-weight:900;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,200,255,.3);}
+    
+    #login-box{margin-bottom:20px;}
+    #admin-area{display:none;}
+    
     @media print{
-      body{background:#fff; -webkit-print-color-adjust: exact;}
-      header,.hero,.adminFab,#tip,footer,section:not(.print-section){display:none !important}
-      .modal{position:static;inset:auto;background:#fff;padding:0;display:flex !important;opacity: 1; pointer-events: all;}
-      .panel{box-shadow:none;border:none;background:#fff;max-height: none; width: 100%;}
-      .panelHead,.adminGrid .box:not(.print-only){display:none !important}
-      .panelBody{padding:0}
-      .invoicePreview{border:none;border-radius:0}
-    }
-
-    /* Responsive */
-    @media (max-width:1050px){
-      .cards,.features{grid-template-columns:repeat(2,1fr)}
-      .testGrid,.footGrid,.heroGrid,.formGrid,.adminGrid{grid-template-columns:1fr}
-    }
-    @media (max-width:560px){
-      .formGrid{grid-template-columns:1fr}
-      .links{display:none}
-      .brand{min-width:auto}
-      .heroCard{padding:42px 16px}
-      .cards{grid-template-columns:1fr}
+      body{background:#fff;}
+      header,footer,.fab,.hero,.btn,section:not(#facturar){display:none!important;}
+      .modal{position:static;display:block!important;background:#fff;}
+      .panel{box-shadow:none;border:none;max-height:none;}
+      .panel-head,.admin-grid .box:not(.print-only){display:none!important;}
+      .panel-body{padding:0;}
+      .invoice-preview{border:none;}
     }
   </style>
 </head>
-
 <body>
-  <!-- HEADER -->
-  <header>
-    <div class="container">
-      <div class="nav">
-        <div class="brand">
-          <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" alt="BRUTALUX logo">
-          <div>
-            <div class="orbitron" style="font-weight:900;letter-spacing:.10em;text-transform:uppercase">
-              BRUTA<span style="color:var(--orange)">LUX</span>
-            </div>
-            <div class="tag">Potentes y resistentes • 5 años de garantía</div>
-          </div>
-        </div>
 
-        <div class="links">
-          <a href="#catalogo">Catálogo</a>
-          <a href="#compat">Compatibilidad</a>
-          <a href="#testimonios">Opiniones</a>
-          <a href="#faq">FAQ</a>
-          <a href="#contacto">Contacto</a>
-        </div>
-
-        <div style="display:flex;gap:10px;align-items:center">
-          <div class="pill">Tasa BCV: <b id="rateHeader">—</b></div>
-          <a class="cta-wa" href="https://wa.me/584126835635" target="_blank" rel="noopener">
-            <i class="fa-brands fa-whatsapp"></i> WhatsApp
-          </a>
+<header>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">
+        <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" alt="Logo">
+        <div>
+          <div class="orbitron" style="font-weight:900;letter-spacing:2px;">BRUTA<span style="color:var(--orange)">LUX</span></div>
+          <div style="font-size:11px;color:var(--muted);">5 años de garantía</div>
         </div>
       </div>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="container">
-      <div class="heroCard">
-        <div class="heroGrid">
-          <div>
-            <h1 class="orbitron">Serie R <span class="grad">BRUTALUX</span></h1>
-            <p>
-              Faros LED para Toyota y cualquier vehículo. Más luz, mejor corte, menor consumo y mayor durabilidad.
-              <b style="color:var(--yellow)">Garantía: 5 años</b>.
-            </p>
-            <div class="heroBtns">
-              <a class="btn btnPrimary orbitron" href="#catalogo"><i class="fa-solid fa-bolt"></i> Ver catálogo</a>
-              <a class="btn orbitron" href="#compat"><i class="fa-solid fa-car"></i> ¿Qué luz usa mi auto?</a>
-              <a class="btn orbitron" href="#facturar"><i class="fa-solid fa-file-invoice"></i> Facturar venta</a>
-            </div>
-          </div>
-
-          <div class="heroStats">
-            <div class="statGrid">
-              <div class="stat">
-                <div class="k orbitron" style="color:var(--blue)">+Visibilidad</div>
-                <div class="s">Mejor proyección en carretera</div>
-              </div>
-              <div class="stat">
-                <div class="k orbitron" style="color:var(--orange)">-Consumo</div>
-                <div class="s">Más eficiente que halógeno</div>
-              </div>
-              <div class="stat">
-                <div class="k orbitron" style="color:var(--green)">Encendido</div>
-                <div class="s">Instantáneo, sin demora</div>
-              </div>
-              <div class="stat">
-                <div class="k orbitron" style="color:var(--yellow)">5 años</div>
-                <div class="s">Garantía Brutalux</div>
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge bBlue"><i class="fa-solid fa-circle-check"></i> Plug &amp; Play</span>
-              <span class="badge bOrange"><i class="fa-solid fa-shield-halved"></i> Corte correcto</span>
-              <span class="badge bGreen"><i class="fa-solid fa-droplet"></i> Resistencia</span>
-            </div>
-          </div>
-        </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="pill">Tasa BCV: <b id="header-rate">—</b></div>
+        <a href="https://wa.me/584126835635" class="cta-wa"><i class="fa-brands fa-whatsapp"></i> Contacto</a>
       </div>
     </div>
   </div>
+</header>
 
-  <!-- FEATURE STRIP -->
-  <section>
-    <div class="container">
-      <div class="features">
-        <div class="feature">
-          <i class="fa-solid fa-eye"></i>
-          <div>
-            <div class="t orbitron">Más alcance</div>
-            <div class="d">Mejor visibilidad y reacción.</div>
-          </div>
-        </div>
-        <div class="feature">
-          <i class="fa-solid fa-car-battery"></i>
-          <div>
-            <div class="t orbitron">Menos consumo</div>
-            <div class="d">Cuida batería y alternador.</div>
-          </div>
-        </div>
-        <div class="feature">
-          <i class="fa-solid fa-temperature-low"></i>
-          <div>
-            <div class="t orbitron">Disipación</div>
-            <div class="d">Diseño pensado para durar.</div>
-          </div>
-        </div>
-        <div class="feature">
-          <i class="fa-solid fa-award"></i>
-          <div>
-            <div class="t orbitron">Garantía 5 años</div>
-            <div class="d">Respaldo real Brutalux.</div>
-          </div>
-        </div>
+<div class="hero">
+  <div class="container">
+    <div class="heroCard">
+      <h1 class="orbitron">Serie R <span class="grad">BRUTALUX</span></h1>
+      <p style="max-width:600px;margin-bottom:24px;">Faros LED para Toyota y cualquier vehículo. Más luz, mejor corte, menor consumo y <b style="color:var(--yellow)">5 años de garantía</b>.</p>
+      <div>
+        <a href="#catalogo" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Ver catálogo</a>
+        <a href="#admin" onclick="openAdmin();return false;" class="btn"><i class="fa-solid fa-file-invoice"></i> Facturar</a>
       </div>
     </div>
-  </section>
-
-  <!-- CATALOGO -->
-  <section id="catalogo">
-    <div class="container">
-      <div class="sectionTitle">
-        <div>
-          <h2 class="orbitron">Catálogo Brutalux</h2>
-          <p>Precios en USD y referencia en Bs según BCV.</p>
-        </div>
-        <div class="pill">Tasa hoy: <b id="rateBadge">—</b></div>
-      </div>
-
-      <div class="cards" id="productCards"></div>
-
-      <p class="tiny" style="margin-top:12px">
-        Nota: Si necesitas otro tipo de bombillo (H1, H7, H11, HB3, HB4, etc.), escríbenos por WhatsApp y lo cotizamos.
-      </p>
-    </div>
-  </section>
-
-  <!-- COMPATIBILIDAD -->
-  <section id="compat">
-    <div class="container">
-      <div class="sectionTitle">
-        <div>
-          <h2 class="orbitron">¿Qué luz LED usa mi auto?</h2>
-          <p>Selecciona marca, modelo y año. Te mostramos el socket y una recomendación.</p>
-        </div>
-      </div>
-
-      <div class="compatBox">
-        <div class="formGrid">
-          <div>
-            <label>Marca</label>
-            <select id="cBrand">
-              <option value="">Selecciona</option>
-              <option value="Toyota">Toyota</option>
-              <option value="Ford">Ford</option>
-              <option value="Chevrolet">Chevrolet</option>
-            </select>
-          </div>
-          <div>
-            <label>Modelo</label>
-            <select id="cModel" disabled>
-              <option value="">Primero marca</option>
-            </select>
-          </div>
-          <div>
-            <label>Año</label>
-            <select id="cYear" disabled>
-              <option value="">Año</option>
-            </select>
-          </div>
-          <div>
-            <button class="btnWide orange orbitron" id="btnCompat"><i class="fa-solid fa-magnifying-glass"></i> Consultar</button>
-          </div>
-        </div>
-
-        <div class="result" id="compatResult" style="display:none"></div>
-        <div class="note">
-          Importante: La compatibilidad puede variar por versión/mercado. Si tu resultado no aparece, escríbenos por WhatsApp con una foto del faro y te asesoramos.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIOS -->
-  <section id="testimonios">
-    <div class="container">
-      <div class="sectionTitle">
-        <div>
-          <h2 class="orbitron">Opiniones reales</h2>
-          <p>Prueba social para que compres con confianza.</p>
-        </div>
-      </div>
-
-      <div class="testGrid">
-        <div class="test">
-          <div class="top">
-            <div>
-              <div class="name">José Q.</div>
-              <div class="meta">Toyota Corolla • Miranda</div>
-            </div>
-            <div class="stars">★★★★★</div>
-          </div>
-          <p>“Instalé R33 y la diferencia es brutal. Corte limpio y muchísimo alcance en carretera.”</p>
-        </div>
-        <div class="test">
-          <div class="top">
-            <div>
-              <div class="name">María R.</div>
-              <div class="meta">Ford Fiesta • Valencia</div>
-            </div>
-            <div class="stars">★★★★★</div>
-          </div>
-          <p>“Con R36 ya no sufro en lluvia. Ilumina parejo y no parpadea.”</p>
-        </div>
-        <div class="test">
-          <div class="top">
-            <div>
-              <div class="name">Carlos M.</div>
-              <div class="meta">Chevrolet Corsa • Caracas</div>
-            </div>
-            <div class="stars">★★★★★</div>
-          </div>
-          <p>“Compré R36T por el modo amarillo. En neblina es otra cosa. Recomendados.”</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="container">
-      <div class="sectionTitle">
-        <div>
-          <h2 class="orbitron">Preguntas frecuentes</h2>
-          <p>Respuestas claras para cerrar ventas más rápido.</p>
-        </div>
-      </div>
-
-      <details>
-        <summary>¿Las luces LED deslumbran?</summary>
-        <p>Si el bombillo tiene buen diseño de haz y se instala correctamente, el corte es más limpio que halógeno. Nosotros te asesoramos según tu faro.</p>
-      </details>
-      <details>
-        <summary>¿Qué diferencia hay entre R33, R36, R36T y R20?</summary>
-        <p>R33 es la más potente, R36 es alta potencia balanceada, R36T es dual color (blanco/amarillo) y R20 es la opción más económica.</p>
-      </details>
-      <details>
-        <summary>¿Garantía?</summary>
-        <p>BRUTALUX ofrece <b>5 años de garantía</b> (según condiciones de uso e instalación). Conserva tu factura.</p>
-      </details>
-    </div>
-  </section>
-
-  <!-- FACTURAR -->
-  <section id="facturar">
-    <div class="container">
-      <div class="sectionTitle">
-        <div>
-          <h2 class="orbitron">Facturar venta (Admin local)</h2>
-          <p>Arma una factura con varios modelos y cantidades. Imprime o guarda como PDF.</p>
-        </div>
-        <div class="pill">Tip: usa <b>Ctrl+P</b> para guardar PDF</div>
-      </div>
-
-      <div class="compatBox">
-        <p class="tiny" style="margin:0 0 10px">
-          Nota importante: En GitHub Pages (estático) esto se guarda solo en tu navegador (localStorage). Para facturación fiscal real y correlativos oficiales se requiere backend.
-        </p>
-        <button class="btnWide green orbitron" id="openAdmin">
-          <i class="fa-solid fa-lock"></i> Abrir panel Admin / Factura
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer id="contacto">
-    <div class="container">
-      <div class="footGrid">
-        <div>
-          <div class="orbitron" style="font-weight:900;letter-spacing:.10em;text-transform:uppercase">
-            BRUTA<span style="color:var(--orange)">LUX</span>
-          </div>
-          <p class="tiny" style="margin:10px 0 0">
-            Potentes y resistentes • Garantía 5 años • Venezuela
-          </p>
-          <div class="social">
-            <a href="https://www.instagram.com/bruta_lux?igsh=MXN5ZTg0ZG1uc2k5cw==" target="_blank" rel="noopener" aria-label="Instagram">
-              <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://www.tiktok.com/@brutaluxlighting?_r=1&_t=ZS-93e9bBF4ckc" target="_blank" rel="noopener" aria-label="TikTok">
-              <i class="fa-brands fa-tiktok"></i>
-            </a>
-            <a href="https://wa.me/584126835635" target="_blank" rel="noopener" aria-label="WhatsApp">
-              <i class="fa-brands fa-whatsapp"></i>
-            </a>
-          </div>
-        </div>
-
-        <div>
-          <div class="orbitron" style="font-weight:900;letter-spacing:.08em;text-transform:uppercase">Atención</div>
-          <p class="tiny" style="margin:10px 0 0">Asesoría por compatibilidad • Envíos nacionales • Soporte postventa</p>
-        </div>
-
-        <div>
-          <div class="orbitron" style="font-weight:900;letter-spacing:.08em;text-transform:uppercase">Contacto</div>
-          <p class="tiny" style="margin:10px 0 0"><b>WhatsApp:</b> +58 412 6835635</p>
-          <p class="tiny" style="margin:6px 0 0"><b>Redes:</b> @bruta_lux / @brutaluxlighting</p>
-        </div>
-      </div>
-
-      <p class="tiny" style="margin-top:18px;opacity:.8">© <span id="yearNow"></span> BRUTALUX. Todos los derechos reservados.</p>
-    </div>
-  </footer>
-
-  <!-- Floating tip -->
-  <div id="tip">
-    <span id="tipText">Consejo</span>
-    <small id="tipN"></small>
-    <div class="x" id="tipClose"><i class="fa-solid fa-xmark"></i></div>
   </div>
+</div>
 
-  <!-- Admin FAB -->
-  <div class="adminFab">
-    <button class="fabBtn primary orbitron" id="fabAdmin"><i class="fa-solid fa-user-gear"></i> Admin</button>
-  </div>
-
-  <!-- ADMIN MODAL -->
-  <div class="modal" id="adminModal" aria-hidden="true">
-    <div class="panel">
-      <div class="panelHead">
-        <h3 class="orbitron">Panel Admin • Tasa • Imágenes • Factura</h3>
-        <button class="close orbitron" id="closeAdmin"><i class="fa-solid fa-xmark"></i> Cerrar</button>
+<section id="catalogo">
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <h2 class="orbitron">Catálogo</h2>
+        <div style="color:var(--muted);font-size:14px;">Precios en USD y referencia en Bs</div>
       </div>
+    </div>
+    <div id="product-list" class="cards"></div>
+  </div>
+</section>
 
-      <div class="panelBody">
-        <div id="loginBox" class="box">
-          <h4><i class="fa-solid fa-lock"></i> Login</h4>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Usuario</label>
-              <input id="adminUser" placeholder="Usuario">
-            </div>
-            <div class="form-group">
-              <label>Clave</label>
-              <input id="adminPass" type="password" placeholder="Contraseña">
-            </div>
+<section id="compat">
+  <div class="container">
+    <h2 class="orbitron" style="margin-bottom:20px;">¿Qué luz usa mi auto?</h2>
+    <div class="compat-box">
+      <div class="form-grid">
+        <div>
+          <label>Marca</label>
+          <select id="brand-sel" onchange="updateModels()">
+            <option value="">Seleccionar</option>
+            <option value="toyota">Toyota</option>
+            <option value="ford">Ford</option>
+            <option value="chevrolet">Chevrolet</option>
+          </select>
+        </div>
+        <div>
+          <label>Modelo</label>
+          <select id="model-sel" disabled>
+            <option value="">Primero selecciona marca</option>
+          </select>
+        </div>
+        <div>
+          <label>Año</label>
+          <select id="year-sel">
+            <option value="">Año</option>
+            ${Array.from({length:27},(_,i)=>`<option value="${2000+i}">${2000+i}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="checkCompat()" style="width:100%;"><i class="fa-solid fa-search"></i> Consultar compatibilidad</button>
+      <div id="compat-result" style="margin-top:16px;padding:16px;background:rgba(0,200,255,.1);border-radius:12px;display:none;"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div style="margin-bottom:20px;">
+      <a href="https://www.instagram.com/bruta_lux?igsh=MXN5ZTg0ZG1uc2k5cw==" target="_blank" style="margin:0 10px;"><i class="fa-brands fa-instagram fa-2x"></i></a>
+      <a href="https://www.tiktok.com/@brutaluxlighting?_r=1&_t=ZS-93e9bBF4ckc" target="_blank" style="margin:0 10px;"><i class="fa-brands fa-tiktok fa-2x"></i></a>
+      <a href="https://wa.me/584126835635" target="_blank" style="margin:0 10px;"><i class="fa-brands fa-whatsapp fa-2x"></i></a>
+    </div>
+    <p>© 2025 BRUTALUX Venezuela. Potentes y resistentes.</p>
+  </div>
+</footer>
+
+<button class="fab orbitron" onclick="openAdmin()"><i class="fa-solid fa-lock"></i> ADMIN</button>
+
+<div class="modal" id="admin-modal">
+  <div class="panel">
+    <div class="panel-head">
+      <h3 class="orbitron">Panel de Administración</h3>
+      <button class="btn-close" onclick="closeAdmin()"><i class="fa-solid fa-xmark"></i> Cerrar</button>
+    </div>
+    <div class="panel-body">
+      
+      <!-- Login -->
+      <div id="login-box" class="box">
+        <h4><i class="fa-solid fa-lock"></i> Acceso</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Usuario</label>
+            <input type="text" id="username" placeholder="Manuel255">
           </div>
-          <div style="margin-top:16px" class="form-row">
-            <button class="btnWide green orbitron" id="btnLogin"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
-            <button class="btnWide orbitron" id="btnLogout" style="display:none"><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••">
           </div>
         </div>
+        <button class="btn-wide btn-green" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
+      </div>
 
-        <div id="adminArea" style="display:none">
-          <div class="adminGrid">
-
-            <!-- Settings -->
-            <div class="box">
-              <h4><i class="fa-solid fa-gears"></i> Configuración del sitio</h4>
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Tasa BCV (Bs/USD)</label>
-                  <input id="rateInput" placeholder="Ej: 375,08">
-                </div>
-                <div class="form-group">
-                  <label>Garantía (texto)</label>
-                  <input id="warrantyInput" placeholder="Ej: 5 años">
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Logo (URL directa)</label>
-                  <input id="logoInput" placeholder="https://...jpg">
-                </div>
-                <div class="form-group">
-                  <label>Fondo portada (URL directa)</label>
-                  <input id="heroBgInput" placeholder="https://...jpg">
-                </div>
-              </div>
-              <div class="form-row" style="margin-top:16px">
-                <button class="btnWide orange orbitron" id="btnSaveSettings"><i class="fa-solid fa-floppy-disk"></i> Guardar cambios</button>
-                <button class="btnWide orbitron" id="btnResetSettings"><i class="fa-solid fa-rotate-left"></i> Restaurar</button>
-              </div>
-            </div>
-
-            <!-- Invoice builder -->
-            <div class="box print-only">
-              <h4><i class="fa-solid fa-file-invoice-dollar"></i> Facturar venta</h4>
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Cliente / Razón social</label>
-                  <input id="invClient" placeholder="Nombre del cliente">
-                </div>
-                <div class="form-group">
-                  <label>Cédula / RIF</label>
-                  <input id="invId" placeholder="V-12345678 / J-123...">
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Teléfono</label>
-                  <input id="invPhone" placeholder="+58...">
-                </div>
-                <div class="form-group">
-                  <label>Dirección</label>
-                  <input id="invAddr" placeholder="Dirección del cliente">
-                </div>
-              </div>
-
-              <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:12px;" class="form-group">
-                <div class="form-group">
-                  <label>Producto</label>
-                  <select id="invProduct"></select>
-                </div>
-                <div class="form-group">
-                  <label>Cant.</label>
-                  <input id="invQty" type="number" min="1" value="1">
-                </div>
-                <div class="form-group">
-                  <label>Precio ($)</label>
-                  <input id="invPrice" type="number" step="0.01" placeholder="Auto">
-                </div>
-              </div>
-              
-              <div class="form-row" style="margin-top:16px">
-                <button class="btnWide green orbitron" id="btnAddItem"><i class="fa-solid fa-plus"></i> Agregar a factura</button>
-                <button class="btnWide orbitron" id="btnClearItems"><i class="fa-solid fa-trash"></i> Vaciar</button>
-              </div>
-
-              <div class="form-row" style="margin-top:16px">
-                <div class="form-group">
-                  <label>IVA %</label>
-                  <input id="invTax" type="number" step="0.01" value="0">
-                </div>
-                <div class="form-group">
-                  <label>Descuento (USD)</label>
-                  <input id="invDiscount" type="number" step="0.01" value="0">
-                </div>
-              </div>
-
-              <div class="form-row" style="margin-top:16px">
-                <button class="btnWide orange orbitron" id="btnRefreshInvoice"><i class="fa-solid fa-arrows-rotate"></i> Actualizar</button>
-                <button class="btnWide green orbitron" id="btnPrint"><i class="fa-solid fa-print"></i> Imprimir / Guardar PDF</button>
-              </div>
-            </div>
-          </div>
+      <!-- Admin Area -->
+      <div id="admin-area">
+        <div class="admin-grid">
           
-          <div class="box print-only" style="margin-top:18px">
-            <h4><i class="fa-solid fa-eye"></i> Vista previa de la factura</h4>
-            <div class="invoicePreview" id="invoicePreview"></div>
+          <!-- Config -->
+          <div class="box">
+            <h4><i class="fa-solid fa-gear"></i> Configuración</h4>
+            <div class="form-group">
+              <label>Tasa BCV (Bs/USD)</label>
+              <input type="text" id="config-rate" value="375,08">
+            </div>
+            <div class="form-group">
+              <label>Garantía</label>
+              <input type="text" id="config-warranty" value="5 años">
+            </div>
+            <button class="btn-wide btn-orange" onclick="saveConfig()"><i class="fa-solid fa-save"></i> Guardar cambios</button>
+            <button class="btn-wide" onclick="doLogout()" style="margin-top:8px;"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
           </div>
 
+          <!-- Invoice Builder -->
+          <div class="box print-only">
+            <h4><i class="fa-solid fa-file-invoice-dollar"></i> Nueva Factura</h4>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Cliente</label>
+                <input type="text" id="inv-client" placeholder="Nombre completo">
+              </div>
+              <div class="form-group">
+                <label>Cédula/RIF</label>
+                <input type="text" id="inv-id" placeholder="V-12345678">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Teléfono</label>
+                <input type="text" id="inv-phone" placeholder="+58 412...">
+              </div>
+              <div class="form-group">
+                <label>Dirección</label>
+                <input type="text" id="inv-addr" placeholder="Ciudad, dirección">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+              <div class="form-group">
+                <label>Producto</label>
+                <select id="inv-product" onchange="updatePrice()"></select>
+              </div>
+              <div class="form-group">
+                <label>Cant.</label>
+                <input type="number" id="inv-qty" value="1" min="1">
+              </div>
+              <div class="form-group">
+                <label>Precio $</label>
+                <input type="number" id="inv-price" step="0.01">
+              </div>
+            </div>
+
+            <button class="btn-wide btn-green" onclick="addItem()"><i class="fa-solid fa-plus"></i> Agregar a factura</button>
+            
+            <div class="form-row" style="margin-top:12px;">
+              <div class="form-group">
+                <label>IVA %</label>
+                <input type="number" id="inv-tax" value="0" step="0.01">
+              </div>
+              <div class="form-group">
+                <label>Descuento $</label>
+                <input type="number" id="inv-discount" value="0" step="0.01">
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px;margin-top:12px;">
+              <button class="btn-wide btn-orange" onclick="renderInvoice()" style="flex:1;"><i class="fa-solid fa-rotate"></i> Actualizar</button>
+              <button class="btn-wide btn-green" onclick="printInvoice()" style="flex:1;"><i class="fa-solid fa-print"></i> Imprimir / PDF</button>
+            </div>
+          </div>
         </div>
-        <p class="tiny" style="margin:16px 0 0; text-align:center;">
-          <b>Nota sobre GitHub Pages:</b> Este panel admin guarda los cambios solo en este navegador (localStorage). Para que los cambios sean visibles para todos en tiempo real, se necesita un backend (hosting con PHP o Node.js).
-        </p>
+
+        <!-- Invoice Preview -->
+        <div class="box print-only" style="margin-top:20px;">
+          <h4><i class="fa-solid fa-eye"></i> Vista previa de la factura</h4>
+          <div id="invoice-preview" class="invoice-preview">
+            <!-- La factura se renderiza aquí -->
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    /**********************
-     * CONFIG / DEFAULTS
-     **********************/
-    const ADMIN_USER = "Manuel255";
-    const ADMIN_PASS = "30158858Jm";
-    const WHATSAPP = "584126835635";
+<script>
+// Configuración
+const CONFIG = {
+  user: 'Manuel255',
+  pass: '30158858Jm',
+  whatsapp: '584126835635',
+  defaultRate: 375.08
+};
 
-    const DEFAULTS = {
-      rate: 375.08,
-      warranty: "5 años",
-      logo: "https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg",
-      heroBg: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=2200&q=80"
-    };
+// Datos de productos (CORREGIDO según tus últimas instrucciones)
+const PRODUCTS = [
+  {
+    id: 'R36',
+    name: 'Brutalux R36',
+    subtitle: '27.000 LM · Alta potencia',
+    price: 80,
+    image: 'https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg',
+    badge: '⚡ ALTA POTENCIA',
+    desc: '27.000 lm · 6500K · 4 tubos cobre'
+  },
+  {
+    id: 'R33',
+    name: 'Brutalux R33',
+    subtitle: '33.000 LM · Top potencia',
+    price: 90,
+    image: 'https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg',
+    badge: '👑 TOP POTENCIA',
+    desc: '33.000 lm · 6500K · Zinc + 3 tubos'
+  },
+  {
+    id: 'R36T',
+    name: 'Brutalux R36T',
+    subtitle: '16.000 LM · Dual color',
+    price: 85,
+    image: 'https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg',
+    badge: '🌓 DUAL COLOR',
+    desc: '16.000 lm · 3000K-6500K · Chip CSP'
+  },
+  {
+    id: 'R20',
+    name: 'Brutalux R20',
+    subtitle: '20.000 LM · Económica',
+    price: 65,
+    image: 'https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?w=800',
+    badge: '👍 ECONÓMICA',
+    desc: '20.000 lm · 12V/24V · Calidad/precio'
+  }
+];
+
+// Estado
+let currentRate = CONFIG.defaultRate;
+let invoiceItems = [];
+
+// Inicializar
+window.onload = function() {
+  renderCatalog();
+  loadConfig();
+  checkLogin();
+  populateProductSelect();
+};
+
+// Render catálogo
+function renderCatalog() {
+  const container = document.getElementById('product-list');
+  container.innerHTML = PRODUCTS.map(p => `
+    <div class="card">
+      <div class="card-img">
+        <img src="${p.image}" alt="${p.name}">
+        <div class="badge">${p.badge}</div>
+      </div>
+      <div class="card-body">
+        <h3 class="orbitron">${p.name}</h3>
+        <div style="color:var(--muted);font-size:13px;margin-bottom:8px;">${p.subtitle}</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">${p.desc}</div>
+        <div class="price">$${p.price}</div>
+        <span class="price-bs">≈ Bs ${(p.price * currentRate).toLocaleString('es-VE', {minimumFractionDigits:2})}</span>
+        <div style="display:flex;gap:8px;">
+          <a href="https://wa.me/${CONFIG.whatsapp}?text=Hola%20quiero%20${p.name}%20($${p.price})" class="btn" style="flex:1;background:var(--green);color:#000;border:none;"><i class="fa-brands fa-whatsapp"></i> Pedir</a>
+          <button onclick="openAdmin('${p.id}')" class="btn" style="flex:1;"><i class="fa-solid fa-file-invoice"></i> Facturar</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  
+  document.getElementById('header-rate').textContent = currentRate.toLocaleString('es-VE');
+}
+
+// Compatibilidad
+const COMPAT_DATA = {
+  toyota: ['Land Cruiser', '4Runner', 'Corolla', 'Hilux', 'Prado', 'Yaris'],
+  ford: ['Fiesta', 'Ranger', 'Explorer', 'Focus', 'EcoSport'],
+  chevrolet: ['Corsa', 'Aveo', 'Spark', 'Silverado', 'Blazer']
+};
+
+function updateModels() {
+  const brand = document.getElementById('brand-sel').value;
+  const modelSel = document.getElementById('model-sel');
+  if (!brand) {
+    modelSel.innerHTML = '<option>Primero selecciona marca</option>';
+    modelSel.disabled = true;
+    return;
+  }
+  modelSel.innerHTML = '<option value="">Seleccionar modelo</option>' + 
+    COMPAT_DATA[brand].map(m => `<option value="${m}">${m}</option>`).join('');
+  modelSel.disabled = false;
+}
+
+function checkCompat() {
+  const brand = document.getElementById('brand-sel').value;
+  const model = document.getElementById('model-sel').value;
+  const year = document.getElementById('year-sel').value;
+  const result = document.getElementById('compat-result');
+  
+  if (!brand || !model || !year) {
+    result.style.display = 'block';
+    result.innerHTML = '⚠️ Completa todos los campos';
+    return;
+  }
+  
+  result.style.display = 'block';
+  result.innerHTML = `
+    <div style="font-weight:700;margin-bottom:8px;">✅ Compatible: ${model} ${year}</div>
+    <div style="font-size:14px;">Recomendación: <b>R36 o R33</b> según uso.<br>
+    Socket común: <b>H4 / H11</b> (verificar según versión específica).</div>
+    <div style="margin-top:12px;">
+      <a href="https://wa.me/${CONFIG.whatsapp}?text=Consulta%20compatibilidad%20${model}%20${year}" class="btn btn-primary" style="font-size:13px;">
+        <i class="fa-brands fa-whatsapp"></i> Consultar por WhatsApp
+      </a>
+    </div>
+  `;
+}
+
+// Admin Modal
+function openAdmin(preselectProduct = null) {
+  document.getElementById('admin-modal').classList.add('show');
+  if (preselectProduct) {
+    setTimeout(() => {
+      if (document.getElementById('admin-area').style.display !== 'none') {
+        document.getElementById('inv-product').value = preselectProduct;
+        updatePrice();
+      }
+    }, 100);
+  }
+}
+
+function closeAdmin() {
+  document.getElementById('admin-modal').classList.remove('show');
+}
+
+// Login
+function doLogin() {
+  const u = document.getElementById('username').value;
+  const p = document.getElementById('password').value;
+  if (u === CONFIG.user && p === CONFIG.pass) {
+    localStorage.setItem('brutalux_admin', '1');
+    checkLogin();
+  } else {
+    alert('Usuario o contraseña incorrectos');
+  }
+}
+
+function doLogout() {
+  localStorage.removeItem('brutalux_admin');
+  checkLogin();
+}
+
+function checkLogin() {
+  const isLogged = localStorage.getItem('brutalux_admin') === '1';
+  document.getElementById('login-box').style.display = isLogged ? 'none' : 'block';
+  document.getElementById('admin-area').style.display = isLogged ? 'block' : 'none';
+  if (isLogged) {
+    renderInvoice();
+  }
+}
+
+// Config
+function loadConfig() {
+  const saved = localStorage.getItem('brutalux_config');
+  if (saved) {
+    const cfg = JSON.parse(saved);
+    currentRate = parseFloat(cfg.rate) || CONFIG.defaultRate;
+    document.getElementById('config-rate').value = currentRate.toString().replace('.', ',');
+    document.getElementById('config-warranty').value = cfg.warranty || '5 años';
+  }
+}
+
+function saveConfig() {
+  const rateStr = document.getElementById('config-rate').value.replace(',', '.');
+  const rate = parseFloat(rateStr);
+  const warranty = document.getElementById('config-warranty').value;
+  
+  if (!rate || rate <= 0) {
+    alert('Tasa inválida');
+    return;
+  }
+  
+  currentRate = rate;
+  localStorage.setItem('brutalux_config', JSON.stringify({rate, warranty}));
+  renderCatalog();
+  renderInvoice();
+  alert('Configuración guardada');
+}
+
+// Invoice System
+function populateProductSelect() {
+  const sel = document.getElementById('inv-product');
+  sel.innerHTML = PRODUCTS.map(p => `<option value="${p.id}">${p.id} - ${p.name} ($${p.price})</option>`).join('');
+  updatePrice();
+}
+
+function updatePrice() {
+  const id = document.getElementById('inv-product').value;
+  const product = PRODUCTS.find(p => p.id === id);
+  if (product) {
+    document.getElementById('inv-price').value = product.price;
+  }
+}
+
+function addItem() {
+  const id = document.getElementById('inv-product').value;
+  const qty = parseInt(document.getElementById('inv-qty').value);
+  const price = parseFloat(document.getElementById('inv-price').value);
+  
+  if (!qty || qty < 1 || !price) {
+    alert('Cantidad o precio inválido');
+    return;
+  }
+  
+  const product = PRODUCTS.find(p => p.id === id);
+  invoiceItems.push({
+    id: id,
+    name: product.name,
+    qty: qty,
+    price: price
+  });
+  
+  renderInvoice();
+  alert('Producto agregado');
+}
+
+function renderInvoice() {
+  const client = document.getElementById('inv-client').value || 'Cliente';
+  const id = document.getElementById('inv-id').value || '-';
+  const phone = document.getElementById('inv-phone').value || '-';
+  const addr = document.getElementById('inv-addr').value || '-';
+  const taxRate = parseFloat(document.getElementById('inv-tax').value) || 0;
+  const discount = parseFloat(document.getElementById('inv-discount').value) || 0;
+  
+  const subtotal = invoiceItems.reduce((sum, item) => sum + (item.qty * item.price), 0);
+  const tax = subtotal * (taxRate / 100);
+  const total = Math.max(0, subtotal + tax - discount);
+  const totalBs = total * currentRate;
+  
+  const date = new Date().toLocaleDateString('es-VE');
+  
+  const itemsHtml = invoiceItems.length === 0 ? 
+    '<tr><td colspan="5" style="text-align:center;color:#999;padding:20px;">Sin productos agregados</td></tr>' :
+    invoiceItems.map((item, idx) => `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.id}</td>
+        <td class="r">${item.qty}</td>
+        <td class="r">$${item.price.toFixed(2)}</td>
+        <td class="r">$${(item.qty * item.price).toFixed(2)}</td>
+      </tr>
+    `).join('');
+  
+  const html = `
+    <div class="inv-header">
+      <div class="inv-brand">
+        <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" class="inv-logo" alt="Logo">
+        <div>
+          <div class="t1" style="font-size:18px;font-weight:900;">BRUTALUX</div>
+          <div class="t2">Potentes y resistentes • Garantía 5 años</div>
+          <div class="t2">WhatsApp: +58 412 6835635</div>
+        </div>
+      </div>
+      <div class="inv-meta">
+        <div style="font-size:11px;color:#666;">FACTURA / NOTA DE ENTREGA</div>
+        <div style="font-size:14px;font-weight:700;">${date}</div>
+        <div style="font-size:12px;margin-top:4px;">Tasa BCV: ${currentRate.toLocaleString('es-VE')} Bs/USD</div>
+      </div>
+    </div>
     
-    // CORRECCIÓN FINAL DE IMÁGENES SEGÚN CAPTURA:
-    // R33 = Bronce (la que estaba en el medio)
-    // R36T = Dorada (la que estaba a la derecha)
-    // R36 = Plateada (la que estaba a la izquierda)
-    const PRODUCTS = [
-      {
-        id: "R33",
-        name: "Brutalux R33",
-        modelLine: "MODELO R33 · 33.000 LM",
-        usd: 90,
-        badge: { text: "👑 TOP POTENCIA", cls: "tGold" },
-        image: "https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg",
-        specs: ["33.000 lm (par)", "6500K blanco puro", "Zinc + 3 tubos de cobre"],
-        waText: "Hola, me interesa la BRUTALUX R33 ($90)."
-      },
-      {
-        id: "R36T",
-        name: "Brutalux R36T",
-        modelLine: "MODELO R36T · 16.000 LM",
-        usd: 85,
-        badge: { text: "🌓 DUAL COLOR", cls: "tPurple" },
-        image: "https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg",
-        specs: ["16.000 lm (par)", "3000K–6500K (dual)", "Chip CSP 12 núcleos"],
-        waText: "Hola, me interesa la BRUTALUX R36T ($85) dual color."
-      },
-      {
-        id: "R36",
-        name: "Brutalux R36",
-        modelLine: "MODELO R36 · 27.000 LM",
-        usd: 80,
-        badge: { text: "⚡ ALTA GAMA", cls: "tBlue" },
-        image: "https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg",
-        specs: ["27.000 lm (par)", "6500K blanco puro", "4 tubos de cobre + disipación"],
-        waText: "Hola, me interesa la BRUTALUX R36 ($80)."
-      },
-      {
-        id: "R20",
-        name: "Brutalux R20",
-        modelLine: "MODELO R20 · 20.000 LM",
-        usd: 65,
-        badge: { text: "👍 ECONÓMICA", cls: "tGray" },
-        image: "https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?auto=format&fit=crop&w=1200&q=80",
-        specs: ["20.000 lm (par)", "12V/24V", "Calidad / precio"],
-        waText: "Hola, me interesa la BRUTALUX R20 ($65)."
-      }
-    ];
-
-    const TIPS = [
-      "Las LED consumen menos energía que las halógenas: más batería y alternador.",
-      "El encendido LED es instantáneo: reacción más rápida en carretera.",
-      "Mejor temperatura de color = más contraste y visibilidad nocturna.",
-      "Un corte de haz correcto reduce el deslumbramiento a otros conductores.",
-      "Menos calor en el faro ayuda a cuidar el arnés y el reflector.",
-      "Mayor vida útil: menos cambios y menos gastos a largo plazo.",
-      "R36T en amarillo mejora visibilidad en niebla y lluvia.",
-      "Buena disipación mantiene el rendimiento constante en viajes largos.",
-      "Con LED ves más lejos: frenas antes, conduces más seguro.",
-      "Ideal para carretera oscura y zonas rurales."
-    ];
-
-    /**********************
-     * UTILITIES
-     **********************/
-    const fmtBs = (n) => new Intl.NumberFormat('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
-    const fmtUsd = (n) => new Intl.NumberFormat('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
-
-    function getState(){
-      const raw = localStorage.getItem("brutalux_state");
-      if(!raw) return {...DEFAULTS};
-      try { return {...DEFAULTS, ...JSON.parse(raw)}; } catch { return {...DEFAULTS}; }
-    }
-    function setState(next){
-      localStorage.setItem("brutalux_state", JSON.stringify(next));
-    }
-
-    /**********************
-     * RENDER CATALOG
-     **********************/
-    function renderRate(){
-      const st = getState();
-      document.getElementById("rateHeader").textContent = fmtBs(st.rate);
-      document.getElementById("rateBadge").textContent = fmtBs(st.rate);
-    }
-
-    function renderCatalog(){
-      const st = getState();
-      const wrap = document.getElementById("productCards");
-      wrap.innerHTML = PRODUCTS.map(p=>{
-        const bs = p.usd * st.rate;
-        return `
-          <article class="card">
-            <div class="img">
-              <div class="tagTop ${p.badge.cls}">${p.badge.text}</div>
-              <img src="${p.image}" alt="${p.name}">
-            </div>
-            <div class="body">
-              <div class="model orbitron">${p.modelLine}</div>
-              <h3 class="name orbitron">${p.name}</h3>
-              <ul class="spec">
-                ${p.specs.map(s=>`<li><i class="fa-solid fa-bolt"></i> ${s}</li>`).join("")}
-                <li><i class="fa-solid fa-shield-halved"></i> Garantía: ${st.warranty}</li>
-              </ul>
-
-              <div class="priceRow">
-                <div>
-                  <div class="usd orbitron">$${p.usd}</div>
-                  <div class="bs">(Bs ${fmtBs(bs)})</div>
-                </div>
-              </div>
-
-              <div class="actions">
-                <a class="btnSmall btnGreen orbitron" target="_blank" rel="noopener"
-                  href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.waText + ' Tasa BCV: ' + fmtBs(st.rate) + ' Bs/USD')}">
-                  <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                </a>
-                <button class="btnSmall btnOrange orbitron" onclick="openAdminAndPreselect('${p.id}')">
-                  <i class="fa-solid fa-file-invoice"></i> Facturar
-                </button>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join("");
-
-      document.querySelectorAll('.brand img').forEach(img=>img.src = st.logo);
-      document.querySelectorAll('.invBrand img').forEach(img=>img.src = st.logo);
-      document.querySelector('.heroCard').style.backgroundImage =
-        `linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.80)), url("${st.heroBg}")`;
-    }
-
-    /**********************
-     * TIP ON CLICK
-     **********************/
-    let tipIdx = 0;
-    function showTip(){
-      const tip = document.getElementById("tip");
-      const t = TIPS[tipIdx % TIPS.length];
-      tipIdx++;
-      document.getElementById("tipText").textContent = "💡 Consejo Brutalux: " + t;
-      document.getElementById("tipN").textContent = `#${tipIdx}/${TIPS.length}`;
-      tip.style.display = "flex";
-      clearTimeout(window.__tipTO);
-      window.__tipTO = setTimeout(()=> tip.style.display="none", 4200);
-    }
-    document.addEventListener("click", (e)=>{
-      if(e.target.closest("#adminModal, a, button")) return;
-      showTip();
-    });
-    document.getElementById("tipClose").addEventListener("click", ()=> document.getElementById("tip").style.display="none");
-
-    /**********************
-     * COMPATIBILITY DATA
-     **********************/
-    const COMPAT = {
-      Toyota: {
-        "Land Cruiser": { socket: "H4 (varía)", rec:"R33 / R36", years:[2000,2026] },
-        "4Runner": { socket: "H11 / HB3 (varía)", rec:"R36 / R33", years:[2000,2026] },
-        "Corolla": { socket: "H4 / H11 (varía)", rec:"R36", years:[2000,2026] },
-        "Hilux": { socket: "H4 / H11 (varía)", rec:"R36 / R33", years:[2000,2026] }
-      },
-      Ford: {
-        "Fiesta": { socket:"H4 (varía)", rec:"R36", years:[2000,2026] },
-        "Ranger": { socket:"H4 / H11 (varía)", rec:"R36 / R33", years:[2000,2026] },
-        "Explorer": { socket:"H11 / HB3 (varía)", rec:"R36 / R33", years:[2000,2026] }
-      },
-      Chevrolet: {
-        "Corsa": { socket:"H4 (varía)", rec:"R20 / R36", years:[2000,2026] },
-        "Aveo": { socket:"H4 (varía)", rec:"R36", years:[2000,2026] },
-        "Spark": { socket:"H4 (varía)", rec:"R20 / R36", years:[2000,2026] }
-      }
-    };
-
-    function fillYears(){
-      const y = document.getElementById("cYear");
-      y.innerHTML = `<option value="">Año</option>` + Array.from({length: 2026-2000+1}, (_,i)=>2000+i)
-        .map(v=>`<option value="${v}">${v}</option>`).join("");
-    }
-    function fillModels(brand){
-      const m = document.getElementById("cModel");
-      const models = COMPAT[brand] ? Object.keys(COMPAT[brand]) : [];
-      m.innerHTML = `<option value="">Selecciona modelo</option>` + models.map(x=>`<option value="${x}">${x}</option>`).join("");
-    }
-    function doCompat(){
-      const b=document.getElementById("cBrand").value, m=document.getElementById("cModel").value, y=parseInt(document.getElementById("cYear").value,10), out=document.getElementById("compatResult");
-      if(!b || !m || !y){ out.style.display="block"; out.innerHTML = `⚠️ Completa <strong>marca, modelo y año</strong>.`; return; }
-      const row = COMPAT[b]?.[m];
-      if(!row){ out.style.display="block"; out.innerHTML = `No encontramos datos para <strong>${b} ${m}</strong>. Escríbenos.`; return; }
-      if(y < row.years[0] || y > row.years[1]){ out.style.display="block"; out.innerHTML = `Año fuera de rango. Escríbenos.`; return; }
-      out.style.display="block"; out.innerHTML = `✅ <strong>${b} ${m} ${y}</strong><br>• Socket (ref.): <strong>${row.socket}</strong><br>• Recomendación: <strong>${row.rec}</strong>`;
-    }
-
-    /**********************
-     * ADMIN MODAL + LOGIN
-     **********************/
-    const adminModal=document.getElementById("adminModal"), fabAdmin=document.getElementById("fabAdmin"), openAdmin=document.getElementById("openAdmin"), closeAdmin=document.getElementById("closeAdmin"), btnLogin=document.getElementById("btnLogin"), btnLogout=document.getElementById("btnLogout");
-    function showModal(){ adminModal.classList.add("show"); }
-    function hideModal(){ adminModal.classList.remove("show"); }
-    fabAdmin.addEventListener("click", showModal); openAdmin.addEventListener("click", showModal); closeAdmin.addEventListener("click", hideModal);
-    adminModal.addEventListener("click", (e)=>{ if(e.target===adminModal) hideModal(); });
-    function isLogged(){ return localStorage.getItem("brutalux_admin")==="1"; }
-    function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
-    function syncAdminUI(){
-      const logged=isLogged();
-      document.getElementById("adminArea").style.display = logged ? "block" : "none";
-      btnLogout.style.display = logged ? "inline-flex" : "none";
-      btnLogin.style.display = logged ? "none" : "inline-flex";
-      if(logged){
-        const st=getState();
-        document.getElementById("rateInput").value = String(st.rate).replace(".", ",");
-        document.getElementById("warrantyInput").value = st.warranty;
-        document.getElementById("logoInput").value = st.logo;
-        document.getElementById("heroBgInput").value = st.heroBg;
-        fillInvoiceProductSelect();
-        refreshInvoicePreview();
-      }
-    }
-    btnLogin.addEventListener("click", ()=>{
-      if(document.getElementById("adminUser").value.trim()===ADMIN_USER && document.getElementById("adminPass").value.trim()===ADMIN_PASS){
-        setLogged(true); syncAdminUI();
-      } else { alert("Usuario o contraseña incorrectos."); }
-    });
-    btnLogout.addEventListener("click", ()=>{ setLogged(false); syncAdminUI(); });
-    document.getElementById("btnSaveSettings").addEventListener("click", ()=>{
-      const st=getState(), rateRaw=document.getElementById("rateInput").value.trim().replace(".",",").replace(",",".");
-      const next={...st, rate:parseFloat(rateRaw)||DEFAULTS.rate, warranty:document.getElementById("warrantyInput").value.trim()||DEFAULTS.warranty, logo:document.getElementById("logoInput").value.trim()||DEFAULTS.logo, heroBg:document.getElementById("heroBgInput").value.trim()||DEFAULTS.heroBg};
-      setState(next); renderRate(); renderCatalog(); refreshInvoicePreview(); alert("Guardado (local).");
-    });
-    document.getElementById("btnResetSettings").addEventListener("click", ()=>{
-      if(!confirm("¿Restaurar?")) return; setState({...DEFAULTS}); renderRate(); renderCatalog(); syncAdminUI();
-    });
-
-    /**********************
-     * INVOICE BUILDER (multi-item)
-     **********************/
-    function getInvoice(){ try { return JSON.parse(localStorage.getItem("brutalux_invoice")) || { items: [] }; } catch { return { items: [] }; } }
-    function setInvoice(inv){ localStorage.setItem("brutalux_invoice", JSON.stringify(inv)); }
-    function fillInvoiceProductSelect(){
-      const sel=document.getElementById("invProduct");
-      sel.innerHTML = PRODUCTS.map(p=>`<option value="${p.id}">${p.id} - ${p.name} ($${p.usd})</option>`).join("");
-      sel.addEventListener("change", ()=>{
-        const p=PRODUCTS.find(x=>x.id===sel.value);
-        if(p) document.getElementById("invPrice").value = p.usd;
-      }, { once:false });
-      if(PRODUCTS[0]) document.getElementById("invPrice").value = PRODUCTS[0].usd;
-    }
-    function addItem(){
-      const inv=getInvoice(), p=PRODUCTS.find(x=>x.id===document.getElementById("invProduct").value);
-      if(!p){ alert("Producto inválido."); return; }
-      const qty=parseInt(document.getElementById("invQty").value,10), price=parseFloat(document.getElementById("invPrice").value);
-      if(!isFinite(qty)||qty<=0||!isFinite(price)||price<=0){ alert("Cantidad o precio inválido."); return; }
-      inv.items.push({ id:p.id, desc:`${p.name} (${p.id})`, qty, usd:price });
-      setInvoice(inv); refreshInvoicePreview();
-    }
-    function clearItems(){ if(!confirm("¿Vaciar?")) return; setInvoice({items:[]}); refreshInvoicePreview(); }
-    function removeItem(idx){ const inv=getInvoice(); inv.items.splice(idx,1); setInvoice(inv); refreshInvoicePreview(); }
-    document.getElementById("btnAddItem").addEventListener("click", addItem);
-    document.getElementById("btnClearItems").addEventListener("click", clearItems);
-    document.getElementById("btnRefreshInvoice").addEventListener("click", refreshInvoicePreview);
-    document.getElementById("btnPrint").addEventListener("click", ()=>{ refreshInvoicePreview(); setTimeout(()=> window.print(), 80); });
-    function refreshInvoicePreview(){
-      const st=getState(), inv=getInvoice();
-      const client=document.getElementById("invClient")?.value || "", doc=document.getElementById("invId")?.value || "", phone=document.getElementById("invPhone")?.value || "", addr=document.getElementById("invAddr")?.value || "";
-      const taxPct=parseFloat(document.getElementById("invTax")?.value || "0")||0, discount=parseFloat(document.getElementById("invDiscount")?.value || "0")||0;
-      const sub=inv.items.reduce((a,it)=> a+(it.qty*it.usd),0), tax=sub*(taxPct/100), totalUsd=Math.max(0,(sub+tax-discount)), totalBs=totalUsd*st.rate;
-      const dateStr = new Date().toLocaleString("es-VE");
-      const rows = inv.items.map((it,idx)=>`<tr><td>${it.desc}</td><td class="r">${it.qty}</td><td class="r">$${fmtUsd(it.usd)}</td><td class="r">$${fmtUsd(it.qty*it.usd)}</td><td class="r"><button onclick="removeItem(${idx})" style="border:1px solid #ddd;background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer">Quitar</button></td></tr>`).join("");
-      document.getElementById("invoicePreview").innerHTML = `...`; // Content is too long, simplified for brevity. Full HTML is in the original code.
-    }
-    window.removeItem = removeItem;
-    function openAdminAndPreselect(productId){
-      showModal();
-      setTimeout(()=>{
-        if(isLogged()){
-          const sel=document.getElementById("invProduct");
-          if(sel){ sel.value=productId; const p=PRODUCTS.find(x=>x.id===productId); if(p) document.getElementById("invPrice").value = p.usd; }
-        }
-      }, 60);
-    }
-    window.openAdminAndPreselect = openAdminAndPreselect;
+    <div class="inv-body">
+      <div class="inv-client">
+        <div style="font-weight:700;margin-bottom:8px;color:var(--orange);">DATOS DEL CLIENTE</div>
+        <div style="font-size:13px;line-height:1.6;">
+          <b>Nombre:</b> ${client}<br>
+          <b>Cédula/RIF:</b> ${id}<br>
+          <b>Teléfono:</b> ${phone}<br>
+          <b>Dirección:</b> ${addr}
+        </div>
+      </div>
+      
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Modelo</th>
+            <th class="r">Cant.</th>
+            <th class="r">P.Unit ($)</th>
+            <th class="r">Total ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${itemsHtml}
+        </tbody>
+      </table>
+      
+      <div class="inv-totals">
+        <div class="inv-total-box">
+          <div class="label">Subtotal</div>
+          <div class="amount">$${subtotal.toFixed(2)}</div>
+        </div>
+        <div class="inv-total-box">
+          <div class="label">IVA (${taxRate}%)</div>
+          <div class="amount">$${tax.toFixed(2)}</div>
+        </div>
+        <div class="inv-total-box">
+          <div class="label">Descuento</div>
+          <div class="amount" style="color:#c00;">-$${discount.toFixed(2)}</div>
+        </div>
+        <div class="inv-total-box" style="border:2px solid var(--orange);">
+          <div class="label">TOTAL USD</div>
+          <div class="amount" style="font-size:24px;">$${total.toFixed(2)}</div>
+        </div>
+        <div class="inv-total-box" style="grid-column:1/-1;background:var(--card);color:var(--text);">
+          <div class="label">Total en Bolívares (ref.)</div>
+          <div class="amount" style="font-size:20px;">Bs ${totalBs.toLocaleString('es-VE', {minimumFractionDigits:2})}</div>
+        </div>
+      </div>
+    </div>
     
-    /**********************
-     * INIT
-     **********************/
-    document.getElementById("yearNow").textContent = new Date().getFullYear();
-    renderRate(); renderCatalog();
-    fillYears();
-    document.getElementById("cBrand").addEventListener("change", (e)=>{
-      const b=e.target.value, m=document.getElementById("cModel"), y=document.getElementById("cYear");
-      if(!b){ m.disabled=true; y.disabled=true; m.innerHTML=`<option value="">Primero marca</option>`; return; }
-      fillModels(b); m.disabled=false; y.disabled=false;
-    });
-    document.getElementById("btnCompat").addEventListener("click", doCompat);
-    syncAdminUI();
-  </script>
+    <div class="inv-footer">
+      Documento generado electrónicamente • BRUTALUX Venezuela<br>
+      Esta factura es un comprobante de venta. Para facturación fiscal ante SENIAT, contactar directamente.
+    </div>
+  `;
+  
+  document.getElementById('invoice-preview').innerHTML = html;
+}
+
+function printInvoice() {
+  if (invoiceItems.length === 0) {
+    alert('Agrega al menos un producto');
+    return;
+  }
+  renderInvoice();
+  setTimeout(() => window.print(), 100);
+}
+</script>
+
 </body>
 </html>
