@@ -992,6 +992,139 @@
     border-top:1px solid rgba(255,255,255,.08);
   }
 }
+  /* ===== BRUTALUX MODALS: más color + mejor contraste ===== */
+
+/* Fondo del overlay más pro */
+.modal.show{
+  background:
+    radial-gradient(900px 520px at 20% 10%, rgba(0,200,255,.18), transparent 55%),
+    radial-gradient(900px 520px at 80% 10%, rgba(255,92,0,.16), transparent 55%),
+    rgba(0,0,0,.78);
+}
+
+/* Panel con borde neón suave */
+.panel{
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow:
+    0 22px 70px rgba(0,0,0,.65),
+    0 0 0 1px rgba(0,200,255,.10) inset;
+}
+
+/* Barra superior del modal (título) con gradiente de marca */
+.panelHead{
+  background:
+    linear-gradient(90deg, rgba(0,200,255,.18), rgba(255,92,0,.14));
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+/* Título del modal más visible */
+.panelHead h3{
+  color: rgba(233,237,245,.98);
+  text-shadow: 0 0 18px rgba(0,200,255,.22);
+}
+
+/* Botón cerrar más “premium” */
+.close{
+  border-color: rgba(255,255,255,.18) !important;
+  background: rgba(0,0,0,.22) !important;
+}
+.close:hover{
+  border-color: rgba(0,200,255,.35) !important;
+  box-shadow: 0 0 0 4px rgba(0,200,255,.10);
+}
+
+/* Inputs dentro de modales: borde azul al focus */
+.panelBody input,
+.panelBody select{
+  background: rgba(0,0,0,.40) !important;
+  border-color: rgba(255,255,255,.12) !important;
+}
+.panelBody input:focus,
+.panelBody select:focus{
+  border-color: rgba(0,200,255,.40) !important;
+  box-shadow: 0 0 0 4px rgba(0,200,255,.14) !important;
+}
+
+/* Labels un poquito más claros */
+.panelBody label{
+  color: rgba(233,237,245,.78) !important;
+}
+
+/* Tarjetas box dentro del modal: más relieve */
+.panelBody .box{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.28)) !important;
+  border-color: rgba(255,255,255,.10) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+
+/* Píldoras (subtotal/tasa) con estilo marca */
+.panelBody .pill{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.18)) !important;
+  border-color: rgba(255,255,255,.14) !important;
+}
+.panelBody .pill b{
+  background: linear-gradient(90deg, var(--yellow), #ffd36b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+/* Items del carrito */
+.cartItem{
+  border-color: rgba(255,255,255,.12) !important;
+  background:
+    radial-gradient(700px 240px at 20% 0%, rgba(0,200,255,.10), transparent 60%),
+    rgba(0,0,0,.30) !important;
+}
+.cartQty{
+  border-color: rgba(255,255,255,.14) !important;
+}
+.cartQty:focus{
+  border-color: rgba(255,92,0,.40) !important;
+  box-shadow: 0 0 0 4px rgba(255,92,0,.12) !important;
+}
+
+/* Botón “Quitar” en carrito: que no se vea plano */
+.btnRemove{
+  border-color: rgba(255,255,255,.18) !important;
+  background: rgba(255,255,255,.92) !important;
+}
+.btnRemove:hover{
+  filter: brightness(1.03);
+}
+
+/* Botones del modal (Vaciar / Enviar) más marcados */
+#cartClear.btnWide{
+  background: rgba(255,92,0,.14) !important;
+  border-color: rgba(255,92,0,.22) !important;
+}
+#cartClear.btnWide:hover{
+  background: rgba(255,92,0,.20) !important;
+}
+
+#cartWhatsapp.btnWide.green{
+  background: linear-gradient(90deg, #22c55e, #16a34a) !important;
+  border-color: rgba(255,255,255,.16) !important;
+  box-shadow: 0 18px 45px rgba(34,197,94,.22);
+}
+
+/* Botón carrito del header más “marca” */
+.cta-cart{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.10)) !important;
+  border-color: rgba(0,200,255,.22) !important;
+  box-shadow: 0 10px 30px rgba(0,200,255,.10);
+}
+.cta-cart:hover{
+  border-color: rgba(255,92,0,.26) !important;
+  box-shadow: 0 0 0 4px rgba(255,92,0,.10), 0 12px 35px rgba(0,0,0,.35);
+}
+
+/* Detalle: números y totales más legibles */
+#cartSubUsd, #cartSubBs, #cartRate{
+  font-weight: 1000;
+}
   </style>
 </head>
 
@@ -2598,6 +2731,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
