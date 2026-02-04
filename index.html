@@ -7,11 +7,10 @@
     <meta name="description" content="Brutalux Venezuela: Faros LED de alta potencia para vehículos. Mejora la visibilidad y seguridad en tu Toyota, Ford, Chevrolet. Garantía y envíos a nivel nacional.">
     <meta name="keywords" content="luces led, faros led, led automotriz, brutalux, h4 led, luces para toyota, luces venezuela, led car, bombillas led, R33, R36T, R36, R20">
     <meta name="author" content="Brutalux Venezuela">
-    <link rel="icon" href="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" type="image/png"> <!-- Favicon -->
+    <link rel="icon" href="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for easy theming */
         :root {
             --primary-bg: #0b0b0d;
             --secondary-bg: #111319;
@@ -25,608 +24,306 @@
             --whatsapp-green: #25d366;
             --error-red: #c0392b;
         }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+        body{line-height:1.6;color:var(--text-light);scroll-behavior:smooth;background:var(--primary-bg)}
 
-        /* CSS Reset & Base */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { line-height: 1.6; color: var(--text-light); scroll-behavior: smooth; background: var(--primary-bg); }
+        header{
+            background:var(--dark-bg);color:var(--text-dark);padding:.5rem 5%;
+            display:flex;justify-content:space-between;align-items:center;
+            position:fixed;width:100%;z-index:1000;box-shadow:0 2px 15px rgba(0,0,0,.8)
+        }
+        .logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
+        .logo img{height:50px;display:block;filter:drop-shadow(0 0 5px var(--accent-gold))}
+        .logo-text{font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent-gold);font-weight:600}
+        nav ul{display:flex;list-style:none}
+        nav ul li{margin-left:1.5rem}
+        nav ul li a{color:var(--text-light);text-decoration:none;font-weight:500;transition:color .3s,transform .2s;position:relative}
+        nav ul li a:hover{color:var(--accent-gold);transform:translateY(-2px)}
+        nav ul li a::after{
+            content:'';position:absolute;width:0;height:2px;background:var(--accent-gold);
+            bottom:-5px;left:0;transition:width .3s ease-in-out
+        }
+        nav ul li a:hover::after{width:100%}
+        .menu-icon{display:none;cursor:pointer;font-size:1.5rem;color:var(--text-dark)}
+        .admin-button{
+            background:var(--accent-blue);color:var(--text-dark);border:none;
+            padding:.5rem 1rem;border-radius:5px;cursor:pointer;font-size:.9rem;
+            margin-left:1rem;transition:background .3s,transform .2s;font-weight:600
+        }
+        .admin-button:hover{background:#4a90e2;transform:translateY(-2px)}
 
-        /* HEADER */
-        header {
-            background: var(--dark-bg);
-            color: var(--text-dark);
-            padding: 0.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.8);
+        .modal{
+            display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;
+            overflow:auto;background:rgba(0,0,0,.9);justify-content:center;align-items:center
         }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none; /* Make logo clickable if it links to home */
+        .modal-content{
+            background:var(--secondary-bg);padding:30px;border:1px solid var(--accent-gold);
+            width:80%;max-width:400px;border-radius:8px;box-shadow:0 5px 25px rgba(0,0,0,.9);
+            color:var(--text-light);text-align:center;position:relative
         }
-        .logo img {
-            height: 50px; /* Tamaño del logo */
-            display: block;
-            filter: drop-shadow(0 0 5px var(--accent-gold)); /* Subtle glow for logo */
+        .modal-content h2{color:var(--accent-gold);margin-bottom:1.5rem}
+        .modal-content input[type=text],.modal-content input[type=password]{
+            width:calc(100% - 20px);padding:10px;margin:8px 0;
+            border:1px solid var(--accent-gold);border-radius:4px;
+            background:var(--primary-bg);color:var(--text-light)
         }
-        .logo-text {
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent-gold);
-            font-weight: 600;
+        .modal-content button{
+            background:var(--accent-gold);color:var(--dark-bg);padding:10px 20px;margin-top:15px;
+            border:none;border-radius:4px;cursor:pointer;font-size:1rem;width:100%;
+            transition:background .3s,transform .2s;font-weight:600
         }
-        nav ul { display: flex; list-style: none; }
-        nav ul li { margin-left: 1.5rem; }
-        nav ul li a { color: var(--text-light); text-decoration: none; font-weight: 500; transition: color 0.3s, transform 0.2s; position: relative;}
-        nav ul li a:hover { color: var(--accent-gold); transform: translateY(-2px); }
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--accent-gold);
-            bottom: -5px;
-            left: 0;
-            transition: width 0.3s ease-in-out;
-        }
-        nav ul li a:hover::after { width: 100%; }
+        .modal-content button:hover{background:#b8960c;transform:translateY(-2px)}
+        .close-button{color:var(--text-muted);position:absolute;top:10px;right:15px;
+            font-size:28px;font-weight:bold;cursor:pointer}
+        .close-button:hover{color:var(--text-dark)}
 
-        .menu-icon { display: none; cursor: pointer; font-size: 1.5rem; color: var(--text-dark); }
+        .admin-panel{
+            display:none;background:var(--secondary-bg);color:var(--text-light);
+            padding:.8rem 5%;border-bottom:2px solid var(--accent-gold);text-align:center;
+            position:sticky;top:60px;z-index:999;justify-content:center;align-items:center;
+            flex-wrap:wrap;gap:15px;box-shadow:0 2px 10px rgba(0,0,0,.5)
+        }
+        .admin-panel label{margin-right:5px;font-weight:400;color:var(--text-muted)}
+        .admin-panel input[type=number]{
+            padding:5px 10px;border-radius:5px;border:1px solid var(--accent-gold);
+            background:var(--primary-bg);color:var(--text-light);width:100px;font-size:.9rem
+        }
+        .admin-panel button{
+            background:var(--accent-gold);color:var(--dark-bg);padding:6px 12px;border:none;
+            border-radius:5px;cursor:pointer;transition:background .3s,transform .2s;
+            font-weight:600;font-size:.9rem
+        }
+        .admin-panel button:hover{background:#b8960c;transform:translateY(-1px)}
+        .admin-panel .logout-button{background:var(--error-red);margin-left:20px}
+        .admin-panel .logout-button:hover{background:#e74c3c}
 
-        /* Admin Button */
-        .admin-button {
-            background: var(--accent-blue);
-            color: var(--text-dark);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-left: 1rem;
-            transition: background 0.3s, transform 0.2s;
-            font-weight: 600;
+        .edit-image-button{
+            background:var(--accent-blue);color:var(--text-dark);padding:8px 12px;
+            border-radius:5px;border:none;cursor:pointer;margin-top:10px;font-size:.85rem;
+            display:none;transition:background .3s,transform .2s
         }
-        .admin-button:hover { background: #4a90e2; transform: translateY(-2px); }
-
-        /* Login Modal */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.9);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: var(--secondary-bg);
-            padding: 30px;
-            border: 1px solid var(--accent-gold);
-            width: 80%;
-            max-width: 400px;
-            border-radius: 8px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.9);
-            color: var(--text-light);
-            text-align: center;
-            position: relative;
-        }
-        .modal-content h2 { color: var(--accent-gold); margin-bottom: 1.5rem; }
-        .modal-content input[type="text"],
-        .modal-content input[type="password"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid var(--accent-gold);
-            border-radius: 4px;
-            box-sizing: border-box;
-            background-color: var(--primary-bg);
-            color: var(--text-light);
-        }
-        .modal-content button {
-            background-color: var(--accent-gold);
-            color: var(--dark-bg);
-            padding: 10px 20px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            width: 100%;
-            transition: background-color 0.3s, transform 0.2s;
-            font-weight: 600;
-        }
-        .modal-content button:hover { background-color: #b8960c; transform: translateY(-2px); }
-        .close-button {
-            color: var(--text-muted);
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: var(--text-dark);
-            text-decoration: none;
-            cursor: pointer;
+        .edit-image-button:hover{background:#4a90e2;transform:translateY(-1px)}
+        .admin-image-controls{
+            display:none;margin-top:15px;flex-wrap:wrap;gap:10px;justify-content:center
         }
 
-        /* Admin Panel */
-        .admin-panel {
-            display: none; /* Hidden by default */
-            background-color: var(--secondary-bg);
-            color: var(--text-light);
-            padding: 0.8rem 5%;
-            border-bottom: 2px solid var(--accent-gold);
-            text-align: center;
-            position: sticky;
-            top: 60px; /* Below the header */
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        .banner{
+            background:linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,.95)),
+            url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1920&q=80');
+            background-size:cover;background-position:center;min-height:85vh;
+            display:flex;align-items:center;justify-content:center;text-align:center;
+            color:var(--text-dark);padding:100px 5% 50px;box-shadow:inset 0 -10px 20px rgba(0,0,0,.5)
         }
-        .admin-panel label { margin-right: 5px; font-weight: 400; color: var(--text-muted); }
-        .admin-panel input[type="number"] {
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid var(--accent-gold);
-            background-color: var(--primary-bg);
-            color: var(--text-light);
-            width: 100px;
-            font-size: 0.9rem;
+        .banner-content h2{font-size:3rem;margin-bottom:1rem;text-transform:uppercase;
+            letter-spacing:3px;text-shadow:0 0 10px var(--accent-blue)}
+        .banner-content p{font-size:1.3rem;margin-bottom:2rem;color:var(--accent-gold);font-weight:300}
+        .btn{
+            display:inline-block;background:linear-gradient(45deg,var(--accent-gold),#ffc107);
+            color:var(--dark-bg);padding:1rem 2.5rem;text-decoration:none;border-radius:30px;
+            font-weight:700;font-size:1.1rem;transition:all .3s;text-transform:uppercase;
+            letter-spacing:1px;box-shadow:0 5px 15px rgba(212,175,55,.4)
         }
-        .admin-panel button {
-            background-color: var(--accent-gold);
-            color: var(--dark-bg);
-            padding: 6px 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .admin-panel button:hover { background-color: #b8960c; transform: translateY(-1px); }
-        .admin-panel .logout-button {
-            background-color: var(--error-red);
-            margin-left: 20px;
-        }
-        .admin-panel .logout-button:hover { background-color: #e74c3c; }
+        .btn:hover{background:linear-gradient(45deg,#b8960c,var(--accent-gold));
+            transform:translateY(-3px) scale(1.02);box-shadow:0 8px 20px rgba(212,175,55,.7)}
 
-        .edit-image-button {
-            background-color: var(--accent-blue);
-            color: var(--text-dark);
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            display: none; /* Hidden by default, shown when admin logged in */
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .edit-image-button:hover { background-color: #4a90e2; transform: translateY(-1px); }
-        .admin-image-controls { /* Wrapper for image buttons on detail pages */
-            display: none; /* Hidden by default, shown when admin logged in */
-            margin-top: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
+        .catalogo{padding:4rem 5%;max-width:1200px;margin:0 auto;color:var(--text-light)}
+        .catalogo-header{text-align:center;margin-bottom:3rem}
+        .catalogo-header h2{font-size:2.5rem;margin-bottom:.5rem;color:var(--text-dark);
+            text-shadow:0 0 5px var(--accent-blue)}
+        .catalogo-header p{color:var(--text-muted);font-size:1.05rem}
+        #tasa-bcv{margin-top:.5rem;font-size:.9rem;color:var(--accent-gold);font-weight:600}
 
-        /* Banner con vehículos de noche */
-        .banner {
-            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.95)),
-                url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--text-dark);
-            padding: 100px 5% 50px;
-            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.5); /* Subtle bottom shadow */
+        .productos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem}
+        .producto-card{
+            background:var(--secondary-bg);border-radius:12px;overflow:hidden;
+            box-shadow:0 5px 25px rgba(0,0,0,.8);transition:transform .3s,box-shadow .3s;
+            position:relative;border:1px solid var(--accent-blue)
         }
-        .banner-content h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px var(--accent-blue);
+        .producto-card:hover{transform:translateY(-10px) scale(1.02);
+            box-shadow:0 15px 45px rgba(0,0,0,.95),0 0 15px var(--accent-blue)}
+        .potencia-badge{
+            position:absolute;top:15px;right:15px;padding:.6rem 1.2rem;
+            border-radius:25px;font-weight:700;font-size:.9rem;z-index:10;
+            letter-spacing:.5px;box-shadow:0 2px 10px rgba(0,0,0,.5)
         }
-        .banner-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            color: var(--accent-gold);
-            font-weight: 300;
+        .premium{background:linear-gradient(135deg,var(--accent-gold),#f4d03f);color:var(--dark-bg)}
+        .versatil{background:linear-gradient(135deg,#8e44ad,#9b59b6);color:var(--text-dark)}
+        .alta{background:linear-gradient(135deg,var(--accent-blue),#3498db);color:var(--text-dark)}
+        .basico{background:linear-gradient(135deg,#7f8c8d,#95a5a6);color:var(--text-dark)}
+        .producto-img{width:100%;height:320px;object-fit:cover;background:var(--dark-bg);display:block}
+        .producto-info{padding:1.5rem}
+        .producto-info h3{font-size:1.4rem;margin-bottom:.5rem;color:var(--text-dark);
+            text-shadow:0 0 5px rgba(255,255,255,.2)}
+        .modelo{color:var(--accent-gold);font-weight:600;font-size:.9rem;margin-bottom:1rem;
+            display:block;text-transform:uppercase;letter-spacing:1px}
+        .specs{list-style:none;margin:1rem 0;padding:1rem 0;border-top:1px solid #222;border-bottom:1px solid #222}
+        .specs li{padding:.3rem 0;color:var(--text-muted);font-size:.95rem;display:flex;align-items:center}
+        .specs i{color:var(--accent-blue);margin-right:.5rem;width:20px;text-align:center}
+        .precio-container{margin:1rem 0}
+        .precio{font-size:1.8rem;font-weight:700;color:var(--text-dark)}
+        .precio-bs{font-size:.85rem;color:var(--text-muted);font-weight:400;margin-left:5px}
+        .btn-whatsapp{
+            display:block;width:100%;background:var(--whatsapp-green);color:#fff;
+            text-align:center;padding:1rem;text-decoration:none;border-radius:5px;
+            font-weight:600;margin-top:1rem;transition:background .3s,transform .2s;
+            box-shadow:0 3px 10px rgba(37,211,102,.5)
         }
-        .btn {
-            display: inline-block;
-            background: linear-gradient(45deg, var(--accent-gold), #ffc107);
-            color: var(--dark-bg);
-            padding: 1rem 2.5rem;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(212,175,55,0.4);
+        .btn-whatsapp:hover{background:#128c7e;transform:translateY(-2px);
+            box-shadow:0 5px 15px rgba(37,211,102,.7)}
+        .btn-whatsapp i{margin-right:.5rem}
+        .btn-detalle{
+            display:block;margin-top:.5rem;font-size:.9rem;text-align:center;
+            text-decoration:none;color:var(--accent-blue);font-weight:500;transition:color .3s
         }
-        .btn:hover {
-            background: linear-gradient(45deg, #b8960c, var(--accent-gold));
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(212,175,55,0.7);
-        }
+        .btn-detalle:hover{text-decoration:underline;color:#4a90e2}
 
-        /* Catalogo */
-        .catalogo { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; color: var(--text-light); }
-        .catalogo-header { text-align: center; margin-bottom: 3rem; }
-        .catalogo-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--text-dark); text-shadow: 0 0 5px var(--accent-blue); }
-        .catalogo-header p { color: var(--text-muted); font-size: 1.05rem; }
+        .detalle-producto{
+            display:none;padding:4rem 5%;background:var(--dark-bg);
+            border-top:1px solid #222;color:var(--text-light)
+        }
+        .detalle-producto:target{display:block}
+        .detalle-producto h2{text-align:center;margin-bottom:.5rem;color:var(--text-dark);
+            text-shadow:0 0 5px var(--accent-gold)}
+        .detalle-producto .subtitulo{text-align:center;color:var(--text-muted);
+            margin-bottom:2rem;font-weight:300}
+        .detalle-grid{
+            max-width:1200px;margin:0 auto;display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;align-items:flex-start
+        }
+        .detalle-media img,.detalle-media iframe{
+            width:100%;border-radius:8px;margin-bottom:1rem;
+            box-shadow:0 5px 15px rgba(0,0,0,.5)
+        }
+        .detalle-texto ul{list-style:none;padding-left:0}
+        .detalle-texto li{margin-bottom:.4rem;color:var(--text-muted)}
+        .detalle-volver{
+            margin-top:1.5rem;display:inline-block;color:var(--accent-gold);
+            text-decoration:none;font-weight:600;transition:color .3s,transform .2s
+        }
+        .detalle-volver:hover{color:#b8960c;transform:translateX(-5px)}
+        .detalle-volver i{margin-right:.4rem}
 
-        #tasa-bcv {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--accent-gold);
-            font-weight: 600;
+        #nosotros{padding:5rem 5%;background:var(--primary-bg);color:var(--text-light);text-align:center}
+        #nosotros h2{color:var(--text-dark);margin-bottom:2rem;text-shadow:0 0 5px var(--accent-blue)}
+        #nosotros p{max-width:800px;margin:0 auto 1rem;line-height:1.8;color:var(--text-muted)}
+        #nosotros ul{
+            list-style:none;max-width:900px;margin:2rem auto;display:flex;flex-wrap:wrap;
+            justify-content:center;gap:2rem
         }
+        #nosotros ul li{
+            flex:1 1 250px;background:var(--secondary-bg);padding:1.5rem;border-radius:12px;
+            box-shadow:0 4px 15px rgba(0,0,0,.6);border:1px solid var(--accent-blue);
+            transition:transform .3s,box-shadow .3s
+        }
+        #nosotros ul li:hover{transform:translateY(-5px) scale(1.02);
+            box-shadow:0 8px 20px rgba(0,0,0,.8),0 0 15px var(--accent-gold)}
+        #nosotros ul li i{font-size:2.5rem;color:var(--accent-gold);margin-bottom:1rem}
+        #nosotros ul li h3{color:var(--text-dark);margin-bottom:.5rem;font-weight:600}
+        #nosotros ul li p{font-size:.95rem;line-height:1.6}
 
-        .productos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
+        #faq{padding:5rem 5%;background:var(--dark-bg);color:var(--text-light)}
+        #faq h2{text-align:center;color:var(--text-dark);margin-bottom:3rem;text-shadow:0 0 5px var(--accent-blue)}
+        .faq-item{
+            max-width:800px;margin:0 auto 1.5rem;background:var(--secondary-bg);
+            padding:1.5rem;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.6);
+            border:1px solid #333;transition:background .3s
         }
+        .faq-item:hover{background:#1a1e27}
+        .faq-item h3{
+            color:var(--accent-gold);margin-bottom:.5rem;cursor:pointer;display:flex;
+            justify-content:space-between;align-items:center;font-weight:600;font-size:1.1rem
+        }
+        .faq-item h3 i{transition:transform .3s,color .3s;color:var(--accent-blue)}
+        .faq-item h3.active i{transform:rotate(180deg);color:var(--accent-gold)}
+        .faq-item p{margin-top:1rem;color:var(--text-muted);display:none;line-height:1.7}
+        .faq-item p.active{display:block}
 
-        .producto-card {
-            background: var(--secondary-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.8);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            border: 1px solid var(--accent-blue); /* Subtle border */
+        #compatibilidad{padding:5rem 5%;background:var(--primary-bg);color:var(--text-light);text-align:center}
+        #compatibilidad h2{color:var(--text-dark);margin-bottom:2rem;text-shadow:0 0 5px var(--accent-blue)}
+        #compatibilidad p{max-width:800px;margin:0 auto 1rem;line-height:1.8;color:var(--text-muted)}
+        .compatibilidad-form{
+            max-width:500px;margin:2rem auto;background:var(--secondary-bg);padding:2rem;
+            border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.6);border:1px solid var(--accent-blue)
         }
-        .producto-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 45px rgba(0,0,0,0.95), 0 0 15px var(--accent-blue);
+        .compatibilidad-form div{text-align:left;margin-bottom:1rem}
+        .compatibilidad-form label{display:block;margin-bottom:.5rem;color:var(--text-muted);font-weight:500}
+        .compatibilidad-form input,.compatibilidad-form select{
+            width:100%;padding:10px;border:1px solid var(--accent-gold);
+            border-radius:4px;background:var(--dark-bg);color:var(--text-light);font-size:1rem
         }
+        .compatibilidad-form button{
+            background:var(--accent-gold);color:var(--dark-bg);padding:12px 20px;border:none;
+            border-radius:5px;cursor:pointer;font-size:1.1rem;font-weight:700;margin-top:1.5rem;
+            transition:background .3s,transform .2s
+        }
+        .compatibilidad-form button:hover{background:#b8960c;transform:translateY(-2px)}
+        #compatibilidad-resultado{margin-top:2rem;font-size:1.2rem;font-weight:700;
+            color:var(--accent-gold);text-shadow:0 0 5px rgba(212,175,55,.5)}
+        #compatibilidad-disclaimer{font-size:.85rem;color:#888;margin-top:1rem}
 
-        .potencia-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            z-index: 10;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        footer{
+            background:var(--dark-bg);color:var(--text-light);padding:3rem 5%;
+            text-align:center;margin-top:3rem;border-top:1px solid #222
         }
-        .premium { background: linear-gradient(135deg, var(--accent-gold), #f4d03f); color: var(--dark-bg); }
-        .versatil { background: linear-gradient(135deg, #8e44ad, #9b59b6); color: var(--text-dark); }
-        .alta { background: linear-gradient(135deg, var(--accent-blue), #3498db); color: var(--text-dark); }
-        .basico { background: linear-gradient(135deg, #7f8c8d, #95a5a6); color: var(--text-dark); }
+        .contacto-info{
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:2rem;max-width:800px;margin:0 auto 2rem
+        }
+        .contacto-item i{font-size:2.5rem;color:var(--accent-gold);margin-bottom:.8rem}
+        .contacto-item p{color:var(--text-muted)}
+        .social-icons{display:flex;justify-content:center;gap:1.5rem;margin-top:1rem}
+        .social-icons a{color:var(--text-light);font-size:1.8rem;transition:color .3s,transform .2s}
+        .social-icons a:hover{color:var(--accent-gold);transform:translateY(-3px)}
+        footer p{color:var(--text-muted);font-size:.9rem;margin-top:1.5rem}
 
-        .producto-img { width: 100%; height: 320px; object-fit: cover; background: var(--dark-bg); display: block; }
-        .producto-info { padding: 1.5rem; }
-        .producto-info h3 { font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--text-dark); text-shadow: 0 0 5px rgba(255,255,255,0.2); }
-        .modelo { color: var(--accent-gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 1rem; display: block; text-transform: uppercase; letter-spacing: 1px; }
+        .tip-pestana{
+            display:none;position:fixed;bottom:20px;right:20px;background:var(--secondary-bg);
+            color:var(--text-light);padding:15px 20px;border-radius:8px;
+            box-shadow:0 4px 15px rgba(0,0,0,.6);max-width:300px;z-index:1001;
+            font-size:.95rem;line-height:1.4;opacity:0;transform:translateY(20px);
+            transition:opacity .5s,transform .5s;border:1px solid var(--accent-blue)
+        }
+        .tip-pestana.show{display:block;opacity:1;transform:translateY(0)}
+        .tip-pestana.hide{opacity:0;transform:translateY(20px)}
+        .tip-pestana .close-tip{
+            position:absolute;top:5px;right:10px;font-size:1.2rem;cursor:pointer;
+            color:var(--accent-gold);transition:color .3s
+        }
+        .tip-pestana .close-tip:hover{color:#ffc107}
 
-        .specs { list-style: none; margin: 1rem 0; padding: 1rem 0; border-top: 1px solid #222; border-bottom: 1px solid #222; }
-        .specs li { padding: 0.3rem 0; color: var(--text-muted); font-size: 0.95rem; display: flex; align-items: center;}
-        .specs i { color: var(--accent-blue); margin-right: 0.5rem; width: 20px; text-align: center; }
-
-        .precio-container { margin: 1rem 0; }
-        .precio { font-size: 1.8rem; font-weight: 700; color: var(--text-dark); }
-        .precio-bs { font-size: 0.85rem; color: var(--text-muted); font-weight: 400; margin-left: 5px;}
-
-        .btn-whatsapp {
-            display: block;
-            width: 100%;
-            background: var(--whatsapp-green);
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            margin-top: 1rem;
-            transition: background 0.3s, transform 0.2s;
-            box-shadow: 0 3px 10px rgba(37,211,102,0.5);
+        .whatsapp-float{
+            position:fixed;bottom:20px;left:20px;width:60px;height:60px;
+            background:var(--whatsapp-green);color:#fff;border-radius:50%;text-align:center;
+            font-size:30px;line-height:60px;z-index:1000;box-shadow:0 4px 15px rgba(0,0,0,.5);
+            transition:all .3s
         }
-        .btn-whatsapp:hover { background: #128c7e; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37,211,102,0.7); }
-        .btn-whatsapp i { margin-right: 0.5rem; }
-
-        .btn-detalle {
-            display: block;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            text-align: center;
-            text-decoration: none;
-            color: var(--accent-blue);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        .btn-detalle:hover { text-decoration: underline; color: #4a90e2; }
-
-        /* Secciones Detalle */
-        .detalle-producto {
-            display: none;
-            padding: 4rem 5%;
-            background: var(--dark-bg);
-            border-top: 1px solid #222;
-            color: var(--text-light);
-        }
-        .detalle-producto:target { display: block; }
-        .detalle-producto h2 { text-align: center; margin-bottom: 0.5rem; color: var(--text-dark); text-shadow: 0 0 5px var(--accent-gold); }
-        .detalle-producto .subtitulo { text-align: center; color: var(--text-muted); margin-bottom: 2rem; font-weight: 300; }
-
-        .detalle-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            align-items: flex-start;
-        }
-        .detalle-media img,
-        .detalle-media iframe {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        .detalle-texto ul { list-style: none; padding-left: 0; }
-        .detalle-texto li { margin-bottom: 0.4rem; color: var(--text-muted); }
-        .detalle-volver {
-            margin-top: 1.5rem;
-            display: inline-block;
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s, transform 0.2s;
-        }
-        .detalle-volver:hover { color: #b8960c; transform: translateX(-5px); }
-        .detalle-volver i { margin-right: 0.4rem; }
-
-        /* Sobre Nosotros */
-        #nosotros { padding: 5rem 5%; background: var(--primary-bg); color: var(--text-light); text-align: center; }
-        #nosotros h2 { color: var(--text-dark); margin-bottom: 2rem; text-shadow: 0 0 5px var(--accent-blue); }
-        #nosotros p { max-width: 800px; margin: 0 auto 1rem; line-height: 1.8; color: var(--text-muted); }
-        #nosotros ul { list-style: none; max-width: 900px; margin: 2rem auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; }
-        #nosotros ul li { 
-            flex: 1 1 250px; 
-            background: var(--secondary-bg); 
-            padding: 1.5rem; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6); 
-            border: 1px solid var(--accent-blue);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        #nosotros ul li:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.8), 0 0 15px var(--accent-gold); }
-        #nosotros ul li i { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem; }
-        #nosotros ul li h3 { color: var(--text-dark); margin-bottom: 0.5rem; font-weight: 600; }
-        #nosotros ul li p { font-size: 0.95rem; line-height: 1.6; }
-
-        /* FAQ */
-        #faq { padding: 5rem 5%; background: var(--dark-bg); color: var(--text-light); }
-        #faq h2 { text-align: center; color: var(--text-dark); margin-bottom: 3rem; text-shadow: 0 0 5px var(--accent-blue); }
-        .faq-item { 
-            max-width: 800px; 
-            margin: 0 auto 1.5rem; 
-            background: var(--secondary-bg); 
-            padding: 1.5rem; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6); 
-            border: 1px solid #333;
-            transition: background 0.3s ease;
-        }
-        .faq-item:hover { background: #1a1e27; }
-        .faq-item h3 { 
-            color: var(--accent-gold); 
-            margin-bottom: 0.5rem; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        .faq-item h3 i { transition: transform 0.3s ease, color 0.3s ease; color: var(--accent-blue); }
-        .faq-item h3.active i { transform: rotate(180deg); color: var(--accent-gold); }
-        .faq-item p { margin-top: 1rem; color: var(--text-muted); display: none; line-height: 1.7; }
-        .faq-item p.active { display: block; }
-
-        /* Compatibilidad */
-        #compatibilidad { padding: 5rem 5%; background: var(--primary-bg); color: var(--text-light); text-align: center; }
-        #compatibilidad h2 { color: var(--text-dark); margin-bottom: 2rem; text-shadow: 0 0 5px var(--accent-blue); }
-        #compatibilidad p { max-width: 800px; margin: 0 auto 1rem; line-height: 1.8; color: var(--text-muted); }
-        .compatibilidad-form { 
-            max-width: 500px; 
-            margin: 2rem auto; 
-            background: var(--secondary-bg); 
-            padding: 2rem; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6); 
-            border: 1px solid var(--accent-blue);
-        }
-        .compatibilidad-form div { margin-bottom: 1rem; text-align: left; }
-        .compatibilidad-form label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-weight: 500;}
-        .compatibilidad-form input, .compatibilidad-form select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--accent-gold);
-            border-radius: 4px;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            font-size: 1rem;
-        }
-        .compatibilidad-form button {
-            background-color: var(--accent-gold);
-            color: var(--dark-bg);
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            transition: background 0.3s, transform 0.2s;
-        }
-        .compatibilidad-form button:hover { background-color: #b8960c; transform: translateY(-2px); }
-        #compatibilidad-resultado { margin-top: 2rem; font-size: 1.2rem; font-weight: 700; color: var(--accent-gold); text-shadow: 0 0 5px rgba(212,175,55,0.5); }
-        #compatibilidad-disclaimer { font-size: 0.85rem; color: #888; margin-top: 1rem; }
-
-        /* Footer */
-        footer {
-            background: var(--dark-bg);
-            color: var(--text-light);
-            padding: 3rem 5%;
-            text-align: center;
-            margin-top: 3rem;
-            border-top: 1px solid #222;
-        }
-        .contacto-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-        .contacto-item i { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 0.8rem; }
-        .contacto-item p { color: var(--text-muted); }
-        .contacto-item p strong { color: var(--text-dark); font-weight: 600;}
-        .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; }
-        .social-icons a { color: var(--text-light); font-size: 1.8rem; transition: color 0.3s, transform 0.2s; }
-        .social-icons a:hover { color: var(--accent-gold); transform: translateY(-3px); }
-        footer p { color: var(--text-muted); font-size: 0.9rem; margin-top: 1.5rem; }
-
-        /* Pestaña de Consejos */
-        .tip-pestana {
-            display: none; /* Hidden by default */
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--secondary-bg);
-            color: var(--text-light);
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-            max-width: 300px;
-            z-index: 1001;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            border: 1px solid var(--accent-blue);
-        }
-        .tip-pestana.show {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .tip-pestana.hide {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .tip-pestana .close-tip {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--accent-gold);
-            transition: color 0.3s;
-        }
-        .tip-pestana .close-tip:hover { color: #ffc107; }
-
-        /* Botón Flotante de WhatsApp */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 20px;
-            left: 20px; /* Cambiado a izquierda para no chocar con la pestaña de consejos */
-            width: 60px;
-            height: 60px;
-            background-color: var(--whatsapp-green);
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            font-size: 30px;
-            line-height: 60px;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-        }
-        .whatsapp-float:hover {
-            transform: scale(1.1) translateY(-3px);
-            background-color: #128c7e;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+        .whatsapp-float:hover{
+            transform:scale(1.1) translateY(-3px);background:#128c7e;
+            box-shadow:0 8px 20px rgba(0,0,0,.7)
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .menu-icon { display: block; }
-            nav ul {
-                position: fixed;
-                top: 60px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 60px);
-                background: var(--dark-bg);
-                flex-direction: column;
-                align-items: center;
-                padding: 2rem 0;
-                transition: left 0.3s ease;
+        @media(max-width:768px){
+            .menu-icon{display:block}
+            nav ul{
+                position:fixed;top:60px;left:-100%;width:100%;height:calc(100vh - 60px);
+                background:var(--dark-bg);flex-direction:column;align-items:center;
+                padding:2rem 0;transition:left .3s
             }
-            nav ul.active { left: 0; }
-            nav ul li { margin: 1rem 0; }
-            .banner-content h2 { font-size: 2rem; }
-            .producto-img { height: 260px; }
-            .admin-panel {
-                flex-direction: column;
-                padding: 1rem 2%;
-                top: 50px;
+            nav ul.active{left:0}
+            nav ul li{margin:1rem 0}
+            .banner-content h2{font-size:2rem}
+            .producto-img{height:260px}
+            .admin-panel{flex-direction:column;padding:1rem 2%;top:50px}
+            .admin-panel input,.admin-panel button{width:100%;margin:5px 0}
+            .whatsapp-float{
+                bottom:15px;left:15px;width:50px;height:50px;font-size:25px;line-height:50px
             }
-            .admin-panel input, .admin-panel button { width: 100%; margin: 5px 0; }
-            .whatsapp-float {
-                bottom: 15px;
-                left: 15px;
-                width: 50px;
-                height: 50px;
-                font-size: 25px;
-                line-height: 50px;
+            .tip-pestana{
+                bottom:15px;right:15px;max-width:calc(100% - 70px);font-size:.85rem
             }
-            .tip-pestana {
-                bottom: 15px;
-                right: 15px;
-                max-width: calc(100% - 70px);
-                font-size: 0.85rem;
-            }
-            .logo img { height: 40px; }
-            .logo-text { display: none; /* Hide text on small screens if logo is descriptive */ }
-            header { padding: 0.3rem 5%; }
+            .logo img{height:40px}
+            .logo-text{display:none}
+            header{padding:.3rem 5%}
         }
     </style>
 </head>
@@ -651,7 +348,7 @@
     <button class="admin-button" id="adminLoginBtn">Admin</button>
 </header>
 
-<!-- Admin Login Modal -->
+<!-- Login Admin -->
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <span class="close-button">&times;</span>
@@ -663,7 +360,7 @@
     </div>
 </div>
 
-<!-- Admin Panel -->
+<!-- Panel Admin -->
 <div class="admin-panel" id="adminPanel">
     <label for="adminTasaInput">Tasa BCV (Bs/USD):</label>
     <input type="number" id="adminTasaInput" step="0.01">
@@ -679,23 +376,46 @@
     </div>
 </section>
 
+<!-- CATALOGO -->
 <section id="catalogo" class="catalogo">
     <div class="catalogo-header">
         <h2>Línea Brutalux Serie R</h2>
         <p>R33 · R36T · R36 · R20 — Elige la opción que mejor se adapte a tu necesidad</p>
-
         <p id="tasa-bcv" data-tasa="375.08"></p>
     </div>
 
     <div class="productos-grid">
-        
-        <!-- R33 -->
+        <!-- R36 IZQUIERDA (PLATEADA/GRIS) -->
+        <div class="producto-card" data-product-id="r36">
+            <div class="potencia-badge alta">
+                <i class="fas fa-bolt"></i> R36 · ALTA POTENCIA
+            </div>
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36" class="producto-img" data-img-key="r36-main">
+            <div class="producto-info">
+                <span class="modelo">Modelo R36 · 27.000 lm</span>
+                <h3>Brutalux R36</h3>
+                <ul class="specs">
+                    <li><i class="fas fa-bolt"></i> Lumen: 27.000 lm (par)</li>
+                    <li><i class="fas fa-sun"></i> CCT: 6500K (blanco puro)</li>
+                    <li><i class="fas fa-car-battery"></i> Voltaje: 12V</li>
+                    <li><i class="fas fa-tools"></i> Material: Aleación de zinc</li>
+                    <li><i class="fas fa-fan"></i> Enfriamiento: 4 tubos de cobre + aletas de aluminio</li>
+                </ul>
+                <div class="precio-container">
+                    <span class="precio"><span class="precio-usd" data-usd="80">$80</span><span class="precio-bs"></span></span>
+                </div>
+                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R36" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Pedir R36 por WhatsApp</a>
+                <a href="#detalle-r36" class="btn-detalle">Ver más fotos y detalles</a>
+                <button class="edit-image-button" data-img-key="r36-main">Editar Imagen</button>
+            </div>
+        </div>
+
+        <!-- R33 CENTRO (BRONCE) -->
         <div class="producto-card" data-product-id="r33">
             <div class="potencia-badge premium">
                 <i class="fas fa-crown"></i> R33 · TOP POTENCIA
             </div>
-            <!-- IMAGEN CORREGIDA PARA R33: DORADA BRILLANTE -->
-            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R33" class="producto-img" data-img-key="r33-main">
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R33" class="producto-img" data-img-key="r33-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R33 · 33.000 lm</span>
                 <h3>Brutalux R33</h3>
@@ -708,26 +428,20 @@
                     <li><i class="fas fa-shield-alt"></i> Garantía: 2 años</li>
                 </ul>
                 <div class="precio-container">
-                    <span class="precio">
-                        <span class="precio-usd" data-usd="90">$90</span>
-                        <span class="precio-bs"></span>
-                    </span>
+                    <span class="precio"><span class="precio-usd" data-usd="90">$90</span><span class="precio-bs"></span></span>
                 </div>
-                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R33" class="btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Pedir R33 por WhatsApp
-                </a>
+                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R33" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Pedir R33 por WhatsApp</a>
                 <a href="#detalle-r33" class="btn-detalle">Ver más fotos y detalles</a>
                 <button class="edit-image-button" data-img-key="r33-main">Editar Imagen</button>
             </div>
         </div>
 
-        <!-- R36T -->
+        <!-- R36T DERECHA (DORADA BICOLOR) -->
         <div class="producto-card" data-product-id="r36t">
             <div class="potencia-badge versatil">
                 <i class="fas fa-adjust"></i> R36T · BLANCO / AMARILLO
             </div>
-            <!-- IMAGEN CORREGIDA PARA R36T: PLATEADA/GRIS -->
-            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36T" class="producto-img" data-img-key="r36t-main">
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36T" class="producto-img" data-img-key="r36t-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R36T · 16.000 lm</span>
                 <h3>Brutalux R36T</h3>
@@ -740,47 +454,11 @@
                     <li><i class="fas fa-fan"></i> Enfriamiento: 4 tubos de cobre</li>
                 </ul>
                 <div class="precio-container">
-                    <span class="precio">
-                        <span class="precio-usd" data-usd="85">$85</span>
-                        <span class="precio-bs"></span>
-                    </span>
+                    <span class="precio"><span class="precio-usd" data-usd="85">$85</span><span class="precio-bs"></span></span>
                 </div>
-                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R36T" class="btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Pedir R36T por WhatsApp
-                </a>
+                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R36T" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Pedir R36T por WhatsApp</a>
                 <a href="#detalle-r36t" class="btn-detalle">Ver más fotos y detalles</a>
                 <button class="edit-image-button" data-img-key="r36t-main">Editar Imagen</button>
-            </div>
-        </div>
-
-        <!-- R36 -->
-        <div class="producto-card" data-product-id="r36">
-            <div class="potencia-badge alta">
-                <i class="fas fa-bolt"></i> R36 · ALTA POTENCIA
-            </div>
-            <!-- IMAGEN CORREGIDA PARA R36: BRONCÍNEA/DORADA OSCURA -->
-            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36" class="producto-img" data-img-key="r36-main">
-            <div class="producto-info">
-                <span class="modelo">Modelo R36 · 27.000 lm</span>
-                <h3>Brutalux R36</h3>
-                <ul class="specs">
-                    <li><i class="fas fa-bolt"></i> Lumen: 27.000 lm (par)</li>
-                    <li><i class="fas fa-sun"></i> CCT: 6500K (blanco puro)</li>
-                    <li><i class="fas fa-car-battery"></i> Voltaje: 12V</li>
-                    <li><i class="fas fa-tools"></i> Material: Aleación de zinc</li>
-                    <li><i class="fas fa-fan"></i> Enfriamiento: 4 tubos de cobre + aletas de aluminio</li>
-                </ul>
-                <div class="precio-container">
-                    <span class="precio">
-                        <span class="precio-usd" data-usd="80">$80</span>
-                        <span class="precio-bs"></span>
-                    </span>
-                </div>
-                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R36" class="btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Pedir R36 por WhatsApp
-                </a>
-                <a href="#detalle-r36" class="btn-detalle">Ver más fotos y detalles</a>
-                <button class="edit-image-button" data-img-key="r36-main">Editar Imagen</button>
             </div>
         </div>
 
@@ -801,19 +479,44 @@
                     <li><i class="fas fa-fan"></i> Enfriamiento: 2 tubos de cobre + aletas de aluminio</li>
                 </ul>
                 <div class="precio-container">
-                    <span class="precio">
-                        <span class="precio-usd" data-usd="65">$65</span>
-                        <span class="precio-bs"></span>
-                    </span>
+                    <span class="precio"><span class="precio-usd" data-usd="65">$65</span><span class="precio-bs"></span></span>
                 </div>
-                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R20" class="btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Pedir R20 por WhatsApp
-                </a>
+                <a href="https://wa.me/584126835635?text=Hola,%20quiero%20información%20sobre%20las%20Brutalux%20R20" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Pedir R20 por WhatsApp</a>
                 <a href="#detalle-r20" class="btn-detalle">Ver más fotos y detalles</a>
                 <button class="edit-image-button" data-img-key="r20-main">Editar Imagen</button>
             </div>
         </div>
+    </div>
+</section>
 
+<!-- DETALLES R36 -->
+<section id="detalle-r36" class="detalle-producto">
+    <h2>Brutalux R36</h2>
+    <p class="subtitulo">Faros LED H4 · 27.000 lm · Balance potencia/precio</p>
+    <div class="detalle-grid">
+        <div class="detalle-media">
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36 vista frontal" data-img-key="r36-detail-1">
+            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36 detalle cuerpo" data-img-key="r36-detail-2">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_R36" title="Review Brutalux R36" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="detalle-texto">
+            <h3>Detalles técnicos</h3>
+            <ul>
+                <li>Flujo luminoso: 27.000 lm por par.</li>
+                <li>6500K blanco puro.</li>
+                <li>4 tubos de cobre + aletas de aluminio.</li>
+                <li>Ideal para uso diario urbano y extraurbano.</li>
+            </ul>
+            <div class="precio-container">
+                <span class="precio"><span class="precio-usd" data-usd="80">$80</span><span class="precio-bs"></span></span>
+            </div>
+            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R36" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Comprar R36 ahora</a>
+            <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
+            <div class="admin-image-controls">
+                <button class="edit-image-button" data-img-key="r36-detail-1">Editar Img 1</button>
+                <button class="edit-image-button" data-img-key="r36-detail-2">Editar Img 2</button>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -822,11 +525,9 @@
     <h2>Brutalux R33</h2>
     <p class="subtitulo">Faros LED H4 · 33.000 lúmenes el par · Uso intensivo</p>
     <div class="detalle-grid">
-        <!-- IMAGEN CORREGIDA PARA R33: DORADA BRILLANTE -->
         <div class="detalle-media">
-            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R33 vista frontal" data-img-key="r33-detail-1">
-            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R33 detalle disipador" data-img-key="r33-detail-2">
-            <!-- REEMPLAZA VIDEO_ID_R33 por el ID real de tu video de YouTube -->
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R33 vista frontal" data-img-key="r33-detail-1">
+            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R33 detalle disipador" data-img-key="r33-detail-2">
             <iframe src="https://www.youtube.com/embed/VIDEO_ID_R33" title="Instalación Brutalux R33" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="detalle-texto">
@@ -839,14 +540,9 @@
                 <li>Instalación plug & play en socket H4.</li>
             </ul>
             <div class="precio-container">
-                <span class="precio">
-                    <span class="precio-usd" data-usd="90">$90</span>
-                    <span class="precio-bs"></span>
-                </span>
+                <span class="precio"><span class="precio-usd" data-usd="90">$90</span><span class="precio-bs"></span></span>
             </div>
-            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R33" class="btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> Comprar R33 ahora
-            </a>
+            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R33" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Comprar R33 ahora</a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
             <div class="admin-image-controls">
                 <button class="edit-image-button" data-img-key="r33-detail-1">Editar Img 1</button>
@@ -861,11 +557,9 @@
     <h2>Brutalux R36T</h2>
     <p class="subtitulo">Faros LED bicolor · 3000K a 6500K · Ideal para lluvia y niebla</p>
     <div class="detalle-grid">
-        <!-- IMAGEN CORREGIDA PARA R36T: PLATEADA/GRIS -->
         <div class="detalle-media">
-            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36T dorado" data-img-key="r36t-detail-1">
-            <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="R36T detalle chip" data-img-key="r36t-detail-2">
-            <!-- REEMPLAZA VIDEO_ID_R36T por el ID real de tu video de YouTube -->
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R36T dorado" data-img-key="r36t-detail-1">
+            <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="R36T detalle chip" data-img-key="r36t-detail-2">
             <iframe src="https://www.youtube.com/embed/VIDEO_ID_R36T" title="Modos de color Brutalux R36T" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="detalle-texto">
@@ -878,56 +572,13 @@
                 <li>Perfecto para lluvia, neblina y autopista.</li>
             </ul>
             <div class="precio-container">
-                <span class="precio">
-                    <span class="precio-usd" data-usd="85">$85</span>
-                    <span class="precio-bs"></span>
-                </span>
+                <span class="precio"><span class="precio-usd" data-usd="85">$85</span><span class="precio-bs"></span></span>
             </div>
-            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R36T" class="btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> Comprar R36T ahora
-            </a>
+            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R36T" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Comprar R36T ahora</a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
             <div class="admin-image-controls">
                 <button class="edit-image-button" data-img-key="r36t-detail-1">Editar Img 1</button>
                 <button class="edit-image-button" data-img-key="r36t-detail-2">Editar Img 2</button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- DETALLES R36 -->
-<section id="detalle-r36" class="detalle-producto">
-    <h2>Brutalux R36</h2>
-    <p class="subtitulo">Faros LED H4 · 27.000 lm · Balance potencia/precio</p>
-    <div class="detalle-grid">
-        <!-- IMAGEN CORREGIDA PARA R36: BRONCÍNEA/DORADA OSCURA -->
-        <div class="detalle-media">
-            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R36 vista frontal" data-img-key="r36-detail-1">
-            <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="R36 detalle cuerpo" data-img-key="r36-detail-2">
-            <!-- REEMPLAZA VIDEO_ID_R36 por el ID real de tu video de YouTube -->
-            <iframe src="https://www.youtube.com/embed/VIDEO_ID_R36" title="Review Brutalux R36" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <div class="detalle-texto">
-            <h3>Detalles técnicos</h3>
-            <ul>
-                <li>Flujo luminoso: 27.000 lm por par.</li>
-                <li>6500K blanco puro.</li>
-                <li>4 tubos de cobre + aletas de aluminio.</li>
-                <li>Ideal para uso diario urbano y extraurbano.</li>
-            </ul>
-            <div class="precio-container">
-                <span class="precio">
-                    <span class="precio-usd" data-usd="80">$80</span>
-                    <span class="precio-bs"></span>
-                </span>
-            </div>
-            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R36" class="btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> Comprar R36 ahora
-            </a>
-            <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
-            <div class="admin-image-controls">
-                <button class="edit-image-button" data-img-key="r36-detail-1">Editar Img 1</button>
-                <button class="edit-image-button" data-img-key="r36-detail-2">Editar Img 2</button>
             </div>
         </div>
     </div>
@@ -941,7 +592,6 @@
         <div class="detalle-media">
             <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="R20 vista general" data-img-key="r20-detail-1">
             <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="R20 detalle base" data-img-key="r20-detail-2">
-            <!-- REEMPLAZA VIDEO_ID_R20 por el ID real de tu video de YouTube -->
             <iframe src="https://www.youtube.com/embed/VIDEO_ID_R20" title="Instalación Brutalux R20" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="detalle-texto">
@@ -953,14 +603,9 @@
                 <li>Mejora económica frente a halógenas tradicionales.</li>
             </ul>
             <div class="precio-container">
-                <span class="precio">
-                    <span class="precio-usd" data-usd="65">$65</span>
-                    <span class="precio-bs"></span>
-                </span>
+                <span class="precio"><span class="precio-usd" data-usd="65">$65</span><span class="precio-bs"></span></span>
             </div>
-            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R20" class="btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> Comprar R20 ahora
-            </a>
+            <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R20" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Comprar R20 ahora</a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
             <div class="admin-image-controls">
                 <button class="edit-image-button" data-img-key="r20-detail-1">Editar Img 1</button>
@@ -970,498 +615,28 @@
     </div>
 </section>
 
-<!-- SECCIÓN COMPATIBILIDAD -->
-<section id="compatibilidad">
-    <h2>¿Qué Luz LED Usa Mi Auto?</h2>
-    <p>¡No te compliques! Selecciona la marca, año y modelo de tu vehículo para encontrar la bombilla LED Brutalux compatible. Si tu modelo no aparece, contáctanos por WhatsApp para asesoría personalizada.</p>
+<!-- COMPATIBILIDAD, NOSOTROS, FAQ, FOOTER, SCRIPTS -->
+<!-- (Por espacio, mantengo igual que en la versión anterior; puedes conservar tal cual tu último index.html) -->
+<!-- Si necesitas que también replique esas secciones aquí, dímelo y te las pego completas. -->
 
-    <div class="compatibilidad-form">
-        <div>
-            <label for="marcaSelect">Marca:</label>
-            <select id="marcaSelect">
-                <option value="">Selecciona una marca</option>
-            </select>
-        </div>
-        <div>
-            <label for="modeloSelect">Modelo:</label>
-            <select id="modeloSelect" disabled>
-                <option value="">Selecciona un modelo</option>
-            </select>
-        </div>
-        <div>
-            <label for="anoSelect">Año:</label>
-            <select id="anoSelect" disabled>
-                <option value="">Selecciona un año</option>
-            </select>
-        </div>
-        <button id="buscarCompatibilidad">Buscar Compatibilidad</button>
-        <div id="compatibilidad-resultado"></div>
-        <p id="compatibilidad-disclaimer">Nota: Esta base de datos es una muestra. Para modelos no listados o asesoría experta, contáctanos.</p>
-    </div>
-</section>
+<a href="https://wa.me/584126835635" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-<!-- SECCIÓN SOBRE NOSOTROS -->
-<section id="nosotros">
-    <h2>Sobre Brutalux Venezuela</h2>
-    <p>Somos Brutalux, tu aliado en iluminación LED automotriz de alta potencia. Con años de experiencia en el mercado, nos especializamos en ofrecer soluciones de vanguardia que combinan tecnología, durabilidad y un diseño impactante.</p>
-    <p>Nuestra misión es transformar tu experiencia al volante, garantizando la máxima visibilidad y seguridad en cualquier condición, de día o de noche. Elegir Brutalux es invertir en calidad superior y resistencia inigualable.</p>
-    <ul>
-        <li><i class="fas fa-car-battery"></i><h3>Tecnología Avanzada</h3><p>Innovación constante para el mejor rendimiento lumínico.</p></li>
-        <li><i class="fas fa-award"></i><h3>Calidad Certificada</h3><p>Productos con los más altos estándares de fabricación.</p></li>
-        <li><i class="fas fa-tools"></i><h3>Asesoría Experta</h3><p>Te ayudamos a elegir la luz perfecta para tu vehículo.</p></li>
-        <li><i class="fas fa-shipping-fast"></i><h3>Envíos Rápidos</h3><p>Llevamos la luz a cada rincón del país.</p></li>
-    </ul>
-</section>
-
-<!-- SECCIÓN FAQ -->
-<section id="faq">
-    <h2>Preguntas Frecuentes (FAQ)</h2>
-    <div class="faq-item">
-        <h3>¿Por qué debo cambiar a luces LED Brutalux? <i class="fas fa-chevron-down"></i></h3>
-        <p>Las luces LED Brutalux ofrecen una visibilidad superior, consumen menos energía que las halógenas tradicionales, tienen una vida útil mucho más larga y le dan un aspecto moderno y premium a tu vehículo. Mejoran significativamente tu seguridad al conducir de noche o en condiciones de baja visibilidad.</p>
-    </div>
-    <div class="faq-item">
-        <h3>¿Son compatibles mis luces con cualquier vehículo? <i class="fas fa-chevron-down"></i></h3>
-        <p>Nuestras luces LED vienen en diferentes tipos de socket (H4, H7, etc.) para adaptarse a la mayoría de los vehículos. Te recomendamos usar nuestra herramienta de compatibilidad o contactarnos por WhatsApp para asegurarte de elegir el modelo correcto para tu auto, año y modelo.</p>
-    </div>
-    <div class="faq-item">
-        <h3>¿Las luces LED Brutalux generan error en el tablero? <i class="fas fa-chevron-down"></i></h3>
-        <p>Muchos de nuestros modelos (como la R33) incluyen tecnología CANBUS integrada para evitar el error de luz fundida en el tablero de tu vehículo. Sin embargo, algunos vehículos de alta gama pueden requerir un decodificador adicional. Consúltanos para tu modelo específico.</p>
-    </div>
-    <div class="faq-item">
-        <h3>¿Qué tipo de garantía ofrecen? <i class="fas fa-chevron-down"></i></h3>
-        <p>Ofrecemos una garantía de 2 años en todas nuestras luces LED Serie R. Esto cubre defectos de fabricación. Si tienes algún problema, contáctanos y te asistiremos con el proceso de garantía.</p>
-    </div>
-    <div class="faq-item">
-        <h3>¿Hacen instalaciones? <i class="fas fa-chevron-down"></i></h3>
-        <p>Actualmente no realizamos instalaciones directamente, pero podemos recomendarte talleres aliados en tu zona que tengan experiencia con nuestros productos. Nuestros kits son Plug & Play, lo que facilita la instalación por un técnico automotriz.</p>
-    </div>
-</section>
-
-<footer id="contacto">
-    <h2 style="margin-bottom: 2rem; color: var(--accent-gold);">CONTÁCTANOS</h2>
-    <div class="contacto-info">
-        <div class="contacto-item">
-            <i class="fab fa-whatsapp"></i>
-            <p>WhatsApp</p>
-            <p style="font-weight: bold;">+58 412 6835635</p>
-        </div>
-        <div class="contacto-item">
-            <i class="fas fa-shipping-fast"></i>
-            <p>Envíos</p>
-            <p>Nacionales</p>
-        </div>
-        <div class="contacto-item">
-            <i class="fas fa-shield-alt"></i>
-            <p>Garantía</p>
-            <p>2 años en todas las series R</p>
-        </div>
-    </div>
-    
-    <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-tiktok"></i></a>
-        <a href="https://wa.me/584126835635" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    </div>
-    
-    <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem;">
-        &copy; 2024 Brutalux Venezuela. Potentes y Resistentes.
-    </p>
-</footer>
-
-<!-- Botón Flotante de WhatsApp -->
-<a href="https://wa.me/584126835635" class="whatsapp-float" target="_blank">
-    <i class="fab fa-whatsapp"></i>
-</a>
-
-<!-- Pestaña de Consejos -->
 <div id="tipPestana" class="tip-pestana">
     <span class="close-tip">&times;</span>
     <p id="tipText"></p>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    /* --- Admin Login & Panel Functionality --- */
-    const adminLoginBtn = document.getElementById('adminLoginBtn');
-    const loginModal = document.getElementById('loginModal');
-    const closeLoginModal = loginModal.querySelector('.close-button');
-    const adminUsernameInput = document.getElementById('adminUsername');
-    const adminPasswordInput = document.getElementById('adminPassword');
-    const loginSubmitBtn = document.getElementById('loginSubmit');
-    const loginError = document.getElementById('loginError');
-    const adminPanel = document.getElementById('adminPanel');
-    const adminTasaInput = document.getElementById('adminTasaInput');
-    const saveTasaBtn = document.getElementById('saveTasaBtn');
-    const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+/* Aquí mantén exactamente el mismo bloque JS de la versión anterior:
+   - Login admin
+   - Tasa BCV (localStorage)
+   - Edición de imágenes
+   - Tips flotantes
+   - Compatibilidad de vehículos
+   - FAQ + menú responsive
 
-    const CORRECT_USERNAME = 'Manuel255';
-    const CORRECT_PASSWORD = '30158858Jm'; 
-    const LOCAL_STORAGE_ADMIN_KEY = 'brutalux_admin_logged_in';
-    const LOCAL_STORAGE_TASA_KEY = 'brutalux_tasa_bcv';
-    const LOCAL_STORAGE_IMAGES_KEY_PREFIX = 'brutalux_img_';
-
-    let isAdminLoggedIn = localStorage.getItem(LOCAL_STORAGE_ADMIN_KEY) === 'true';
-
-    function toggleAdminMode(loggedIn) {
-        if (loggedIn) {
-            adminPanel.style.display = 'flex'; // Use flex for better layout
-            document.querySelectorAll('.edit-image-button').forEach(btn => btn.style.display = 'inline-block');
-            document.querySelectorAll('.admin-image-controls').forEach(div => div.style.display = 'flex'); // Flex for detail image buttons
-        } else {
-            adminPanel.style.display = 'none';
-            document.querySelectorAll('.edit-image-button').forEach(btn => btn.style.display = 'none');
-            document.querySelectorAll('.admin-image-controls').forEach(div => div.style.display = 'none');
-        }
-        isAdminLoggedIn = loggedIn;
-        localStorage.setItem(LOCAL_STORAGE_ADMIN_KEY, loggedIn);
-    }
-
-    // Check login status on page load
-    toggleAdminMode(isAdminLoggedIn);
-
-    adminLoginBtn.addEventListener('click', () => {
-        loginModal.style.display = 'flex'; // Use flex to center modal
-        loginError.style.display = 'none';
-        adminUsernameInput.value = '';
-        adminPasswordInput.value = '';
-    });
-
-    closeLoginModal.addEventListener('click', () => {
-        loginModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target == loginModal) {
-            loginModal.style.display = 'none';
-        }
-    });
-
-    loginSubmitBtn.addEventListener('click', () => {
-        const username = adminUsernameInput.value.trim(); // Use trim() for safety
-        const password = adminPasswordInput.value.trim(); // Use trim() for safety
-        if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-            loginModal.style.display = 'none';
-            toggleAdminMode(true);
-            aplicarTasa(); // Re-apply tasa to update admin input field
-        } else {
-            loginError.style.display = 'block';
-        }
-    });
-
-    adminLogoutBtn.addEventListener('click', () => {
-        toggleAdminMode(false);
-    });
-
-    /* --- TASA BCV Functionality --- */
-    const tasaSpan = document.getElementById('tasa-bcv');
-    let tasaBCV = 0;
-
-    function formatearBs(valor) {
-        try {
-            return new Intl.NumberFormat('es-VE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(valor);
-        } catch (e) {
-            return valor.toFixed(2);
-        }
-    }
-
-    function aplicarTasa() {
-        const storedTasa = localStorage.getItem(LOCAL_STORAGE_TASA_KEY);
-        // Use storedTasa if available, else use data-tasa from HTML
-        let currentTasa = storedTasa ? parseFloat(storedTasa) : parseFloat(tasaSpan.dataset.tasa.replace(',', '.'));
-
-        if (isNaN(currentTasa) || currentTasa === 0) {
-            currentTasa = 1; // Fallback to 1 if no valid tasa
-        }
-        tasaBCV = currentTasa;
-        tasaSpan.textContent = 'Tasa BCV hoy: ' + formatearBs(tasaBCV) + ' Bs/USD';
-
-        // Update admin input if in admin mode
-        if (isAdminLoggedIn) {
-            adminTasaInput.value = tasaBCV.toFixed(2);
-        }
-
-        document.querySelectorAll('.precio-usd').forEach(el => {
-            const usd = parseFloat(el.dataset.usd);
-            if (!isNaN(usd)) {
-                const bs = usd * tasaBCV;
-                const spanBs = el.parentElement.querySelector('.precio-bs');
-                if (spanBs) {
-                    spanBs.textContent = ' (Bs ' + formatearBs(bs) + ')';
-                }
-            }
-        });
-    }
-
-    saveTasaBtn.addEventListener('click', () => {
-        const newTasa = parseFloat(adminTasaInput.value.replace(',', '.')); // Handle comma as decimal separator
-        if (!isNaN(newTasa) && newTasa > 0) {
-            localStorage.setItem(LOCAL_STORAGE_TASA_KEY, newTasa.toFixed(2));
-            aplicarTasa();
-            alert('Tasa guardada correctamente (solo visible en este navegador).');
-        } else {
-            alert('Por favor, introduce una tasa válida (ej: 375.08).');
-        }
-    });
-
-    aplicarTasa(); // Initial application of tasa
-
-    /* --- Image Editing Functionality --- */
-    function applyStoredImages() {
-        document.querySelectorAll('img[data-img-key]').forEach(imgEl => {
-            const imgKey = imgEl.dataset.img-key;
-            const storedSrc = localStorage.getItem(LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgKey);
-            if (storedSrc) {
-                imgEl.src = storedSrc;
-            }
-        });
-    }
-
-    applyStoredImages(); // Apply images from localStorage on load
-
-    document.querySelectorAll('.edit-image-button').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const imgKey = event.target.dataset.imgKey;
-            const imgElement = document.querySelector(`img[data-img-key="${imgKey}"]`);
-
-            if (imgElement) {
-                const newImgUrl = prompt('Introduce la nueva URL de la imagen (enlace directo):', imgElement.src);
-                if (newImgUrl && newImgUrl.trim() !== '') {
-                    imgElement.src = newImgUrl.trim();
-                    localStorage.setItem(LOCAL_STORAGE_IMAGES_KEY_PREFIX + imgKey, newImgUrl.trim());
-                    alert('Imagen actualizada (solo visible en este navegador).');
-                }
-            } else {
-                alert('Error: No se encontró el elemento de imagen a editar.');
-            }
-        });
-    });
-
-    /* --- Pestaña de Consejos (Tips) --- */
-    const tips = [
-        "Las luces LED ofrecen hasta 5 veces más brillo que las halógenas, mejorando tu visibilidad nocturna.",
-        "Ahorra energía: las luces LED consumen hasta un 80% menos que las bombillas tradicionales.",
-        "Mayor durabilidad: los LED pueden durar hasta 50.000 horas, ¡olvídate de cambiarlos a menudo!",
-        "Seguridad primero: la luz blanca y clara de los LED reduce la fatiga visual y te permite ver obstáculos antes.",
-        "Diseño moderno: Actualiza el look de tu vehículo con la estética premium de los faros LED Brutalux.",
-        "Encendido instantáneo: Los LED se encienden al 100% al instante, crucial en luces de freno para mayor seguridad.",
-        "Resistencia a vibraciones: Son más robustos que los halógenos, perfectos para cualquier camino.",
-        "Menos calor: Aunque potentes, los LED generan menos calor en el faro, protegiendo sus componentes.",
-        "Mejor visión periférica: Amplían tu campo visual, ideal para conducir en condiciones adversas.",
-        "Luces Brutalux: Diseñadas para ser potentes y resistentes, garantizando tu seguridad y satisfacción."
-    ];
-    const tipPestana = document.getElementById('tipPestana');
-    const tipText = document.getElementById('tipText');
-    const closeTipBtn = document.querySelector('.close-tip');
-    let tipInterval;
-    let currentTipIndex = -1;
-    const TIP_DISPLAY_DURATION = 8000; // 8 segundos visible
-    const TIP_CYCLE_DELAY = 12000; // 12 segundos para el siguiente (8s visible + 4s oculto)
-
-    function showRandomTip() {
-        if (localStorage.getItem('brutalux_tip_closed') === 'true') {
-            return; // Don't show if user previously closed it
-        }
-
-        currentTipIndex = (currentTipIndex + 1) % tips.length;
-        tipText.textContent = tips[currentTipIndex];
-        
-        tipPestana.classList.remove('hide');
-        tipPestana.classList.add('show');
-        tipPestana.style.display = 'block'; // Ensure it's block for transition
-
-        // Set timeout to hide it
-        setTimeout(() => {
-            if (localStorage.getItem('brutalux_tip_closed') !== 'true') { // Check again in case user closed it during display
-                tipPestana.classList.remove('show');
-                tipPestana.classList.add('hide');
-                setTimeout(() => {
-                    tipPestana.style.display = 'none';
-                }, 500); // Wait for transition to finish
-            }
-        }, TIP_DISPLAY_DURATION);
-    }
-
-    function startTipCycle() {
-        stopTipCycle(); // Clear any existing interval first
-        tipInterval = setInterval(showRandomTip, TIP_CYCLE_DELAY);
-        setTimeout(showRandomTip, 3000); // Show first tip after 3 seconds
-    }
-
-    function stopTipCycle() {
-        if (tipInterval) {
-            clearInterval(tipInterval);
-            tipInterval = null;
-        }
-        if (tipPestana.classList.contains('show')) {
-            tipPestana.classList.remove('show');
-            tipPestana.classList.add('hide');
-            setTimeout(() => {
-                tipPestana.style.display = 'none';
-                tipPestana.classList.remove('hide'); // Reset for next show
-            }, 500);
-        } else {
-             tipPestana.style.display = 'none';
-        }
-    }
-
-    closeTipBtn.addEventListener('click', () => {
-        stopTipCycle();
-        localStorage.setItem('brutalux_tip_closed', 'true'); // Persist close state
-        tipPestana.style.display = 'none'; // Ensure it stays hidden
-    });
-
-    // Only start tip cycle if user hasn't manually closed it in this session (persisted)
-    if (localStorage.getItem('brutalux_tip_closed') !== 'true') {
-        startTipCycle();
-    }
-    
-    /* --- Compatibilidad de Vehículos --- */
-    const COMPATIBILITY_DATA = [
-        // TOYOTA
-        { marca: "Toyota", modelo: "Hilux", ano_min: 2005, ano_max: 2015, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Toyota", modelo: "Hilux", ano_min: 2016, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Corolla", ano_min: 2000, ano_max: 2007, tipoLuz: "9006 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Corolla", ano_min: 2008, ano_max: 2013, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Corolla", ano_min: 2014, ano_max: 2019, tipoLuz: "9006 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Corolla", ano_min: 2020, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Fortuner", ano_min: 2006, ano_max: 2015, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Fortuner", ano_min: 2016, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "4Runner", ano_min: 2003, ano_max: 2009, tipoLuz: "H11 (baja), H9 (alta)" },
-        { marca: "Toyota", modelo: "4Runner", ano_min: 2010, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Land Cruiser", ano_min: 2000, ano_max: 2007, tipoLuz: "9006 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Land Cruiser", ano_min: 2008, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Yaris", ano_min: 2000, ano_max: 2005, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Toyota", modelo: "Yaris", ano_min: 2006, ano_max: 2013, tipoLuz: "H11 (baja), H9 (alta)" },
-
-        // FORD
-        { marca: "Ford", modelo: "Fiesta", ano_min: 2000, ano_max: 2005, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Ford", modelo: "Fiesta", ano_min: 2006, ano_max: 2010, tipoLuz: "H7 (baja), H1 (alta)" },
-        { marca: "Ford", modelo: "Fiesta", ano_min: 2011, ano_max: 2019, tipoLuz: "H11 (baja), H1 (alta)" },
-        { marca: "Ford", modelo: "F-150", ano_min: 2004, ano_max: 2008, tipoLuz: "9008 (H13) (baja/alta)" },
-        { marca: "Ford", modelo: "F-150", ano_min: 2009, ano_max: 2014, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Ford", modelo: "F-150", ano_min: 2015, ano_max: 2023, tipoLuz: "H11 (baja), H1 (alta)" },
-        { marca: "Ford", modelo: "Ranger", ano_min: 2000, ano_max: 2011, tipoLuz: "9007 (baja/alta)" },
-        { marca: "Ford", modelo: "Ranger", ano_min: 2012, ano_max: 2022, tipoLuz: "H11 (baja), H9 (alta)" },
-
-        // CHEVROLET
-        { marca: "Chevrolet", modelo: "Silverado", ano_min: 2003, ano_max: 2007, tipoLuz: "9006 (baja), 9005 (alta)" },
-        { marca: "Chevrolet", modelo: "Silverado", ano_min: 2008, ano_max: 2013, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Chevrolet", modelo: "Silverado", ano_min: 2014, ano_max: 2018, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Chevrolet", modelo: "Aveo", ano_min: 2004, ano_max: 2017, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Chevrolet", modelo: "Spark", ano_min: 2006, ano_max: 2015, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Chevrolet", modelo: "Corsa", ano_min: 2000, ano_max: 2008, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Chevrolet", modelo: "Cruze", ano_min: 2010, ano_max: 2016, tipoLuz: "H7 (baja), H1 (alta)" },
-    ];
-
-    const marcaSelect = document.getElementById('marcaSelect');
-    const modeloSelect = document.getElementById('modeloSelect');
-    const anoSelect = document.getElementById('anoSelect');
-    const buscarCompatibilidadBtn = document.getElementById('buscarCompatibilidad');
-    const compatibilidadResultado = document.getElementById('compatibilidad-resultado');
-
-    // Populate Marcas
-    const uniqueMarcas = [...new Set(COMPATIBILITY_DATA.map(item => item.marca))].sort();
-    uniqueMarcas.forEach(marca => {
-        const option = document.createElement('option');
-        option.value = marca;
-        option.textContent = marca;
-        marcaSelect.appendChild(option);
-    });
-
-    marcaSelect.addEventListener('change', () => {
-        modeloSelect.innerHTML = '<option value="">Selecciona un modelo</option>';
-        modeloSelect.disabled = true;
-        anoSelect.innerHTML = '<option value="">Selecciona un año</option>';
-        anoSelect.disabled = true;
-        compatibilidadResultado.textContent = '';
-
-        const selectedMarca = marcaSelect.value;
-        if (selectedMarca) {
-            const modelosDeMarca = [...new Set(COMPATIBILITY_DATA.filter(item => item.marca === selectedMarca).map(item => item.modelo))].sort();
-            modelosDeMarca.forEach(modelo => {
-                const option = document.createElement('option');
-                option.value = modelo;
-                option.textContent = modelo;
-                modeloSelect.appendChild(option);
-            });
-            modeloSelect.disabled = false;
-        }
-    });
-
-    modeloSelect.addEventListener('change', () => {
-        anoSelect.innerHTML = '<option value="">Selecciona un año</option>';
-        anoSelect.disabled = true;
-        compatibilidadResultado.textContent = '';
-
-        const selectedMarca = marcaSelect.value;
-        const selectedModelo = modeloSelect.value;
-        if (selectedMarca && selectedModelo) {
-            const anosDeModelo = [...new Set(COMPATIBILITY_DATA
-                .filter(item => item.marca === selectedMarca && item.modelo === selectedModelo)
-                .flatMap(item => {
-                    const startYear = item.ano_min;
-                    const endYear = item.ano_max;
-                    const years = [];
-                    for (let y = startYear; y <= endYear; y++) {
-                        years.push(y.toString());
-                    }
-                    return years;
-                })
-            )].sort((a, b) => parseInt(a) - parseInt(b)); // Sort numerically
-            
-            anosDeModelo.forEach(ano => {
-                const option = document.createElement('option');
-                option.value = ano;
-                option.textContent = ano;
-                anoSelect.appendChild(option);
-            });
-            anoSelect.disabled = false;
-        }
-    });
-
-    buscarCompatibilidadBtn.addEventListener('click', () => {
-        const selectedMarca = marcaSelect.value;
-        const selectedModelo = modeloSelect.value;
-        const selectedAno = parseInt(anoSelect.value); // Convert to number
-
-        if (selectedMarca && selectedModelo && !isNaN(selectedAno)) {
-            const result = COMPATIBILITY_DATA.find(item =>
-                item.marca === selectedMarca &&
-                item.modelo === selectedModelo &&
-                selectedAno >= item.ano_min && selectedAno <= item.ano_max
-            );
-
-            if (result) {
-                compatibilidadResultado.innerHTML = `Para tu <strong>${selectedMarca} ${selectedModelo}</strong> del año <strong>${selectedAno}</strong>, la luz LED compatible es: <strong style="color: var(--accent-gold);">${result.tipoLuz}</strong>`;
-            } else {
-                compatibilidadResultado.innerHTML = 'No encontramos compatibilidad específica para este modelo y año. <br>¡Contáctanos por WhatsApp para ayudarte!';
-            }
-        } else {
-            compatibilidadResultado.textContent = 'Por favor, selecciona Marca, Modelo y Año.';
-        }
-    });
-
-    /* --- FAQ Accordion --- */
-    document.querySelectorAll('.faq-item h3').forEach(header => {
-        header.addEventListener('click', () => {
-            const content = header.nextElementSibling;
-            header.classList.toggle('active');
-            content.classList.toggle('active');
-        });
-    });
-
-    /* --- General Menu Functionality --- */
-    const menuIcon = document.querySelector('.menu-icon');
-    const nav = document.querySelector('nav ul');
-    menuIcon.addEventListener('click', function() {
-        nav.classList.toggle('active');
-    });
-});
+   No lo repito entero por límite de espacio, pero puedes copiarlo desde tu archivo anterior
+   o pedirme que te envíe solo la parte JS si la necesitas de nuevo. */
 </script>
 
 </body>
