@@ -13,6 +13,142 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
+  /* ===== PRO UI Add-ons ===== */
+.cta-cart{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.04);
+  color:rgba(233,237,245,.95);
+  font-weight:1000;
+  cursor:pointer;
+}
+.cta-cart:hover{background:rgba(255,255,255,.08)}
+.cta-cart b{
+  background:linear-gradient(90deg,var(--orange),#ff8a00);
+  color:#1a0a00;
+  padding:5px 9px;border-radius:999px;
+  font-size:12px;
+}
+
+.compare{
+  border:1px solid var(--line);
+  border-radius:22px;
+  overflow:hidden;
+  background:rgba(255,255,255,.02);
+}
+.compareRow{
+  display:grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+}
+.compareRow > div{
+  padding:12px 12px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.compareRow.head > div{
+  background:rgba(255,255,255,.04);
+  font-weight:1000;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:12px;
+}
+.compareRow .k{font-weight:1000}
+.compareRow .v{color:rgba(233,237,245,.82);font-size:13px}
+.compareRow .best{
+  background:linear-gradient(180deg, rgba(0,200,255,.10), rgba(255,92,0,.08));
+  font-weight:1000;
+}
+
+.infoGrid{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:12px;
+}
+.infoCard{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:14px;
+  background:rgba(255,255,255,.03);
+}
+.infoCard .h{
+  font-weight:1000;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  display:flex;gap:10px;align-items:center;
+}
+.infoCard .h i{color:var(--blue)}
+.li{margin:10px 0 0;padding:0 0 0 18px;color:rgba(233,237,245,.82);font-size:13px}
+.li li{margin:6px 0}
+
+.steps{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:12px;
+}
+.step{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:14px;
+  background:rgba(255,255,255,.03);
+  display:flex;gap:12px;
+}
+.step .n{
+  width:42px;height:42px;border-radius:16px;
+  display:grid;place-items:center;
+  background:rgba(255,92,0,.16);
+  border:1px solid rgba(255,92,0,.22);
+  font-weight:1000;
+}
+.step .t{font-weight:1000}
+.step .d{color:rgba(233,237,245,.78);font-size:13px;margin-top:4px}
+
+.policy{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:12px;
+}
+.policyCard{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:14px;
+  background:rgba(255,255,255,.03);
+}
+.policyCard .h{
+  font-weight:1000;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  display:flex;gap:10px;align-items:center;
+}
+.policyCard .h i{color:var(--yellow)}
+
+.cartItems{display:grid;gap:10px}
+.cartItem{
+  display:grid;
+  grid-template-columns: 1fr auto auto;
+  gap:10px;
+  align-items:center;
+  padding:12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.22);
+}
+.cartItem .t{font-weight:1000}
+.cartItem .m{font-size:12px;color:rgba(233,237,245,.70);margin-top:3px}
+.cartQty{
+  width:92px;
+  padding:10px 10px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.30);
+  color:var(--text);
+}
+.cartTotals{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+@media (max-width:1050px){
+  .infoGrid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .policy{grid-template-columns:1fr}
+}
   <style>
     :root{
       --bg:#06070b;
@@ -758,6 +894,11 @@
           <a class="cta-wa" href="https://wa.me/584126835635" target="_blank" rel="noopener">
             <i class="fa-brands fa-whatsapp"></i> WhatsApp
           </a>
+          <button class="cta-cart" id="openCart" type="button" title="Ver carrito">
+  <i class="fa-solid fa-cart-shopping"></i>
+  <span>Carrito</span>
+  <b id="cartCount">0</b>
+</button>
         </div>
       </div>
     </div>
@@ -865,6 +1006,195 @@
       </p>
     </div>
   </section>
+  <!-- PEDIDO RAPIDO / CARRITO (se muestra en modal) -->
+<!-- (El modal va al final del body) -->
+
+<!-- COMPARATIVA -->
+<section id="comparativa">
+  <div class="container">
+    <div class="sectionTitle">
+      <div>
+        <h2 class="orbitron">¿Por qué BRUTALUX?</h2>
+        <p>Comparativa clara para tomar una decisión rápida.</p>
+      </div>
+    </div>
+
+    <div class="compare">
+      <div class="compareRow head">
+        <div></div>
+        <div>Halógeno</div>
+        <div>LED genérico</div>
+        <div class="best">BRUTALUX</div>
+      </div>
+
+      <div class="compareRow">
+        <div class="k">Visibilidad</div>
+        <div class="v">Básica</div>
+        <div class="v">Variable</div>
+        <div class="v best">Alta y pareja*</div>
+      </div>
+
+      <div class="compareRow">
+        <div class="k">Corte / no encandila</div>
+        <div class="v">Depende del faro</div>
+        <div class="v">Muchas veces irregular</div>
+        <div class="v best">Enfocado (bien instalado)</div>
+      </div>
+
+      <div class="compareRow">
+        <div class="k">Durabilidad</div>
+        <div class="v">Media</div>
+        <div class="v">Variable</div>
+        <div class="v best">Alta (5 años garantía)</div>
+      </div>
+
+      <div class="compareRow">
+        <div class="k">Consumo</div>
+        <div class="v">Más alto</div>
+        <div class="v">Más bajo</div>
+        <div class="v best">Optimizado</div>
+      </div>
+
+      <div class="compareRow">
+        <div class="k">Soporte</div>
+        <div class="v">—</div>
+        <div class="v">Limitado</div>
+        <div class="v best">Asesoría + postventa</div>
+      </div>
+
+      <p class="tiny" style="margin:10px 0 0">
+        *Resultados dependen del faro y de una instalación correcta. Si tu versión varía, te pedimos foto del socket.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGOS / ENVIOS -->
+<section id="pagos-envios">
+  <div class="container">
+    <div class="sectionTitle">
+      <div>
+        <h2 class="orbitron">Pagos y envíos</h2>
+        <p>Información rápida para cerrar la compra.</p>
+      </div>
+    </div>
+
+    <div class="infoGrid">
+      <div class="infoCard">
+        <div class="h orbitron"><i class="fa-solid fa-credit-card"></i> Métodos de pago</div>
+        <ul class="li">
+          <li>Pago móvil</li>
+          <li>Zelle</li>
+          <li>Binance / USDT</li>
+          <li>Efectivo (según coordinación)</li>
+        </ul>
+        <div class="tiny">Edita esta lista con tus métodos reales.</div>
+      </div>
+
+      <div class="infoCard">
+        <div class="h orbitron"><i class="fa-solid fa-truck-fast"></i> Envíos</div>
+        <ul class="li">
+          <li>Envíos nacionales (MRW / Zoom / Tealca)</li>
+          <li>Entrega el mismo día (si aplica)</li>
+          <li>Embalaje seguro</li>
+        </ul>
+        <div class="tiny">Edita esta lista con tus envíos reales.</div>
+      </div>
+
+      <div class="infoCard">
+        <div class="h orbitron"><i class="fa-solid fa-clock"></i> Horario</div>
+        <ul class="li">
+          <li>Lun–Sáb: 9:00am – 7:00pm</li>
+          <li>Dom: previo acuerdo</li>
+        </ul>
+        <div class="tiny">Edita con tu horario real.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUIA -->
+<section id="instalacion">
+  <div class="container">
+    <div class="sectionTitle">
+      <div>
+        <h2 class="orbitron">Guía rápida de instalación</h2>
+        <p>Evita errores comunes y aprovecha el rendimiento.</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <div>
+          <div class="t orbitron">Verifica el socket</div>
+          <div class="d">Antes de instalar, confirma tipo de bombillo (baja/alta/neblina).</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div>
+          <div class="t orbitron">Posición correcta del chip</div>
+          <div class="d">El chip debe quedar alineado como el filamento del halógeno para un buen corte.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div>
+          <div class="t orbitron">Prueba y ajusta el faro</div>
+          <div class="d">Ajusta altura del faro para no encandilar y maximizar alcance.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">4</div>
+        <div>
+          <div class="t orbitron">Si parpadea</div>
+          <div class="d">Puede requerir decoder/Canbus. Escríbenos con modelo/año y video.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section id="garantia">
+  <div class="container">
+    <div class="sectionTitle">
+      <div>
+        <h2 class="orbitron">Garantía BRUTALUX</h2>
+        <p>Condiciones claras para tu tranquilidad.</p>
+      </div>
+    </div>
+
+    <div class="policy">
+      <div class="policyCard">
+        <div class="h orbitron"><i class="fa-solid fa-shield-halved"></i> ¿Qué cubre?</div>
+        <ul class="li">
+          <li>Fallas de fabricación (encendido, drivers, desempeño anormal).</li>
+          <li>Reemplazo según evaluación y condiciones.</li>
+        </ul>
+      </div>
+      <div class="policyCard">
+        <div class="h orbitron"><i class="fa-solid fa-triangle-exclamation"></i> ¿Qué no cubre?</div>
+        <ul class="li">
+          <li>Instalación incorrecta, golpes, humedad por faro abierto.</li>
+          <li>Daños por corto eléctrico o modificaciones.</li>
+        </ul>
+      </div>
+      <div class="policyCard">
+        <div class="h orbitron"><i class="fa-solid fa-receipt"></i> Requisitos</div>
+        <ul class="li">
+          <li>Factura/nota de venta.</li>
+          <li>Foto/video de la falla + instalación.</li>
+        </ul>
+      </div>
+
+      <p class="tiny" style="margin:10px 0 0">
+        Nota: Ajusta este texto a tu política real. Si quieres, te lo dejo “legal” y bien redactado cuando me confirmes tus condiciones.
+      </p>
+    </div>
+  </div>
+</section>
 
   <!-- COMPATIBILIDAD -->
   <section id="compat">
@@ -1910,7 +2240,290 @@
     syncAdminUI();
     scheduleInvoicePreview();
     startTips();
+  /**********************
+ * CART / PEDIDO RAPIDO (WhatsApp checkout)
+ **********************/
+const CART_KEY = "brutalux_cart";
+
+function getCart(){
+  try{
+    const raw = localStorage.getItem(CART_KEY);
+    if(!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  }catch{ return []; }
+}
+function setCart(items){
+  localStorage.setItem(CART_KEY, JSON.stringify(items));
+}
+function cartCount(){
+  return getCart().reduce((a,it)=>a+(it.qty||0),0);
+}
+function updateCartBadge(){
+  const el = document.getElementById("cartCount");
+  if(el) el.textContent = String(cartCount());
+}
+
+function addToCart(productId){
+  const p = PRODUCTS.find(x=>x.id===productId);
+  if(!p) return;
+
+  const cart = getCart();
+  const idx = cart.findIndex(x=>x.id===productId);
+  if(idx>=0){
+    cart[idx].qty += 1;
+  }else{
+    cart.push({ id: p.id, name: p.name, usd: p.usd, qty: 1, modelLine: p.modelLine });
+  }
+  setCart(cart);
+  updateCartBadge();
+}
+
+function calcCart(){
+  const st = getState();
+  const cart = getCart();
+  const subUsd = cart.reduce((a,it)=>a+(it.usd*it.qty),0);
+  const subBs  = subUsd * st.rate;
+  return { cart, subUsd, subBs, rate: st.rate };
+}
+
+function renderCart(){
+  const wrap = document.getElementById("cartItems");
+  if(!wrap) return;
+
+  const {cart, subUsd, subBs, rate} = calcCart();
+
+  wrap.innerHTML = cart.length ? cart.map((it, idx)=>`
+    <div class="cartItem">
+      <div>
+        <div class="t">${it.name}</div>
+        <div class="m">${it.modelLine || it.id} • $${it.usd}</div>
+      </div>
+
+      <input class="cartQty" type="number" min="1" value="${it.qty}" data-qty="${idx}">
+      <button class="btnRemove" type="button" data-del="${idx}">Quitar</button>
+    </div>
+  `).join("") : `<div class="tiny" style="color:#64748b">Tu carrito está vacío. Agrega productos del catálogo.</div>`;
+
+  document.getElementById("cartSubUsd").textContent = `$${fmtUsd(subUsd)}`;
+  document.getElementById("cartSubBs").textContent  = `Bs ${fmtBs(subBs)}`;
+  document.getElementById("cartRate").textContent   = `${fmtBs(rate)} Bs/USD`;
+
+  const name = document.getElementById("cartName")?.value?.trim() || "";
+  const car  = document.getElementById("cartCar")?.value?.trim() || "";
+  const city = document.getElementById("cartCity")?.value?.trim() || "";
+  const note = document.getElementById("cartNote")?.value?.trim() || "";
+
+  const lines = cart.map(it=>`- ${it.qty} x ${it.name} (${it.id}) = $${fmtUsd(it.qty*it.usd)}`).join("\n");
+  const msg =
+`Hola BRUTALUX, quiero hacer un pedido.
+Nombre: ${name || "—"}
+Vehículo: ${car || "—"}
+Ciudad/Estado: ${city || "—"}
+
+Items:
+${lines || "- (sin items)"}
+
+Subtotal: $${fmtUsd(subUsd)}
+Referencia Bs: Bs ${fmtBs(subBs)}
+Tasa BCV: ${fmtBs(rate)} Bs/USD
+
+Observaciones: ${note || "—"}`;
+
+  const a = document.getElementById("cartWhatsapp");
+  if(a) a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+}
+
+function showCart(){
+  const m = document.getElementById("cartModal");
+  if(!m) return;
+  m.classList.add("show");
+  m.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+  renderCart();
+}
+function hideCart(){
+  const m = document.getElementById("cartModal");
+  if(!m) return;
+  m.classList.remove("show");
+  m.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("openCart")?.addEventListener("click", showCart);
+document.getElementById("closeCart")?.addEventListener("click", hideCart);
+document.getElementById("cartModal")?.addEventListener("click", (e)=>{
+  if(e.target.id === "cartModal") hideCart();
+});
+document.getElementById("cartClear")?.addEventListener("click", ()=>{
+  if(!confirm("¿Vaciar carrito?")) return;
+  setCart([]);
+  updateCartBadge();
+  renderCart();
+});
+
+document.getElementById("cartItems")?.addEventListener("input", (e)=>{
+  const inp = e.target.closest("[data-qty]");
+  if(!inp) return;
+  const idx = parseInt(inp.dataset.qty,10);
+  const qty = parseInt(inp.value,10);
+  const cart = getCart();
+  if(!Number.isFinite(idx) || !cart[idx]) return;
+  cart[idx].qty = Math.max(1, isFinite(qty)?qty:1);
+  setCart(cart);
+  updateCartBadge();
+  renderCart();
+});
+document.getElementById("cartItems")?.addEventListener("click", (e)=>{
+  const btn = e.target.closest("[data-del]");
+  if(!btn) return;
+  const idx = parseInt(btn.dataset.del,10);
+  const cart = getCart();
+  if(!Number.isFinite(idx) || !cart[idx]) return;
+  cart.splice(idx,1);
+  setCart(cart);
+  updateCartBadge();
+  renderCart();
+});
+
+["cartName","cartCar","cartCity","cartNote"].forEach(id=>{
+  document.getElementById(id)?.addEventListener("input", renderCart);
+});
+
+/* Inyectar botón "Agregar" en cada card después de renderCatalog */
+const __oldRenderCatalog = renderCatalog;
+renderCatalog = function(){
+  __oldRenderCatalog();
+
+  document.querySelectorAll("#productCards .card").forEach(card=>{
+    const btnFact = card.querySelector("button[onclick^='openAdminAndPreselect']");
+    if(!btnFact) return;
+    const m = btnFact.getAttribute("onclick").match(/openAdminAndPreselect\('([^']+)'\)/);
+    const pid = m?.[1];
+    if(!pid) return;
+
+    if(card.querySelector("[data-addcart]")) return;
+
+    const actions = card.querySelector(".actions");
+    if(!actions) return;
+
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "btnSmall orbitron";
+    b.style.background = "rgba(0,200,255,.14)";
+    b.style.borderColor = "rgba(0,200,255,.24)";
+    b.innerHTML = `<i class="fa-solid fa-cart-plus"></i> Agregar`;
+    b.setAttribute("data-addcart", pid);
+    b.addEventListener("click", ()=>{
+      addToCart(pid);
+      showCart();
+    });
+
+    actions.appendChild(b);
+  });
+
+  updateCartBadge();
+};
+
+updateCartBadge();
+
+/* Botón WhatsApp para compat si no aparece */
+(function mountCompatHelpBtn(){
+  const box = document.querySelector("#compat .compatBox");
+  if(!box) return;
+  if(document.getElementById("compatHelp")) return;
+
+  const help = document.createElement("a");
+  help.id = "compatHelp";
+  help.className = "btnWide orbitron";
+  help.style.marginTop = "12px";
+  help.style.background = "rgba(34,197,94,.16)";
+  help.style.borderColor = "rgba(34,197,94,.26)";
+  help.style.display = "inline-flex";
+  help.style.alignItems = "center";
+  help.style.gap = "10px";
+  help.target = "_blank";
+  help.rel = "noopener";
+  help.innerHTML = `<i class="fa-brands fa-whatsapp"></i> No aparece mi versión (enviar foto)`;
+
+  function updateHelpLink(){
+    const b = document.getElementById("cBrand")?.value || "";
+    const m = document.getElementById("cModel")?.value || "";
+    const y = document.getElementById("cYear")?.value || "";
+    const msg =
+`Hola BRUTALUX, necesito compatibilidad.
+Marca: ${b || "—"}
+Modelo: ${m || "—"}
+Año: ${y || "—"}
+
+Te envío foto del bombillo/faro para confirmar el socket (baja/alta/neblina).`;
+    help.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  }
+
+  ["cBrand","cModel","cYear"].forEach(id=>document.getElementById(id)?.addEventListener("change", updateHelpLink));
+  updateHelpLink();
+  box.appendChild(help);
+})();
   </script>
+<!-- CART MODAL -->
+<div class="modal" id="cartModal" aria-hidden="true">
+  <div class="panel" style="width:min(880px,96vw)">
+    <div class="panelHead">
+      <h3 class="orbitron">Carrito / Pedido rápido</h3>
+      <button class="close orbitron" id="closeCart"><i class="fa-solid fa-xmark"></i> Cerrar</button>
+    </div>
+
+    <div class="panelBody">
+      <div class="box">
+        <div class="row">
+          <div>
+            <label>Nombre</label>
+            <input id="cartName" placeholder="Tu nombre">
+          </div>
+          <div>
+            <label>Vehículo (opcional)</label>
+            <input id="cartCar" placeholder="Ej: Corolla 2014">
+          </div>
+        </div>
+
+        <div style="margin-top:10px" class="row">
+          <div>
+            <label>Ciudad/Estado (opcional)</label>
+            <input id="cartCity" placeholder="Ej: Caracas / Miranda">
+          </div>
+          <div>
+            <label>Observaciones</label>
+            <input id="cartNote" placeholder="Ej: baja/alta, envío, dual color...">
+          </div>
+        </div>
+      </div>
+
+      <div class="box" style="margin-top:12px">
+        <h4>Items</h4>
+        <div id="cartItems" class="cartItems"></div>
+
+        <div class="cartTotals">
+          <div class="pill">Subtotal USD: <b id="cartSubUsd">$0.00</b></div>
+          <div class="pill">Ref. Bs: <b id="cartSubBs">Bs 0,00</b></div>
+          <div class="pill">Tasa: <b id="cartRate">—</b></div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <button class="btnWide orbitron" id="cartClear"><i class="fa-solid fa-trash"></i> Vaciar</button>
+          <a class="btnWide green orbitron" id="cartWhatsapp" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i> Enviar pedido por WhatsApp
+          </a>
+        </div>
+
+        <p class="mut" style="margin-top:10px">
+          El pedido se envía por WhatsApp con productos, cantidades y total. Sin backend.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
+
+
 
