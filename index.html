@@ -3,666 +3,487 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRUTALUX | Catálogo y Facturación</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <title>Brutalux Venezuela | Potencia LED Premium</title>
+    
+    <!-- Fuentes y Iconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         :root {
-            --bg-principal: #06070b;
-            --bg-card: #0d1018;
-            --texto: #e9edf5;
-            --texto-muted: #9aa3b2;
-            --lineas: rgba(255,255,255,0.08);
-            --azul-bruta: #00c8ff;
-            --naranja-bruta: #ff5c00;
-            --verde: #22c55e;
-            --amarillo: #fbbf24;
+            --bg: #0b0b0d; --card: #111319; --dark: #050509;
+            --gold: #d4af37; --blue: #5dade2; --orange: #ff6f00;
+            --white: #ffffff; --text: #ccc; --green: #25d366;
         }
 
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-principal);
-            color: var(--texto);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4, .orbitron {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 0.04em;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 18px;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--white); scroll-behavior: smooth; overflow-x: hidden; }
+        
         /* HEADER */
         header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(6, 7, 11, 0.95);
-            border-bottom: 1px solid var(--lineas);
-            backdrop-filter: blur(10px);
-            padding: 12px 0;
+            background: var(--dark); padding: 10px 5%; display: flex; justify-content: space-between;
+            align-items: center; position: fixed; width: 100%; z-index: 1000; border-bottom: 1px solid var(--gold);
         }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-area img { height: 50px; border-radius: 5px; }
+        .logo-area div h1 { font-family: 'Orbitron'; font-size: 1.2rem; color: var(--gold); }
+        
+        nav ul { display: flex; list-style: none; gap: 15px; }
+        nav ul li a { color: var(--white); text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+        nav ul li a:hover { color: var(--gold); }
 
-        .nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .brand img {
-            height: 48px;
-            border-radius: 10px;
-        }
-
-        .brand-text .main {
-            font-weight: 900;
-            text-transform: uppercase;
-            font-size: 16px;
-        }
-
-        .brand-text .sub {
-            font-size: 11px;
-            color: var(--texto-muted);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            color: var(--texto);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-
-        .nav-links a:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .pill {
-            padding: 8px 12px;
-            border-radius: 999px;
-            border: 1px solid var(--lineas);
-            background: rgba(255, 255, 255, 0.03);
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .btn-wa {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            border-radius: 999px;
-            background: var(--verde);
-            color: #000;
-            font-weight: 900;
-            text-decoration: none;
-            transition: filter 0.2s;
-        }
-
-        .btn-wa:hover {
-            filter: brightness(1.1);
-        }
+        .btn-admin-nav { background: var(--blue); color: #000; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
         /* HERO */
         .hero {
-            padding: 60px 0;
+            height: 80vh; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), 
+            url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center;
         }
-
-        .hero-card {
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            border-radius: 24px;
-            border: 1px solid var(--lineas);
-            padding: 48px;
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            margin: 0 0 16px;
-            text-transform: uppercase;
-        }
-
-        .hero h1 span {
-            background: linear-gradient(90deg, var(--azul-bruta), var(--naranja-bruta));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero p {
-            max-width: 560px;
-            color: var(--texto-muted);
-            margin-bottom: 24px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: 1px solid var(--lineas);
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--texto);
-            text-decoration: none;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-primary {
-            background: var(--naranja-bruta);
-            border: none;
-            color: #000;
-        }
-
-        .btn-secondary {
-            background: var(--azul-bruta);
-            border: none;
-            color: #000;
-        }
-
-        section {
-            padding: 40px 0;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 24px;
-        }
-
-        .section-header h2 {
-            margin: 0;
-            font-size: 24px;
-            text-transform: uppercase;
-        }
+        .hero-content h2 { font-family: 'Orbitron'; font-size: 3.5rem; text-transform: uppercase; color: var(--white); }
+        .hero-content p { font-size: 1.2rem; color: var(--gold); margin-bottom: 20px; }
 
         /* CATALOGO */
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-            gap: 20px;
-        }
+        .section-padding { padding: 80px 5%; }
+        .tasa-ref { text-align: center; color: var(--gold); font-weight: bold; margin-bottom: 30px; }
+        .grid-catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        
+        .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; transition: 0.3s; position: relative; }
+        .card:hover { transform: translateY(-10px); border-color: var(--blue); box-shadow: 0 0 20px rgba(93,173,226,0.3); }
+        .card img { width: 100%; height: 250px; object-fit: cover; }
+        .card-body { padding: 20px; }
+        .badge { position: absolute; top: 10px; right: 10px; background: var(--gold); color: #000; padding: 5px 10px; border-radius: 20px; font-weight: bold; font-size: 0.7rem; }
+        
+        .price-tag { font-size: 1.8rem; font-weight: bold; color: var(--white); }
+        .price-bs { font-size: 0.9rem; color: var(--text); display: block; margin-bottom: 15px; }
 
-        .product-card {
-            background: var(--bg-card);
-            border: 1px solid var(--lineas);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 200, 255, 0.1);
-        }
-
-        .product-img {
-            height: 200px;
-            position: relative;
-        }
-
-        .product-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 800;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .product-body {
-            padding: 20px;
-        }
-
-        .product-body h3 {
-            margin: 0 0 8px;
-            font-size: 18px;
-        }
-
-        .product-specs {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 16px 0;
-        }
-
-        .product-specs li {
-            font-size: 13px;
-            color: var(--texto-muted);
-            margin-bottom: 4px;
-        }
-
-        .product-price-usd {
-            font-size: 26px;
-            font-weight: 900;
-        }
-
-        .product-price-bs {
-            font-size: 13px;
-            color: var(--texto-muted);
-            margin-bottom: 12px;
-        }
-
-        .product-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .product-actions .btn {
-            flex: 1;
-            justify-content: center;
-            font-size: 13px;
-            padding: 10px;
-        }
+        .btn-wa { background: var(--green); color: white; display: block; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; }
+        .btn-edit { background: var(--blue); color: white; border: none; padding: 5px; width: 100%; margin-top: 10px; cursor: pointer; display: none; }
 
         /* COMPATIBILIDAD */
-        .compat-box {
-            background: var(--bg-card);
-            border: 1px solid var(--lineas);
-            border-radius: 16px;
-            padding: 24px;
-        }
+        .comp-box { background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); max-width: 800px; margin: 0 auto; }
+        .comp-selects { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        select { padding: 10px; background: var(--dark); color: white; border: 1px solid var(--gold); border-radius: 5px; }
+        .btn-search { background: var(--gold); color: black; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; border-radius: 5px; }
 
-        .compat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 16px;
+        /* CONSEJOS FLOTANTES */
+        .tip-box {
+            position: fixed; bottom: 20px; right: 20px; background: var(--card); border: 1px solid var(--blue);
+            padding: 15px; width: 300px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.5); z-index: 9999;
+            display: none; cursor: pointer; animation: slideIn 0.5s ease;
         }
+        .tip-box h4 { color: var(--blue); font-size: 0.8rem; margin-bottom: 5px; }
+        .tip-box p { font-size: 0.85rem; line-height: 1.3; }
+        .tip-box .close-tip { position: absolute; top: 5px; right: 10px; color: var(--text); }
 
-        label {
-            display: block;
-            font-size: 12px;
-            color: var(--texto-muted);
-            margin-bottom: 6px;
+        /* ADMIN MODAL */
+        .modal { 
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); 
+            z-index: 10000; align-items: center; justify-content: center; padding: 20px;
         }
-
-        select, input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--lineas);
-            border-radius: 12px;
-            color: var(--texto);
-            font-size: 14px;
+        .modal-content { 
+            background: var(--card); width: 100%; max-width: 1000px; height: 90vh; 
+            border-radius: 20px; border: 1px solid var(--gold); overflow-y: auto; position: relative;
         }
-
-        .compat-result {
-            padding: 16px;
-            border-radius: 12px;
-            background: rgba(0, 200, 255, 0.1);
-            border: 1px solid rgba(0, 200, 255, 0.2);
-            margin-top: 16px;
-            display: none;
-        }
-
+        .login-screen { padding: 40px; text-align: center; }
+        .admin-screen { display: none; padding: 20px; }
+        
+        /* FACTURA */
+        .factura-flex { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .factura-input-group { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        input { width: 100%; padding: 10px; margin: 5px 0; background: #000; border: 1px solid #444; color: white; border-radius: 5px; }
+        
+        .factura-preview { background: white; color: black; padding: 30px; border-radius: 5px; font-family: 'Courier New', Courier, monospace; min-height: 500px; }
+        .factura-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .factura-table th, .factura-table td { border: 1px solid #ddd; padding: 8px; font-size: 0.8rem; text-align: left; }
+        
         /* FOOTER */
-        footer {
-            border-top: 1px solid var(--lineas);
-            padding: 40px 0;
-            text-align: center;
-        }
+        footer { background: var(--dark); padding: 40px 5%; text-align: center; border-top: 1px solid var(--gold); }
+        .social-icons a { color: var(--white); font-size: 2rem; margin: 0 15px; transition: 0.3s; }
+        .social-icons a:hover { color: var(--gold); }
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        .social-links a {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--lineas);
-            color: var(--texto);
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .social-links a:hover {
-            background: rgba(255, 92, 0, 0.1);
-            border-color: var(--naranja-bruta);
-        }
-
-        footer .copyright {
-            font-size: 13px;
-            color: var(--texto-muted);
-        }
-
-        /* BOTON ADMIN FLOTANTE */
-        .fab-admin {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 60;
-            padding: 14px 24px;
-            border-radius: 999px;
-            background: var(--azul-bruta);
-            color: #000;
-            font-weight: 900;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0, 200, 255, 0.3);
-        }
-
-        /* MODAL ADMIN */
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-panel {
-            width: 100%;
-            max-width: 1100px;
-            max-height: 90vh;
-            background: var(--bg-card);
-            border: 1px solid var(--lineas);
-            border-radius: 20px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--lineas);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            margin: 0;
-            font-size: 16px;
-        }
-
-        .btn-close {
-            padding: 8px 14px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--lineas);
-            color: var(--texto);
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 24px;
-            overflow-y: auto;
-        }
-
-        /* LOGIN */
-        .login-box {
-            max-width: 400px;
-            margin: 0 auto 24px auto;
-            padding: 24px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--lineas);
-            border-radius: 16px;
-        }
-
-        .login-box.hidden {
-            display: none;
-        }
-
-        .login-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .admin-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 24px;
-        }
-
-        @media (max-width: 900px) {
-            .admin-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .admin-card {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--lineas);
-            border-radius: 16px;
-        }
-
-        .admin-card h4 {
-            margin: 0 0 16px 0;
-            font-size: 14px;
-            text-transform: uppercase;
-            color: var(--azul-bruta);
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .btn-action {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 800;
-            cursor: pointer;
-            margin-bottom: 8px;
-        }
-
-        .btn-green {
-            background: var(--verde);
-            color: #000;
-        }
-
-        .btn-orange {
-            background: var(--naranja-bruta);
-            color: #000;
-        }
-
-        .btn-gray {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--texto);
-            border: 1px solid var(--lineas);
-        }
-
-        .invoice-items-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0;
-            font-size: 13px;
-        }
-
-        .invoice-items-table th, .invoice-items-table td {
-            padding: 10px;
-            border-bottom: 1px solid var(--lineas);
-            text-align: left;
-        }
-
-        .invoice-items-table th {
-            color: var(--azul-bruta);
-        }
-
-        .text-right {
-            text-align: right !important;
-        }
-
-        /* VISTA PREVIA DE FACTURA */
-        .invoice-preview {
-            margin-top: 16px;
-            background: #fff;
-            color: #111;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .invoice-header {
-            padding: 24px;
-            background: #f9f9f9;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .invoice-header img {
-            height: 48px;
-        }
-
-        .invoice-body {
-            padding: 24px;
-        }
-
-        .invoice-client {
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .invoice-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .invoice-table th {
-            background: #f5f5f5;
-            padding: 12px;
-            text-align: left;
-            font-size: 13px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .invoice-table td {
-            padding: 12px;
-            font-size: 13px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .invoice-totals {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-        }
-
-        .total-box {
-            background: #f5f5f5;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
-        .total-box .label {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .total-box .amount {
-            font-size: 18px;
-            font-weight: 900;
-            margin-top: 4px;
-        }
-
-        .total-box.highlight {
-            background: var(--bg-card);
-            color: var(--texto);
-            border: 2px solid var(--naranja-bruta);
-        }
-
-        .invoice-footer {
-            padding: 16px;
-            background: #f5f5f5;
-            font-size: 11px;
-            color: #666;
-            text-align: center;
-        }
-
-        /* IMPRESION */
         @media print {
-            body { background: #fff; color: #000; }
-            header, .hero, section, footer, .fab-admin, .modal-header, .login-box, .admin-card:not(.print-area) {
-                display: none !important;
-            }
-            .modal {
-                position: static !important;
-                background: #fff !important;
-                display: block !important;
-            }
-            .modal-panel {
-                border: none !important;
-                max-height: none !important;
-            }
-            .invoice-preview {
-                border: none !important;
-            }
+            body * { display: none; }
+            .factura-preview, .factura-preview * { display: block !important; }
+            .factura-preview { position: absolute; left: 0; top: 0; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header>
-        <div class="container">
-            <div class="nav">
-                <div class="brand">
-                    <img src="https://i.postimg
+        <div class="logo-area">
+            <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" alt="Logo">
+            <div>
+                <h1>BRUTALUX</h1>
+                <p style="font-size: 10px; color: var(--gold);">VENEZUELA</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#compatibilidad">Compatibilidad</a></li>
+                <li><button class="btn-admin-nav" onclick="openModal()">ADMIN</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h2>SERIE R BRUTALUX</h2>
+            <p>5 Años de Garantía • Iluminación de Otro Nivel</p>
+            <a href="#catalogo" class="btn-wa" style="display:inline-block; padding: 15px 30px;">VER CATÁLOGO</a>
+        </div>
+    </section>
+
+    <section id="catalogo" class="section-padding">
+        <p class="tasa-ref" id="displayTasa">Tasa BCV hoy: 375,08 Bs/USD</p>
+        <div class="grid-catalog">
+            <!-- R36 (IZQUIERDA) -->
+            <div class="card">
+                <div class="badge">ALTA POTENCIA</div>
+                <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" id="img-r36" alt="R36">
+                <div class="card-body">
+                    <h3 class="orbitron">R36</h3>
+                    <p style="font-size: 0.8rem; color: var(--text);">27.000 LM • 6500K • 4 Tubos Cobre</p>
+                    <div class="price-tag">$80</div>
+                    <span class="price-bs" data-usd="80"></span>
+                    <a href="https://wa.me/584126835635" class="btn-wa"><i class="fab fa-whatsapp"></i> Pedir ahora</a>
+                    <button class="btn-edit" onclick="editImg('img-r36')">Editar Imagen</button>
+                </div>
+            </div>
+
+            <!-- R33 (CENTRO) -->
+            <div class="card">
+                <div class="badge">TOP POTENCIA</div>
+                <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" id="img-r33" alt="R33">
+                <div class="card-body">
+                    <h3 class="orbitron">R33</h3>
+                    <p style="font-size: 0.8rem; color: var(--text);">33.000 LM • Top Gama • Resistencia Extrema</p>
+                    <div class="price-tag">$90</div>
+                    <span class="price-bs" data-usd="90"></span>
+                    <a href="https://wa.me/584126835635" class="btn-wa"><i class="fab fa-whatsapp"></i> Pedir ahora</a>
+                    <button class="btn-edit" onclick="editImg('img-r33')">Editar Imagen</button>
+                </div>
+            </div>
+
+            <!-- R36T (DERECHA) -->
+            <div class="card">
+                <div class="badge">DUAL COLOR</div>
+                <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" id="img-r36t" alt="R36T">
+                <div class="card-body">
+                    <h3 class="orbitron">R36T</h3>
+                    <p style="font-size: 0.8rem; color: var(--text);">16.000 LM • Blanco / Amarillo • Niebla</p>
+                    <div class="price-tag">$85</div>
+                    <span class="price-bs" data-usd="85"></span>
+                    <a href="https://wa.me/584126835635" class="btn-wa"><i class="fab fa-whatsapp"></i> Pedir ahora</a>
+                    <button class="btn-edit" onclick="editImg('img-r36t')">Editar Imagen</button>
+                </div>
+            </div>
+
+            <!-- R20 -->
+            <div class="card">
+                <div class="badge">ECONÓMICA</div>
+                <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?w=800" id="img-r20" alt="R20">
+                <div class="card-body">
+                    <h3 class="orbitron">R20</h3>
+                    <p style="font-size: 0.8rem; color: var(--text);">20.000 LM • 12V/24V • Calidad Garantizada</p>
+                    <div class="price-tag">$65</div>
+                    <span class="price-bs" data-usd="65"></span>
+                    <a href="https://wa.me/584126835635" class="btn-wa"><i class="fab fa-whatsapp"></i> Pedir ahora</a>
+                    <button class="btn-edit" onclick="editImg('img-r20')">Editar Imagen</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="compatibilidad" class="section-padding">
+        <h2 class="orbitron" style="text-align:center; margin-bottom:20px;">¿Qué luz lleva mi auto?</h2>
+        <div class="comp-box">
+            <div class="comp-selects">
+                <select id="selMarca" onchange="loadModels()"><option value="">Marca</option></select>
+                <select id="selModelo" disabled><option value="">Modelo</option></select>
+                <select id="selAno"><option value="">Año</option></select>
+            </div>
+            <button class="btn-search" onclick="searchCompat()">CONSULTAR COMPATIBILIDAD</button>
+            <div id="compatRes" style="margin-top:20px; text-align:center; font-weight:bold; color:var(--blue);"></div>
+        </div>
+    </section>
+
+    <!-- ADMIN MODAL -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeModal()" style="position:absolute; top:20px; right:20px; color:white; background:none; border:none; font-size:2rem; cursor:pointer;">&times;</button>
+            
+            <div id="loginScreen" class="login-screen">
+                <h2 class="orbitron">LOGIN ADMIN</h2>
+                <input type="text" id="user" placeholder="Usuario">
+                <input type="password" id="pass" placeholder="Contraseña">
+                <button class="btn-wa" onclick="handleLogin()" style="width:100%; border:none;">ENTRAR</button>
+            </div>
+
+            <div id="adminScreen" class="admin-screen">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid var(--gold); padding-bottom:10px;">
+                    <h2 class="orbitron">PANEL CONTROL BRUTALUX</h2>
+                    <button class="btn-admin-nav" style="background:red" onclick="logout()">Cerrar Sesión</button>
+                </div>
+
+                <div class="factura-flex">
+                    <!-- Configuración Tasa -->
+                    <div class="factura-input-group">
+                        <h4>Ajustes de Tasa</h4>
+                        <label>Tasa del día (Ej: 375,08)</label>
+                        <input type="text" id="inputTasa" placeholder="375.08">
+                        <button class="btn-wa" onclick="saveTasa()" style="border:none; width:100%;">Actualizar Tasa</button>
+                    </div>
+
+                    <!-- Generador de Factura -->
+                    <div class="factura-input-group">
+                        <h4>Datos del Cliente</h4>
+                        <input type="text" id="cliNombre" placeholder="Nombre / Razón Social" oninput="genFactura()">
+                        <input type="text" id="cliId" placeholder="Cédula / RIF" oninput="genFactura()">
+                        <input type="text" id="cliTlf" placeholder="Teléfono" oninput="genFactura()">
+                        <input type="text" id="cliDir" placeholder="Dirección" oninput="genFactura()">
+                        
+                        <h4 style="margin-top:10px;">Agregar Productos</h4>
+                        <select id="fProduct">
+                            <option value="R33" data-p="90">R33 - $90</option>
+                            <option value="R36" data-p="80">R36 - $80</option>
+                            <option value="R36T" data-p="85">R36T - $85</option>
+                            <option value="R20" data-p="65">R20 - $65</option>
+                        </select>
+                        <input type="number" id="fQty" value="1" min="1">
+                        <button class="btn-wa" onclick="addItem()" style="border:none; background:var(--blue); width:100%;">+ Agregar a Factura</button>
+                        <button class="btn-wa" onclick="clearItems()" style="border:none; background:#555; width:100%;">Vaciar Factura</button>
+                    </div>
+                </div>
+
+                <div class="factura-preview" id="facturaPrint">
+                    <!-- Factura Renderizada -->
+                </div>
+                <button class="btn-wa" onclick="window.print()" style="margin-top:20px; width:100%; border:none; background:var(--gold); color:black;">IMPRIMIR / GUARDAR PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIP -->
+    <div id="tipPestana" class="tip-box" onclick="showTip()">
+        <span class="close-tip" onclick="this.parentElement.style.display='none'">&times;</span>
+        <h4>CONSEJO BRUTALUX</h4>
+        <p id="tipContent">Las luces LED consumen un 80% menos que las halógenas, cuidando tu batería.</p>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/bruta_lux?igsh=MXN5ZTg0ZG1uc2k5cw==" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@brutaluxlighting?_r=1&_t=ZS-93e9bBF4ckc" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://wa.me/584126835635" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p style="margin-top:20px;">BRUTALUX Venezuela • Potencia y Resistencia</p>
+    </footer>
+
+    <script>
+        // DATOS Y CONFIG
+        let tasa = 375.08;
+        let invoiceItems = [];
+        const consejos = [
+            "Las luces LED ofrecen hasta 5 veces más brillo que las halógenas tradicionales.",
+            "El encendido de las Brutalux es instantáneo, sin esperas para alcanzar máxima potencia.",
+            "Nuestra Serie R incluye disipadores de cobre para una vida útil mayor a 50.000 horas.",
+            "Utilizar LED reduce el calor dentro de la unidad de faro, evitando que se opaque el plástico.",
+            "La luz blanca de 6500K mejora el contraste y reduce la fatiga visual en viajes largos.",
+            "Los LED consumen menos amperaje, protegiendo el sistema eléctrico de tu vehículo.",
+            "Damos 5 años de garantía porque confiamos en la resistencia de nuestros componentes.",
+            "El modelo R36T permite cambiar a amarillo para máxima penetración en lluvia o neblina.",
+            "Nuestras luces son Plug & Play: instalación sencilla sin picar cables.",
+            "Mejorar tu iluminación es mejorar tu seguridad y la de tu familia al conducir de noche."
+        ];
+
+        // DATOS COMPATIBILIDAD (Sencillo para el ejemplo, expandible)
+        const dbCompat = {
+            "Toyota": ["Hilux", "4Runner", "Land Cruiser", "Corolla", "Yaris", "Fortuner", "Prado"],
+            "Ford": ["Fiesta", "Explorer", "F-150", "EcoSport", "Ranger", "Focus", "Ka"],
+            "Chevrolet": ["Corsa", "Aveo", "Silverado", "Spark", "Cruze", "Tahoe", "Optra"]
+        };
+
+        // INICIO
+        window.onload = () => {
+            const savedTasa = localStorage.getItem('tasa');
+            if(savedTasa) tasa = parseFloat(savedTasa);
+            updatePrices();
+            loadCompatOptions();
+            startTips();
+            
+            if(localStorage.getItem('admin') === 'true') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminScreen').style.display = 'block';
+                document.querySelectorAll('.btn-edit').forEach(b => b.style.display = 'block');
+            }
+        };
+
+        // ADMIN LOGIN
+        function openModal() { document.getElementById('adminModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('adminModal').style.display = 'none'; }
+        
+        function handleLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if(u === "Manuel255" && p === "30158858Jm") {
+                localStorage.setItem('admin', 'true');
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminScreen').style.display = 'block';
+                document.querySelectorAll('.btn-edit').forEach(b => b.style.display = 'block');
+                syncInputs();
+            } else { alert("Credenciales Incorrectas"); }
+        }
+
+        function logout() {
+            localStorage.removeItem('admin');
+            location.reload();
+        }
+
+        // TASA
+        function saveTasa() {
+            const val = document.getElementById('inputTasa').value.replace(',', '.');
+            if(val && !isNaN(val)) {
+                tasa = parseFloat(val);
+                localStorage.setItem('tasa', tasa);
+                updatePrices();
+                alert("Tasa Actualizada");
+            }
+        }
+
+        function updatePrices() {
+            document.getElementById('displayTasa').innerText = `Tasa BCV hoy: ${tasa.toLocaleString('es-VE')} Bs/USD`;
+            document.getElementById('inputTasa').value = tasa;
+            document.querySelectorAll('.price-bs').forEach(span => {
+                const usd = span.dataset.usd;
+                span.innerText = `(Bs ${(usd * tasa).toLocaleString('es-VE', {minimumFractionDigits:2})})`;
+            });
+            genFactura();
+        }
+
+        // FACTURA MULTI-ITEM
+        function addItem() {
+            const select = document.getElementById('fProduct');
+            const qty = parseInt(document.getElementById('fQty').value);
+            const price = parseFloat(select.options[select.selectedIndex].dataset.p);
+            const name = select.value;
+
+            invoiceItems.push({ name, qty, price, total: qty * price });
+            genFactura();
+        }
+
+        function clearItems() { invoiceItems = []; genFactura(); }
+
+        function genFactura() {
+            const nom = document.getElementById('cliNombre').value || "Cliente General";
+            const rif = document.getElementById('cliId').value || "N/A";
+            const tlf = document.getElementById('cliTlf').value || "N/A";
+            const dir = document.getElementById('cliDir').value || "N/A";
+            
+            let subtotal = 0;
+            let rows = "";
+            invoiceItems.forEach((item, index) => {
+                subtotal += item.total;
+                rows += `<tr>
+                    <td>${item.name}</td>
+                    <td>${item.qty}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>$${item.total.toFixed(2)}</td>
+                </tr>`;
+            });
+
+            const totalBs = subtotal * tasa;
+
+            document.getElementById('facturaPrint').innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <img src="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" style="height:60px;">
+                    <div style="text-align:right;">
+                        <h2 style="margin:0;">BRUTALUX VENEZUELA</h2>
+                        <p style="font-size:10px;">Potencia y Resistencia • RIF J-12345678-9</p>
+                        <p style="font-size:10px;">Fecha: ${new Date().toLocaleDateString()}</p>
+                    </div>
+                </div>
+                <hr>
+                <div style="margin:15px 0; font-size:0.8rem;">
+                    <strong>CLIENTE:</strong> ${nom}<br>
+                    <strong>C.I / RIF:</strong> ${rif}<br>
+                    <strong>TLF:</strong> ${tlf}<br>
+                    <strong>DIRECCIÓN:</strong> ${dir}
+                </div>
+                <table class="factura-table">
+                    <thead><tr><th>Descripción</th><th>Cant</th><th>P. Unit</th><th>Total</th></tr></thead>
+                    <tbody>${rows || "<tr><td colspan='4'>No hay productos</td></tr>"}</tbody>
+                </table>
+                <div style="text-align:right; margin-top:20px;">
+                    <p>Subtotal: $${subtotal.toFixed(2)}</p>
+                    <p><strong>TOTAL USD: $${subtotal.toFixed(2)}</strong></p>
+                    <p>Tasa BCV: ${tasa.toFixed(2)} Bs</p>
+                    <p><strong>TOTAL BS: ${totalBs.toLocaleString('es-VE')} Bs</strong></p>
+                </div>
+                <div style="margin-top:30px; font-size:9px; text-align:center;">
+                    Garantía de 5 años contra defectos de fábrica. Conserve esta factura.
+                </div>
+            `;
+        }
+
+        // COMPATIBILIDAD
+        function loadCompatOptions() {
+            const selMarca = document.getElementById('selMarca');
+            Object.keys(dbCompat).forEach(m => selMarca.innerHTML += `<option value="${m}">${m}</option>`);
+            const selAno = document.getElementById('selAno');
+            for(let i=2024; i>=2000; i--) selAno.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+
+        function loadModels() {
+            const marca = document.getElementById('selMarca').value;
+            const selModelo = document.getElementById('selModelo');
+            selModelo.innerHTML = '<option value="">Modelo</option>';
+            if(marca) {
+                dbCompat[marca].forEach(mod => selModelo.innerHTML += `<option value="${mod}">${mod}</option>`);
+                selModelo.disabled = false;
+            } else { selModelo.disabled = true; }
+        }
+
+        function searchCompat() {
+            const m = document.getElementById('selMarca').value;
+            const mod = document.getElementById('selModelo').value;
+            const a = document.getElementById('selAno').value;
+            if(!m || !mod || !a) return alert("Seleccione todos los campos");
+
+            let socket = "H4"; // Ejemplo lógico
+            if(mod === "4Runner" || mod === "Hilux") socket = "H11 / 9005";
+            
+            document.getElementById('compatRes').innerText = `Su ${m} ${mod} ${a} utiliza bombillos tipo ${socket}. Le recomendamos el modelo R33 para máxima potencia.`;
+        }
+
+        // TIPS
+        function startTips() {
+            setInterval(showTip, 15000);
+            setTimeout(showTip, 3000);
+        }
+
+        function showTip() {
+            const el = document.getElementById('tipPestana');
+            const text = document.getElementById('tipContent');
+            const randomTip = consejos[Math.floor(Math.random() * consejos.length)];
+            text.innerText = randomTip;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 8000);
+        }
+
+        // EDICION IMAGEN
+        function editImg(id) {
+            const newUrl = prompt("Pega la URL de la nueva imagen:");
+            if(newUrl) {
+                document.getElementById(id).src = newUrl;
+                localStorage.setItem(id, newUrl);
+            }
+        }
+    </script>
+</body>
+</html>
