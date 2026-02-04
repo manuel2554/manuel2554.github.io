@@ -341,35 +341,65 @@
     .social a:hover{background:rgba(255,255,255,.07);border-color:rgba(0,200,255,.25)}
     .tiny{font-size:12px;color:var(--muted)}
 
-    /* Floating tip (auto, not per click) */
+    /* ✅ Professional Tips Toast */
     #tip{
-      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
-      background:rgba(0,200,255,.95);
-      color:#05121a;
-      border:1px solid rgba(255,255,255,.25);
-      box-shadow:0 20px 50px rgba(0,200,255,.18);
-      border-radius:999px;
-      padding:12px 14px;
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
       z-index:80;
-      max-width:min(860px,92vw);
       display:none;
-      font-weight:900;
-      gap:10px;
+      width:min(920px,92vw);
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.18));
+      backdrop-filter: blur(14px);
+      box-shadow: 0 22px 60px rgba(0,0,0,.45);
       align-items:center;
+      gap:12px;
     }
-    #tip .dot{
-      width:10px;height:10px;border-radius:999px;background:rgba(0,0,0,.25);
-      box-shadow:0 0 0 5px rgba(255,255,255,.18) inset;
+    .tipIcon{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background: linear-gradient(180deg, rgba(0,200,255,.22), rgba(255,92,0,.18));
+      border:1px solid rgba(255,255,255,.16);
       flex:0 0 auto;
     }
-    #tip small{font-weight:800;opacity:.85}
-    #tip .x{
+    .tipIcon i{color:#eaf8ff}
+    .tipBody{min-width:0}
+    .tipTitle{
+      font-family:Orbitron, Inter, system-ui;
+      font-weight:1000;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-size:12px;
+      color:rgba(233,237,245,.95);
+    }
+    .tipText{
+      margin-top:4px;
+      font-size:13px;
+      color:rgba(233,237,245,.88);
+      line-height:1.35;
+    }
+    .tipMeta{
+      margin-top:6px;
+      font-size:11px;
+      color:rgba(154,163,178,.95);
+      font-weight:800;
+    }
+    .tipClose{
       margin-left:auto;
-      width:30px;height:30px;border-radius:999px;
-      background:rgba(0,0,0,.18);
+      width:36px;height:36px;border-radius:14px;
       display:grid;place-items:center;
       cursor:pointer;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(233,237,245,.9);
+      flex:0 0 auto;
     }
+    .tipClose:hover{ background: rgba(255,255,255,.10); }
 
     /* Admin */
     .adminFab{
@@ -476,6 +506,8 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
     .invHeaderBar .title{
       font-weight:1000;
@@ -502,6 +534,8 @@
         radial-gradient(900px 300px at 10% 0%, rgba(0,200,255,.10), transparent 60%),
         radial-gradient(900px 300px at 90% 0%, rgba(255,92,0,.10), transparent 60%),
         #fff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
     .invBrand{display:flex;gap:12px;align-items:center}
     .invBrand img{
@@ -524,6 +558,8 @@
       background: linear-gradient(180deg, #f8fafc, #f1f5f9);
       color:#0f172a;
       font-weight: 900;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
     td.r{text-align:right}
 
@@ -568,6 +604,8 @@
       padding:14px;
       border-top:1px solid rgba(0,0,0,.10);
       background: #fafafa;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
     .totals .boxT{
       border:1px solid rgba(0,0,0,.10);
@@ -580,6 +618,8 @@
     .totals .boxT.primary{
       background: linear-gradient(180deg, rgba(0,200,255,.12), rgba(255,92,0,.10));
       border-color: rgba(255,92,0,.18);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
 
     /* Sello / firma */
@@ -589,13 +629,16 @@
       gap:12px;
       padding: 0 14px 14px;
       background:#fafafa;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
     .stampBox{
       border: 2px dashed rgba(15, 23, 42, .20);
       border-radius: 16px;
-      min-height: 90px;
+      min-height: 92px;
       background: #fff;
       padding: 10px;
+      position: relative;
     }
     .stampBox .t{
       font-weight:1000;
@@ -608,6 +651,23 @@
     .stampBox .hint{
       font-size:11px;color:#64748b;
     }
+    .stampLine{
+      position:absolute;
+      left:10px; right:10px; bottom:12px;
+      height:1px;
+      background: rgba(15, 23, 42, .20);
+    }
+    .stampSigLbl{
+      position:absolute;
+      left:10px; right:10px; bottom:0;
+      transform: translateY(8px);
+      font-size:10px;
+      color:#64748b;
+      text-align:center;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
 
     .invFoot{
       padding:12px 14px;
@@ -615,18 +675,37 @@
       font-size:11px;
       border-top:1px solid rgba(0,0,0,.10);
       background:#f8fafc;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
 
-    /* Print */
+    /* ✅ PRINT: only invoice */
+    @page{
+      size: A4;
+      margin: 12mm;
+    }
     @media print{
-      body{background:#fff}
-      header,.hero,.adminFab,#tip,footer{display:none !important}
-      .modal{position:static;inset:auto;background:#fff;padding:0;display:block !important}
-      .panel{box-shadow:none;border:none;background:#fff;max-height:none}
-      .panelHead,.adminGrid .box:not(.printOnly){display:none !important}
-      .panelBody{padding:0;overflow:visible}
-      .invoicePreview{border:none;border-radius:0;box-shadow:none}
-      .btnRemove{display:none !important}
+      /* Ocultar todo */
+      body *{ visibility: hidden !important; }
+
+      /* Mostrar solo la factura */
+      #invoicePreview, #invoicePreview *{
+        visibility: visible !important;
+      }
+
+      /* Posicionar factura para que sea lo único */
+      #invoicePreview{
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border:none !important;
+        border-radius:0 !important;
+        box-shadow:none !important;
+      }
+
+      /* Ocultar acciones */
+      .btnRemove{display:none !important;}
     }
 
     /* Responsive */
@@ -965,12 +1044,15 @@
     </div>
   </footer>
 
-  <!-- Floating tip -->
-  <div id="tip">
-    <div class="dot"></div>
-    <span id="tipText">Consejo</span>
-    <small id="tipN"></small>
-    <div class="x" id="tipClose"><i class="fa-solid fa-xmark"></i></div>
+  <!-- Professional Tip Toast -->
+  <div id="tip" role="status" aria-live="polite">
+    <div class="tipIcon"><i class="fa-solid fa-lightbulb"></i></div>
+    <div class="tipBody">
+      <div class="tipTitle">Consejo Brutalux</div>
+      <div class="tipText" id="tipText">—</div>
+      <div class="tipMeta" id="tipN">—</div>
+    </div>
+    <div class="tipClose" id="tipClose" title="Cerrar"><i class="fa-solid fa-xmark"></i></div>
   </div>
 
   <!-- Admin FAB -->
@@ -1266,11 +1348,40 @@
     }
 
     /**********************
-     * TIPS (AUTO, NOT ON CLICK)
+     * CLICK SOUND (whole page)
+     **********************/
+    let audioCtx = null;
+    function clickSound(){
+      try{
+        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if(audioCtx.state === "suspended") audioCtx.resume();
+
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = "square";
+        o.frequency.value = 950;
+
+        g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 0.005);
+        g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.06);
+
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start();
+        o.stop(audioCtx.currentTime + 0.07);
+      }catch(e){}
+    }
+
+    // Only for real taps/clicks on interactive elements
+    document.addEventListener("click", (e)=>{
+      if(e.target.closest("button, a, summary, .tipClose, input, select")) clickSound();
+    }, {passive:true});
+
+    /**********************
+     * TIPS (AUTO)
      **********************/
     let tipIdx = 0;
-    const TIP_EVERY_MS = 32000;   // cada 32s aparece un tip
-    const TIP_SHOW_MS  = 12000;   // dura 12s visible (buena lectura)
+    const TIP_EVERY_MS = 32000;   // cada 32s
+    const TIP_SHOW_MS  = 12000;   // visible 12s
     let tipInterval = null;
     let tipHideTO = null;
 
@@ -1279,8 +1390,8 @@
       const t = TIPS[tipIdx % TIPS.length];
       tipIdx++;
 
-      document.getElementById("tipText").textContent = "Consejo Brutalux: " + t;
-      document.getElementById("tipN").textContent = `#${tipIdx}/${TIPS.length}`;
+      document.getElementById("tipText").textContent = t;
+      document.getElementById("tipN").textContent = `Tip ${tipIdx} de ${TIPS.length}`;
 
       tip.style.display = "flex";
 
@@ -1289,7 +1400,6 @@
     }
 
     function startTips(){
-      // muestra uno luego de unos segundos, y luego a intervalos
       setTimeout(showTipAuto, 6000);
       tipInterval = setInterval(showTipAuto, TIP_EVERY_MS);
     }
@@ -1381,12 +1491,12 @@
     function showModal(){
       adminModal.classList.add("show");
       adminModal.setAttribute("aria-hidden","false");
-      document.body.style.overflow = "hidden";  // ✅ bloquea scroll fondo
+      document.body.style.overflow = "hidden";
     }
     function hideModal(){
       adminModal.classList.remove("show");
       adminModal.setAttribute("aria-hidden","true");
-      document.body.style.overflow = "";        // ✅ restaura
+      document.body.style.overflow = "";
     }
 
     fabAdmin.addEventListener("click", showModal);
@@ -1672,10 +1782,14 @@
           <div class="stampBox">
             <div class="t">Sello</div>
             <div class="hint">Coloca aquí el sello al imprimir.</div>
+            <div class="stampLine"></div>
+            <div class="stampSigLbl">Sello</div>
           </div>
           <div class="stampBox">
             <div class="t">Firma</div>
             <div class="hint">Firma y nombre del responsable.</div>
+            <div class="stampLine"></div>
+            <div class="stampSigLbl">Firma</div>
           </div>
         </div>
 
@@ -1729,8 +1843,6 @@
     mountInvoiceListenersOnce();
     syncAdminUI();
     scheduleInvoicePreview();
-
-    // ✅ start tips automatically
     startTips();
   </script>
 </body>
