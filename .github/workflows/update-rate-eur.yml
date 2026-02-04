@@ -1,0 +1,126 @@
+name: Update BCV EUR rate
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # cada 6 horas
+  workflow_dispatch:        # permite ejecutarlo manual
+
+permissions:
+  contents: write
+
+jobs:
+  update-rate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Fetch EURVES rate (BCV reference)
+        id: fetch
+        run: |
+          set -e
+          # Fuente externa estable (refleja BCV). Si cambia, se ajusta.
+          URL="https://pydolarve.org/api/v1/dollar?page=bcv"
+          echo "Fetching: $URL"
+          JSON=$(curl -sS "$URL")
+
+          # Extraer EUR (en algunos casos viene como 'eur' o dentro de monedas).
+          # pydolarve suele devolver USD (dollar) principalmente; por eso consultamos el endpoint de monedas:
+          URL2="https://pydolarve.org/api/v1/dollar?page=bcv&monitor=eur"
+          echo "Fetching: $URL2"
+          JSON2=$(curl -sS "$URL2")
+
+          # Intento 1: rate directo
+          RATE=$(node - <<'NODE'
+          const fs = require('fs');
+          const https = require('https');
+
+          function readStdin(){
+            return new Promise((resolve)=>{
+              let d=''; process.stdin.on('data',c=>d+=c);
+              process.stdin.on('end',()=>resolve(d));
+            });
+          }
+
+          (async ()=>{
+            const raw = await readStdin();
+            let rate = null;
+            try{
+              const j = JSON.parse(raw);
+
+              // Buscamos algún campo común donde venga el precio:
+              // Posibles formas: j.price, j.monitors?.eur?.price, j?.bcv?.eur?.price, etc.
+              const candidates = [
+                j?.price,
+                j?.rate,
+                j?.monitors?.eur?.price,
+                j?.monitors?.eur?.price_old,
+                j?.eur?.price,
+                j?.eur,
+                j?.data?.price,
+                j?.data?.rate
+              ];
+
+              for(const c of candidates){
+                const n = Number(c);
+                if(Number.isFinite(n) && n>0){ rate = n; break; }
+              }
+
+              // Si viene en array
+              if(!rate && Array.isArray(j)){
+                for(const item of j){
+                  const n = Number(item?.price || item?.rate);
+                  if(Number.isFinite(n) && n>0){ rate = n; break; }
+                }
+              }
+
+            }catch(e){}
+
+            if(!rate){
+              console.error("No se pudo extraer RATE del JSON. Revisa formato del endpoint.");
+              process.exit(1);
+            }
+            process.stdout.write(String(rate));
+          })();
+NODE
+          <<EOF
+$JSON2
+EOF
+          )
+
+          echo "RATE=$RATE" >> $GITHUB_ENV
+          echo "RATE=$RATE"
+
+      - name: Update rate.json
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+
+          const rate = Number(process.env.RATE);
+          if(!Number.isFinite(rate) || rate<=0){
+            console.error("RATE inválida:", process.env.RATE);
+            process.exit(1);
+          }
+
+          const data = {
+            pair: "EURVES",
+            source: "BCV (referencial)",
+            rate: rate,
+            updated: new Date().toISOString()
+          };
+
+          fs.writeFileSync("rate.json", JSON.stringify(data, null, 2) + "\n", "utf8");
+          console.log("rate.json actualizado:", data);
+NODE
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "brutalux-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add rate.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios en rate.json"
+            exit 0
+          fi
+          git commit -m "Update EURVES rate (BCV)"
+          git push
