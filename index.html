@@ -1125,6 +1125,111 @@
 #cartSubUsd, #cartSubBs, #cartRate{
   font-weight: 1000;
 }
+  /* ===== CEO SECTION ===== */
+.ceoCard{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:26px;
+  background:
+    radial-gradient(900px 360px at 20% 0%, rgba(0,200,255,.12), transparent 60%),
+    radial-gradient(900px 360px at 80% 0%, rgba(255,92,0,.10), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.30));
+  box-shadow: 0 18px 55px rgba(0,0,0,.45);
+  padding:16px;
+  display:grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap:14px;
+}
+
+.ceoLeft{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:14px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.22);
+}
+
+.ceoAvatar{
+  width:64px;height:64px;border-radius:22px;
+  display:grid;place-items:center;
+  background: linear-gradient(90deg, rgba(0,200,255,.20), rgba(255,92,0,.18));
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+  font-size:22px;
+  color: rgba(233,237,245,.95);
+}
+
+.ceoName{
+  font-weight:1000;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+.ceoRole{
+  margin-top:4px;
+  color: rgba(233,237,245,.75);
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+}
+
+.ceoLoc{
+  margin-top:8px;
+  color: rgba(233,237,245,.70);
+  font-size:13px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.ceoLoc i{ color: var(--yellow); }
+
+.ceoRight{
+  padding:14px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.16);
+}
+
+.ceoText{
+  margin:0;
+  color: rgba(233,237,245,.86);
+  line-height:1.5;
+  font-size:14px;
+}
+
+.ceoBadges{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.ceoBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.04);
+  font-weight:1000;
+  font-size:12px;
+}
+.ceoBadge i{ color: var(--blue); }
+
+.ceoBtns{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+@media (max-width: 900px){
+  .ceoCard{ grid-template-columns: 1fr; }
+  .ceoBtns{ grid-template-columns: 1fr; }
+}
   </style>
 </head>
 
@@ -1590,6 +1695,58 @@
     </div>
   </section>
 
+  <!-- CEO / QUIEN ESTA DETRAS -->
+<section id="ceo">
+  <div class="container">
+    <div class="sectionTitle">
+      <div>
+        <h2 class="orbitron">Quién está detrás</h2>
+        <p>Confianza, respaldo y atención directa.</p>
+      </div>
+    </div>
+
+    <div class="ceoCard">
+      <div class="ceoLeft">
+        <div class="ceoAvatar" aria-hidden="true">
+          <i class="fa-solid fa-user-tie"></i>
+        </div>
+        <div>
+          <div class="ceoName orbitron">José Manuel Quintero</div>
+          <div class="ceoRole">CEO • BRUTALUX LIGHTING</div>
+          <div class="ceoLoc"><i class="fa-solid fa-location-dot"></i> Pueblo Llano, Estado Mérida • Venezuela</div>
+        </div>
+      </div>
+
+      <div class="ceoRight">
+        <p class="ceoText">
+          Soy José Manuel Quintero, fundador y CEO de <b>BRUTALUX LIGHTING</b>. Me encargo personalmente de la asesoría
+          por compatibilidad, recomendaciones de modelo y soporte postventa. Mi objetivo es que compres con seguridad y
+          que la instalación quede perfecta.
+        </p>
+
+        <div class="ceoBadges">
+          <span class="ceoBadge"><i class="fa-solid fa-circle-check"></i> Asesoría directa</span>
+          <span class="ceoBadge"><i class="fa-solid fa-shield-halved"></i> Garantía 5 años</span>
+          <span class="ceoBadge"><i class="fa-solid fa-headset"></i> Soporte postventa</span>
+        </div>
+
+        <div class="ceoBtns">
+          <a class="btnWide green orbitron" target="_blank" rel="noopener"
+             href="https://wa.me/584126835635?text=Hola%20Jos%C3%A9%20Manuel%2C%20vengo%20de%20la%20p%C3%A1gina%20BRUTALUX%20y%20quiero%20asesor%C3%ADa.">
+            <i class="fa-brands fa-whatsapp"></i> Hablar con el CEO por WhatsApp
+          </a>
+          <a class="btnWide orbitron" href="#catalogo">
+            <i class="fa-solid fa-bolt"></i> Ver catálogo
+          </a>
+        </div>
+
+        <p class="mut" style="margin:10px 0 0">
+          Si necesitas compatibilidad exacta, envíame foto del bombillo o del faro (baja/alta/neblina) y te respondo con la opción correcta.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
   <!-- FOOTER -->
   <footer id="contacto">
     <div class="container">
@@ -2731,6 +2888,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
