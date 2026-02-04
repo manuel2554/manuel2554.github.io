@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brutalux Venezuela - Faros LED de Alta Potencia para Tu Vehículo</title>
-    <meta name="description" content="Brutalux Venezuela: Faros LED de alta potencia para vehículos. Mejora la visibilidad y seguridad en tu Toyota, Ford, Chevrolet. Garantía y envíos a nivel nacional.">
+    <meta name="description" content="Brutalux Venezuela: Faros LED de alta potencia para vehículos. Mejora la visibilidad y seguridad en tu Toyota, Ford, Chevrolet. Garantía de 5 años y envíos a nivel nacional.">
     <meta name="keywords" content="luces led, faros led, led automotriz, brutalux, h4 led, luces para toyota, luces venezuela, led car, bombillas led, R33, R36T, R36, R20">
     <meta name="author" content="Brutalux Venezuela">
     <link rel="icon" href="https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg" type="image/png">
@@ -371,7 +371,7 @@
     </div>
 </div>
 
-<!-- PANEL ADMIN CON PESTAÑAS -->
+<!-- PANEL ADMIN -->
 <div class="admin-panel" id="adminPanel">
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;">
         <button id="adminTabConfig" class="admin-tab-button admin-tab-active">Tasa / Configuración</button>
@@ -387,11 +387,11 @@
     </div>
 
     <!-- FACTURACIÓN -->
-    <div id="adminFacturaContent" class="admin-tab-content" style="display:none;margin-top:15px;width:100%;max-width:900px;">
+    <div id="adminFacturaContent" class="admin-tab-content" style="display:none;margin-top:15px;width:100%;max-width:1100px;">
         <h3 style="margin-bottom:10px;color:var(--accent-gold);">Facturar Venta</h3>
         <div style="display:flex;flex-wrap:wrap;gap:15px;align-items:flex-start;justify-content:center;">
-            <!-- FORM -->
-            <div style="flex:1 1 260px;background:var(--primary-bg);border-radius:8px;padding:10px;border:1px solid #333;">
+            <!-- FORM CLIENTE + ÍTEM -->
+            <div style="flex:1 1 320px;background:var(--primary-bg);border-radius:8px;padding:10px;border:1px solid #333;">
                 <h4 style="margin-bottom:10px;">Datos del Cliente</h4>
                 <label>Nombre / Razón Social</label>
                 <input type="text" id="facNombre" style="width:100%;margin-bottom:5px;">
@@ -404,7 +404,7 @@
                 <label>Dirección</label>
                 <textarea id="facDireccion" style="width:100%;margin-bottom:10px;min-height:60px;"></textarea>
 
-                <h4 style="margin:10px 0;">Detalle de Venta</h4>
+                <h4 style="margin:10px 0;">Agregar Ítem</h4>
                 <label>Modelo Brutalux</label>
                 <select id="facModelo" style="width:100%;margin-bottom:5px;">
                     <option value="R33">R33</option>
@@ -414,25 +414,50 @@
                 </select>
                 <label>Tipo de bombillo (H4, H11, 9005, etc.)</label>
                 <input type="text" id="facTipoBombillo" style="width:100%;margin-bottom:5px;">
-                <label>Cantidad (pares)</label>
+                <label>Descripción adicional (opcional)</label>
+                <input type="text" id="facDescripcion" placeholder="Ej: Faros delanteros" style="width:100%;margin-bottom:5px;">
+                <label>Cantidad</label>
                 <input type="number" id="facCantidad" value="1" min="1" style="width:100%;margin-bottom:5px;">
                 <label>Precio unitario (USD)</label>
                 <input type="number" id="facPrecioUnit" value="80" step="0.01" style="width:100%;margin-bottom:5px;">
+                <button id="btnAgregarItem" style="margin-top:8px;width:100%;">Agregar a la factura</button>
+
+                <h4 style="margin:15px 0 5px;">Impuestos</h4>
                 <label>IVA %</label>
-                <input type="number" id="facIVA" value="16" step="0.01" style="width:100%;margin-bottom:10px;">
+                <input type="number" id="facIVA" value="16" step="0.01" style="width:100%;margin-bottom:5px;">
             </div>
 
-            <!-- PREVIEW -->
-            <div style="flex:1 1 260px;background:#000;border-radius:8px;padding:10px;border:1px solid var(--accent-gold);max-height:400px;overflow:auto;">
-                <h4 style="margin-bottom:10px;">Vista previa de factura</h4>
-                <div id="facturaPreview" style="background:#111;padding:10px;border-radius:6px;font-size:0.85rem;">
+            <!-- LISTA + PREVIEW -->
+            <div style="flex:1 1 360px;display:flex;flex-direction:column;gap:10px;">
+                <div style="background:var(--primary-bg);border-radius:8px;padding:10px;border:1px solid #333;max-height:190px;overflow:auto;">
+                    <h4 style="margin-bottom:10px;">Ítems en la factura</h4>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.8rem;" id="tablaItems">
+                        <thead>
+                            <tr>
+                                <th style="border-bottom:1px solid #333;text-align:left;padding:4px;">Desc.</th>
+                                <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">Cant</th>
+                                <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">P.Unit</th>
+                                <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">Total</th>
+                                <th style="border-bottom:1px solid #333;text-align:center;padding:4px;">X</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyItems"></tbody>
+                    </table>
+                    <p style="margin-top:5px;font-size:0.75rem;color:var(--text-muted);">
+                        Puedes agregar diferentes modelos y cantidades. Usa la X para eliminar una línea.
+                    </p>
                 </div>
-                <button id="btnGenerarFactura" style="margin-top:10px;width:100%;">Actualizar Vista</button>
-                <button id="btnImprimirFactura" style="margin-top:5px;width:100%;">Imprimir / Guardar PDF</button>
-                <p style="margin-top:5px;font-size:0.75rem;color:var(--text-muted);">
-                    Nota: Esta factura es solo un formato visual generado en tu navegador.
-                    No sustituye a una factura fiscal emitida por sistema autorizado.
-                </p>
+
+                <div style="background:#000;border-radius:8px;padding:10px;border:1px solid var(--accent-gold);max-height:260px;overflow:auto;">
+                    <h4 style="margin-bottom:10px;">Vista previa de factura</h4>
+                    <div id="facturaPreview" style="background:#111;padding:10px;border-radius:6px;font-size:0.85rem;"></div>
+                    <button id="btnGenerarFactura" style="margin-top:8px;width:100%;">Actualizar Vista</button>
+                    <button id="btnImprimirFactura" style="margin-top:5px;width:100%;">Imprimir / Guardar PDF</button>
+                    <p style="margin-top:5px;font-size:0.75rem;color:var(--text-muted);">
+                        Nota: Esta factura es un formato visual generado en tu navegador.
+                        No sustituye a una factura fiscal emitida por sistema autorizado.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -457,9 +482,7 @@
     <div class="productos-grid">
         <!-- R36 IZQUIERDA -->
         <div class="producto-card" data-product-id="r36">
-            <div class="potencia-badge alta">
-                <i class="fas fa-bolt"></i> R36 · ALTA POTENCIA
-            </div>
+            <div class="potencia-badge alta"><i class="fas fa-bolt"></i> R36 · ALTA POTENCIA</div>
             <img src="https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36" class="producto-img" data-img-key="r36-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R36 · 27.000 lm</span>
@@ -471,9 +494,7 @@
                     <li><i class="fas fa-tools"></i> Material: Aleación de zinc</li>
                     <li><i class="fas fa-fan"></i> Enfriamiento: 4 tubos de cobre + aletas de aluminio</li>
                 </ul>
-                <div class="precio-container">
-                    <span class="precio"><span class="precio-usd" data-usd="80">$80</span><span class="precio-bs"></span></span>
-                </div>
+                <div class="precio-container"><span class="precio"><span class="precio-usd" data-usd="80">$80</span><span class="precio-bs"></span></span></div>
                 <a href="https://wa.me/584126835635?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20las%20Brutalux%20R36" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Pedir R36 por WhatsApp</a>
                 <a href="#detalle-r36" class="btn-detalle">Ver más fotos y detalles</a>
                 <button class="edit-image-button" data-img-key="r36-main">Editar Imagen</button>
@@ -482,9 +503,7 @@
 
         <!-- R33 CENTRO -->
         <div class="producto-card" data-product-id="r33">
-            <div class="potencia-badge premium">
-                <i class="fas fa-crown"></i> R33 · TOP POTENCIA
-            </div>
+            <div class="potencia-badge premium"><i class="fas fa-crown"></i> R33 · TOP POTENCIA</div>
             <img src="https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R33" class="producto-img" data-img-key="r33-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R33 · 33.000 lm</span>
@@ -495,11 +514,9 @@
                     <li><i class="fas fa-car-battery"></i> Voltaje: 12V</li>
                     <li><i class="fas fa-tools"></i> Material: Aleación de zinc</li>
                     <li><i class="fas fa-fan"></i> Enfriamiento: 3 tubos de cobre + aletas de aluminio</li>
-                    <li><i class="fas fa-shield-alt"></i> Garantía: 2 años</li>
+                    <li><i class="fas fa-shield-alt"></i> Garantía: 5 años</li>
                 </ul>
-                <div class="precio-container">
-                    <span class="precio"><span class="precio-usd" data-usd="90">$90</span><span class="precio-bs"></span></span>
-                </div>
+                <div class="precio-container"><span class="precio"><span class="precio-usd" data-usd="90">$90</span><span class="precio-bs"></span></span></div>
                 <a href="https://wa.me/584126835635?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20las%20Brutalux%20R33" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Pedir R33 por WhatsApp</a>
                 <a href="#detalle-r33" class="btn-detalle">Ver más fotos y detalles</a>
                 <button class="edit-image-button" data-img-key="r33-main">Editar Imagen</button>
@@ -508,9 +525,7 @@
 
         <!-- R36T DERECHA -->
         <div class="producto-card" data-product-id="r36t">
-            <div class="potencia-badge versatil">
-                <i class="fas fa-adjust"></i> R36T · BLANCO / AMARILLO
-            </div>
+            <div class="potencia-badge versatil"><i class="fas fa-adjust"></i> R36T · BLANCO / AMARILLO</div>
             <img src="https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg" alt="Brutalux R36T" class="producto-img" data-img-key="r36t-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R36T · 16.000 lm</span>
@@ -523,9 +538,7 @@
                     <li><i class="fas fa-tools"></i> Material: Aluminio</li>
                     <li><i class="fas fa-fan"></i> Enfriamiento: 4 tubos de cobre</li>
                 </ul>
-                <div class="precio-container">
-                    <span class="precio"><span class="precio-usd" data-usd="85">$85</span><span class="precio-bs"></span></span>
-                </div>
+                <div class="precio-container"><span class="precio"><span class="precio-usd" data-usd="85">$85</span><span class="precio-bs"></span></span></div>
                 <a href="https://wa.me/584126835635?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20las%20Brutalux%20R36T" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Pedir R36T por WhatsApp</a>
                 <a href="#detalle-r36t" class="btn-detalle">Ver más fotos y detalles</a>
                 <button class="edit-image-button" data-img-key="r36t-main">Editar Imagen</button>
@@ -534,9 +547,7 @@
 
         <!-- R20 -->
         <div class="producto-card" data-product-id="r20">
-            <div class="potencia-badge basico">
-                <i class="fas fa-thumbs-up"></i> R20 · LÍNEA ECONÓMICA
-            </div>
+            <div class="potencia-badge basico"><i class="fas fa-thumbs-up"></i> R20 · LÍNEA ECONÓMICA</div>
             <img src="https://images.unsplash.com/photo-1609079907678-3e25af9c4f25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Brutalux R20" class="producto-img" data-img-key="r20-main">
             <div class="producto-info">
                 <span class="modelo">Modelo R20 · 20.000 lm</span>
@@ -548,9 +559,7 @@
                     <li><i class="fas fa-tools"></i> Material: Aleación de zinc</li>
                     <li><i class="fas fa-fan"></i> Enfriamiento: 2 tubos de cobre + aletas de aluminio</li>
                 </ul>
-                <div class="precio-container">
-                    <span class="precio"><span class="precio-usd" data-usd="65">$65</span><span class="precio-bs"></span></span>
-                </div>
+                <div class="precio-container"><span class="precio"><span class="precio-usd" data-usd="65">$65</span><span class="precio-bs"></span></span></div>
                 <a href="https://wa.me/584126835635?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20las%20Brutalux%20R20" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Pedir R20 por WhatsApp</a>
                 <a href="#detalle-r20" class="btn-detalle">Ver más fotos y detalles</a>
                 <button class="edit-image-button" data-img-key="r20-main">Editar Imagen</button>
@@ -577,9 +586,7 @@
                 <li>4 tubos de cobre + aletas de aluminio.</li>
                 <li>Ideal para uso diario urbano y extraurbano.</li>
             </ul>
-            <div class="precio-container">
-                <span class="precio"><span class="precio-usd" data-usd="80">$80</span><span class="precio-bs"></span></span>
-            </div>
+            <div class="precio-container"><span class="precio"><span class="precio-usd" data-usd="80">$80</span><span class="precio-bs"></span></span></div>
             <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R36" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Comprar R36 ahora</a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
             <div class="admin-image-controls">
@@ -609,9 +616,7 @@
                 <li>Recomendado para carreteras muy oscuras y rutas largas.</li>
                 <li>Instalación plug & play en socket H4.</li>
             </ul>
-            <div class="precio-container">
-                <span class="precio"><span class="precio-usd" data-usd="90">$90</span><span class="precio-bs"></span></span>
-            </div>
+            <div class="precio-container"><span class="precio"><span class="precio-usd" data-usd="90">$90</span><span class="precio-bs"></span></span></div>
             <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R33" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Comprar R33 ahora</a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
             <div class="admin-image-controls">
@@ -641,9 +646,7 @@
                 <li>Enfriamiento por 4 tubos de cobre.</li>
                 <li>Perfecto para lluvia, neblina y autopista.</li>
             </ul>
-            <div class="precio-container">
-                <span class="precio"><span class="precio-usd" data-usd="85">$85</span><span class="precio-bs"></span></span>
-            </div>
+            <div class="precio-container"><span class="precio"><span class="precio-usd" data-usd="85">$85</span><span class="precio-bs"></span></span></div>
             <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R36T" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Comprar R36T ahora</a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
             <div class="admin-image-controls">
@@ -672,9 +675,7 @@
                 <li>2 tubos de cobre + aletas de aluminio.</li>
                 <li>Mejora económica frente a halógenas tradicionales.</li>
             </ul>
-            <div class="precio-container">
-                <span class="precio"><span class="precio-usd" data-usd="65">$65</span><span class="precio-bs"></span></span>
-            </div>
+            <div class="precio-container"><span class="precio"><span class="precio-usd" data-usd="65">$65</span><span class="precio-bs"></span></span></div>
             <a href="https://wa.me/584126835635?text=Hola,%20quiero%20comprar%20las%20Brutalux%20R20" class="btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Comprar R20 ahora</a>
             <a href="#catalogo" class="detalle-volver"><i class="fas fa-arrow-left"></i> Volver al catálogo</a>
             <div class="admin-image-controls">
@@ -714,14 +715,14 @@
     </div>
 </section>
 
-<!-- NOSOTROS + SELLOS -->
+<!-- NOSOTROS -->
 <section id="nosotros">
     <h2>Sobre Brutalux Venezuela</h2>
     <p>Somos Brutalux, tu aliado en iluminación LED automotriz de alta potencia. Nos apasiona mejorar tu visibilidad y seguridad en carretera con tecnología de última generación.</p>
     <p>Trabajamos con productos seleccionados por su rendimiento, resistencia y diseño, pensados para vehículos que exigen más que una bombilla común.</p>
     <ul>
         <li><i class="fas fa-car-battery"></i><h3>Tecnología Avanzada</h3><p>LEDs de alto rendimiento con disipación térmica optimizada.</p></li>
-        <li><i class="fas fa-award"></i><h3>Calidad Garantizada</h3><p>Productos probados y con hasta 2 años de garantía.</p></li>
+        <li><i class="fas fa-award"></i><h3>Calidad Garantizada</h3><p>Hasta <strong>5 años de garantía</strong> en la Serie R, contra defectos de fábrica.</p></li>
         <li><i class="fas fa-tools"></i><h3>Asesoría Experta</h3><p>Te ayudamos a elegir la bombilla correcta para tu vehículo.</p></li>
         <li><i class="fas fa-shipping-fast"></i><h3>Envíos Nacionales</h3><p>Hacemos llegar tus luces a cualquier parte del país.</p></li>
     </ul>
@@ -744,7 +745,7 @@
     </div>
     <div class="faq-item">
         <h3>¿Qué garantía ofrecen? <i class="fas fa-chevron-down"></i></h3>
-        <p>Hasta 2 años en la Serie R, contra defectos de fábrica. Si algún producto falla dentro del periodo de garantía, revisamos el caso y gestionamos reemplazo según condiciones.</p>
+        <p>Ofrecemos <strong>5 años de garantía</strong> en la Serie R, contra defectos de fábrica. Si algún producto falla dentro del periodo de garantía, revisamos el caso y gestionamos reemplazo según condiciones.</p>
     </div>
     <div class="faq-item">
         <h3>¿Hacen instalaciones? <i class="fas fa-chevron-down"></i></h3>
@@ -769,14 +770,13 @@
         <div class="contacto-item">
             <i class="fas fa-shield-alt"></i>
             <p>Garantía</p>
-            <p>2 años en todas las series R</p>
+            <p><strong>5 años</strong> en todas las series R</p>
         </div>
     </div>
     
     <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.instagram.com/bruta_lux?igsh=MXN5ZTg0ZG1uc2k5cw==" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@brutaluxlighting?_r=1&_t=ZS-93e9bBF4ckc" target="_blank"><i class="fab fa-tiktok"></i></a>
         <a href="https://wa.me/584126835635" target="_blank"><i class="fab fa-whatsapp"></i></a>
     </div>
     
@@ -792,7 +792,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    /* ELEMENTOS GENERALES */
+    /* MENÚ RESPONSIVE */
     const menuIcon = document.querySelector('.menu-icon');
     const navUl = document.querySelector('nav ul');
     if (menuIcon && navUl) {
@@ -941,7 +941,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    /* FACTURACIÓN */
+    /* FACTURACIÓN MÚLTIPLES ÍTEMS */
     const facNombre       = document.getElementById('facNombre');
     const facDocumento    = document.getElementById('facDocumento');
     const facTelefono     = document.getElementById('facTelefono');
@@ -949,265 +949,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const facDireccion    = document.getElementById('facDireccion');
     const facModelo       = document.getElementById('facModelo');
     const facTipoBombillo = document.getElementById('facTipoBombillo');
+    const facDescripcion  = document.getElementById('facDescripcion');
     const facCantidad     = document.getElementById('facCantidad');
-    const facPrecioUnit   = document.getElementById('facPrecioUnit');
-    const facIVA          = document.getElementById('facIVA');
-    const facturaPreview  = document.getElementById('facturaPreview');
-    const btnGenerarFactura  = document.getElementById('btnGenerarFactura');
-    const btnImprimirFactura = document.getElementById('btnImprimirFactura');
-
-    function generarFacturaHTML(){
-        if(!facturaPreview) return;
-        const nombre = facNombre.value || 'Cliente Varios';
-        const doc    = facDocumento.value || 'N/A';
-        const tel    = facTelefono.value || '';
-        const correo = facCorreo.value || '';
-        const dir    = facDireccion.value || '';
-        const modelo = facModelo.value || '';
-        const tipo   = facTipoBombillo.value || '';
-        const cant   = parseFloat(facCantidad.value)   || 1;
-        const precio = parseFloat(facPrecioUnit.value) || 0;
-        const ivaPorc= parseFloat(facIVA.value)        || 0;
-
-        const subtotal = cant*precio;
-        const montoIVA = subtotal*(ivaPorc/100);
-        const total    = subtotal+montoIVA;
-
-        const fecha = new Date();
-        const fechaStr = fecha.toLocaleDateString('es-VE');
-        const horaStr  = fecha.toLocaleTimeString('es-VE');
-
-        facturaPreview.innerHTML = `
-            <div style="text-align:center;margin-bottom:10px;">
-                <h3 style="margin:0;color:${getComputedStyle(document.documentElement).getPropertyValue('--accent-gold')};">BRUTALUX VENEZUELA</h3>
-                <small>Factura no fiscal - Generada desde panel admin</small><br>
-                <small>Fecha: ${fechaStr} - Hora: ${horaStr}</small>
-            </div>
-            <hr style="border-color:#333;margin:8px 0;">
-            <div style="font-size:0.8rem;">
-                <strong>Cliente:</strong> ${nombre}<br>
-                <strong>Cédula/RIF:</strong> ${doc}<br>
-                ${tel ? `<strong>Teléf:</strong> ${tel}<br>` : ''}
-                ${correo ? `<strong>Correo:</strong> ${correo}<br>` : ''}
-                ${dir ? `<strong>Dirección:</strong> ${dir}<br>` : ''}
-            </div>
-            <hr style="border-color:#333;margin:8px 0;">
-            <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
-                <thead>
-                    <tr>
-                        <th style="border-bottom:1px solid #333;text-align:left;padding:4px;">Descripción</th>
-                        <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">Cant</th>
-                        <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">P.Unit (USD)</th>
-                        <th style="border-bottom:1px solid #333;text-align:right;padding:4px;">Total (USD)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="padding:4px;border-bottom:1px solid #222;">
-                            Faros LED Brutalux ${modelo} - ${tipo || 'Tipo no especificado'}
-                        </td>
-                        <td style="padding:4px;border-bottom:1px solid #222;text-align:right;">${cant}</td>
-                        <td style="padding:4px;border-bottom:1px solid #222;text-align:right;">${precio.toFixed(2)}</td>
-                        <td style="padding:4px;border-bottom:1px solid #222;text-align:right;">${subtotal.toFixed(2)}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div style="margin-top:8px;font-size:0.8rem;text-align:right;">
-                <div>Subtotal: <strong>${subtotal.toFixed(2)} USD</strong></div>
-                <div>IVA (${ivaPorc.toFixed(2)}%): <strong>${montoIVA.toFixed(2)} USD</strong></div>
-                <div>Total: <strong>${total.toFixed(2)} USD</strong></div>
-            </div>
-        `;
-    }
-    if (btnGenerarFactura){
-        btnGenerarFactura.addEventListener('click',generarFacturaHTML);
-        generarFacturaHTML();
-    }
-    if (btnImprimirFactura && facturaPreview){
-        btnImprimirFactura.addEventListener('click',()=>{
-            const w = window.open('', 'PRINT', 'height=600,width=800');
-            w.document.write('<html><head><title>Factura Brutalux</title>');
-            w.document.write('<style>body{font-family:Poppins,Arial,sans-serif;background:#000;color:#fff;} table{width:100%;border-collapse:collapse;} th,td{border-bottom:1px solid #333;padding:4px;}</style>');
-            w.document.write('</head><body>');
-            w.document.write(facturaPreview.innerHTML);
-            w.document.write('</body></html>');
-            w.document.close();
-            w.focus();
-            w.print();
-            w.close();
-        });
-    }
-
-    /* TIPS */
-    const tips = [
-        "Las luces LED ofrecen hasta 5 veces más brillo que las halógenas, mejorando tu visibilidad nocturna.",
-        "Ahorra energía: las luces LED consumen hasta un 80% menos que las bombillas tradicionales.",
-        "Mayor durabilidad: los LED pueden durar hasta 50.000 horas, ¡olvídate de cambiarlos a menudo!",
-        "La luz blanca de los LED reduce la fatiga visual en viajes largos.",
-        "Las Brutalux R36T te permiten cambiar entre blanco y amarillo según lluvia o neblina.",
-        "Un buen sistema de luces mejora tu tiempo de reacción ante obstáculos.",
-        "Los LED generan menos calor en el faro, protegiendo la óptica de tu vehículo.",
-        "Actualizar a LED aumenta el valor percibido y la estética de tu carro.",
-        "Las luces LED encienden al 100% instantáneamente, ideal para frenos y direccionales.",
-        "Brutalux: Potentes y resistentes, pensadas para el clima y carreteras de Venezuela."
-    ];
-    const tipPestana = document.getElementById('tipPestana');
-    const tipText = document.getElementById('tipText');
-    const closeTipBtn = document.querySelector('.close-tip');
-    let tipInterval;
-    let currentTipIndex = -1;
-    const TIP_DISPLAY_DURATION = 8000;
-    const TIP_CYCLE_DELAY = 12000;
-
-    function showRandomTip(){
-        if (localStorage.getItem('brutalux_tip_closed') === 'true') return;
-        currentTipIndex = (currentTipIndex+1)%tips.length;
-        tipText.textContent = tips[currentTipIndex];
-        tipPestana.classList.remove('hide');
-        tipPestana.classList.add('show');
-        tipPestana.style.display='block';
-        setTimeout(()=>{
-            if(localStorage.getItem('brutalux_tip_closed')!=='true'){
-                tipPestana.classList.remove('show');
-                tipPestana.classList.add('hide');
-                setTimeout(()=>{tipPestana.style.display='none';},500);
-            }
-        },TIP_DISPLAY_DURATION);
-    }
-    function startTipCycle(){
-        stopTipCycle();
-        tipInterval = setInterval(showRandomTip,TIP_CYCLE_DELAY);
-        setTimeout(showRandomTip,3000);
-    }
-    function stopTipCycle(){
-        if(tipInterval){clearInterval(tipInterval);tipInterval=null;}
-        tipPestana.classList.remove('show');
-        tipPestana.classList.add('hide');
-        setTimeout(()=>{tipPestana.style.display='none';},500);
-    }
-    if (closeTipBtn){
-        closeTipBtn.addEventListener('click',()=>{
-            stopTipCycle();
-            localStorage.setItem('brutalux_tip_closed','true');
-        });
-    }
-    if(localStorage.getItem('brutalux_tip_closed')!=='true') startTipCycle();
-
-    /* COMPATIBILIDAD */
-    const COMPATIBILITY_DATA = [
-        { marca: "Toyota", modelo: "Hilux", ano_min: 2005, ano_max: 2015, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Toyota", modelo: "Hilux", ano_min: 2016, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Corolla", ano_min: 2000, ano_max: 2007, tipoLuz: "9006 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Corolla", ano_min: 2008, ano_max: 2013, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Corolla", ano_min: 2014, ano_max: 2019, tipoLuz: "9006 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Corolla", ano_min: 2020, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Fortuner", ano_min: 2006, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "4Runner", ano_min: 2003, ano_max: 2009, tipoLuz: "H11 (baja), H9 (alta)" },
-        { marca: "Toyota", modelo: "4Runner", ano_min: 2010, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Land Cruiser", ano_min: 2000, ano_max: 2007, tipoLuz: "9006 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Land Cruiser", ano_min: 2008, ano_max: 2023, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Toyota", modelo: "Yaris", ano_min: 2000, ano_max: 2005, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Toyota", modelo: "Yaris", ano_min: 2006, ano_max: 2013, tipoLuz: "H11 (baja), H9 (alta)" },
-
-        { marca: "Ford", modelo: "Fiesta", ano_min: 2000, ano_max: 2005, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Ford", modelo: "Fiesta", ano_min: 2006, ano_max: 2010, tipoLuz: "H7 (baja), H1 (alta)" },
-        { marca: "Ford", modelo: "Fiesta", ano_min: 2011, ano_max: 2019, tipoLuz: "H11 (baja), H1 (alta)" },
-        { marca: "Ford", modelo: "F-150", ano_min: 2004, ano_max: 2008, tipoLuz: "9008 (H13) (baja/alta)" },
-        { marca: "Ford", modelo: "F-150", ano_min: 2009, ano_max: 2014, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Ford", modelo: "F-150", ano_min: 2015, ano_max: 2023, tipoLuz: "H11 (baja), H1 (alta)" },
-        { marca: "Ford", modelo: "Ranger", ano_min: 2000, ano_max: 2011, tipoLuz: "9007 (baja/alta)" },
-        { marca: "Ford", modelo: "Ranger", ano_min: 2012, ano_max: 2022, tipoLuz: "H11 (baja), H9 (alta)" },
-
-        { marca: "Chevrolet", modelo: "Silverado", ano_min: 2003, ano_max: 2007, tipoLuz: "9006 (baja), 9005 (alta)" },
-        { marca: "Chevrolet", modelo: "Silverado", ano_min: 2008, ano_max: 2013, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Chevrolet", modelo: "Silverado", ano_min: 2014, ano_max: 2018, tipoLuz: "H11 (baja), 9005 (alta)" },
-        { marca: "Chevrolet", modelo: "Aveo", ano_min: 2004, ano_max: 2017, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Chevrolet", modelo: "Spark", ano_min: 2006, ano_max: 2015, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Chevrolet", modelo: "Corsa", ano_min: 2000, ano_max: 2008, tipoLuz: "H4 (baja/alta)" },
-        { marca: "Chevrolet", modelo: "Cruze", ano_min: 2010, ano_max: 2016, tipoLuz: "H7 (baja), H1 (alta)" },
-    ];
-
-    const marcaSelect = document.getElementById('marcaSelect');
-    const modeloSelect = document.getElementById('modeloSelect');
-    const anoSelect = document.getElementById('anoSelect');
-    const buscarCompatibilidadBtn = document.getElementById('buscarCompatibilidad');
-    const compatibilidadResultado = document.getElementById('compatibilidad-resultado');
-
-    if (marcaSelect){
-        const uniqueMarcas = [...new Set(COMPATIBILITY_DATA.map(i=>i.marca))].sort();
-        uniqueMarcas.forEach(m=>{
-            const o = document.createElement('option');
-            o.value=m;o.textContent=m;marcaSelect.appendChild(o);
-        });
-
-        marcaSelect.addEventListener('change',()=>{
-            modeloSelect.innerHTML='<option value="">Selecciona un modelo</option>';
-            modeloSelect.disabled=true;
-            anoSelect.innerHTML='<option value="">Selecciona un año</option>';
-            anoSelect.disabled=true;
-            compatibilidadResultado.textContent='';
-            const marc = marcaSelect.value;
-            if(marc){
-                const modelos = [...new Set(COMPATIBILITY_DATA.filter(i=>i.marca===marc).map(i=>i.modelo))].sort();
-                modelos.forEach(mod=>{
-                    const o=document.createElement('option');o.value=mod;o.textContent=mod;modeloSelect.appendChild(o);
-                });
-                modeloSelect.disabled=false;
-            }
-        });
-
-        modeloSelect.addEventListener('change',()=>{
-            anoSelect.innerHTML='<option value="">Selecciona un año</option>';
-            anoSelect.disabled=true;
-            compatibilidadResultado.textContent='';
-            const marc = marcaSelect.value;
-            const mod  = modeloSelect.value;
-            if(marc && mod){
-                const years=[...new Set(COMPATIBILITY_DATA.filter(i=>i.marca===marc && i.modelo===mod)
-                    .flatMap(i=>{
-                        const arr=[];
-                        for(let y=i.ano_min;y<=i.ano_max;y++) arr.push(y.toString());
-                        return arr;
-                    })
-                )].sort((a,b)=>parseInt(a)-parseInt(b));
-                years.forEach(y=>{
-                    const o=document.createElement('option');o.value=y;o.textContent=y;anoSelect.appendChild(o);
-                });
-                anoSelect.disabled=false;
-            }
-        });
-
-        if (buscarCompatibilidadBtn){
-            buscarCompatibilidadBtn.addEventListener('click',()=>{
-                const marc=marcaSelect.value;
-                const mod =modeloSelect.value;
-                const a   =parseInt(anoSelect.value);
-                if(!marc||!mod||isNaN(a)){
-                    compatibilidadResultado.textContent='Por favor, selecciona Marca, Modelo y Año.';
-                    return;
-                }
-                const res = COMPATIBILITY_DATA.find(i=>i.marca===marc && i.modelo===mod && a>=i.ano_min && a<=i.ano_max);
-                if(res){
-                    compatibilidadResultado.innerHTML =
-                        `Para tu <strong>${marc} ${mod}</strong> del año <strong>${a}</strong>, `+
-                        `el tipo de bombillo recomendado es: <strong style="color:var(--accent-gold);">${res.tipoLuz}</strong>.`;
-                }else{
-                    compatibilidadResultado.innerHTML='No encontramos compatibilidad específica para este modelo y año. <br>Escríbenos por WhatsApp para ayudarte.';
-                }
-            });
-        }
-    }
-
-    /* FAQ accordion */
-    document.querySelectorAll('.faq-item h3').forEach(h=>{
-        h.addEventListener('click',()=>{
-            const p=h.nextElementSibling;
-            h.classList.toggle('active');
-            p.classList.toggle('active');
-        });
-    });
-});
-</script>
-
-</body>
-</html>
+    const facPrecioUnit   = 
