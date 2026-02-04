@@ -1230,6 +1230,36 @@
   .ceoCard{ grid-template-columns: 1fr; }
   .ceoBtns{ grid-template-columns: 1fr; }
 }
+  /* CEO avatar photo (premium) */
+.ceoAvatar{
+  width:74px;
+  height:74px;
+  border-radius:24px;
+  overflow:hidden;
+  flex:0 0 auto;
+
+  background: linear-gradient(90deg, rgba(0,200,255,.22), rgba(255,92,0,.18));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.45),
+    0 0 0 1px rgba(0,200,255,.14) inset;
+  padding:3px; /* marco */
+}
+
+.ceoAvatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:20px; /* un poco menos que el contenedor por el marco */
+  display:block;
+  background:#0b0d14;
+}
+
+/* opcional: que en móvil no se vea enorme */
+@media (max-width: 560px){
+  .ceoAvatar{ width:66px; height:66px; border-radius:22px; }
+  .ceoAvatar img{ border-radius:18px; }
+}
   </style>
 </head>
 
@@ -2892,6 +2922,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
