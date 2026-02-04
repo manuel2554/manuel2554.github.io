@@ -2725,6 +2725,7 @@
     syncAdminUI();
     scheduleInvoicePreview();
     startTips();
+    loadRateFromJson();
   
   /**********************
  * CART / PEDIDO RAPIDO (FIXED)
@@ -2890,6 +2891,29 @@ function mountCart(){
 
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountCart);
 else mountCart();
+  function setState(next){
+  localStorage.setItem("brutalux_state", JSON.stringify(next));
+}
+  async function loadRateFromJson(){
+  try{
+    const res = await fetch("./rate.json", { cache: "no-store" });
+    if(!res.ok) return;
+
+    const data = await res.json();
+    const r = Number(data?.rate);
+
+    if(!isFinite(r) || r <= 0) return;
+
+    const st = getState();
+    setState({ ...st, rate: r });
+
+    renderRate();
+    renderCatalog();
+    scheduleInvoicePreview();
+  }catch(e){
+    // si falla, se queda con la tasa local por defecto
+  }
+}
   </script>
 <!-- CART MODAL -->
 <div class="modal" id="cartModal" aria-hidden="true">
@@ -2950,6 +2974,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
