@@ -1409,39 +1409,86 @@
     });
 
     /**********************
-     * COMPATIBILITY DATA
+     * ✅ COMPATIBILITY (FIXED: ranges + modelos + no guessing)
      **********************/
-    const COMPAT = {
+    const COMPAT_TABLE = {
       Toyota: {
-        "Land Cruiser": { socket: "H4 (varía por versión)", rec:"R33 / R36", years:[2000,2026] },
-        "4Runner": { socket: "H11 / HB3 (varía)", rec:"R36 / R33", years:[2000,2026] },
-        "Corolla": { socket: "H4 / H11 (varía)", rec:"R36", years:[2000,2026] },
-        "Hilux": { socket: "H4 / H11 (varía)", rec:"R36 / R33", years:[2000,2026] }
+        "Corolla": [
+          { from: 2000, to: 2007, low: "9006 (HB4)", high: "9005 (HB3)", note: "Varía por mercado/faro" },
+          { from: 2008, to: 2013, low: "H11",         high: "9005 (HB3)", note: "Varía por versión" },
+          { from: 2014, to: 2019, low: "H11",         high: "9005 (HB3)", note: "Confirmar si proyector" },
+          { from: 2020, to: 2026, low: "H11 / LED",   high: "9005 / LED", note: "Algunas versiones LED OEM" }
+        ],
+        "Hilux": [
+          { from: 2005, to: 2015, low: "H4",          high: "H4",          note: "Bifocal común en muchos mercados" },
+          { from: 2016, to: 2026, low: "H11",         high: "9005 (HB3)",  note: "Varía por versión/mercado" }
+        ],
+        "4Runner": [
+          { from: 2003, to: 2009, low: "9006 (HB4)",  high: "9005 (HB3)",  note: "Varía por faro" },
+          { from: 2010, to: 2013, low: "H11",         high: "9005 (HB3)",  note: "Confirmar" },
+          { from: 2014, to: 2020, low: "H11",         high: "9005 (HB3)",  note: "Confirmar si proyector" },
+          { from: 2021, to: 2026, low: "H11 / LED",   high: "9005 / LED",  note: "Algunas versiones LED OEM" }
+        ],
+        "Land Cruiser": [
+          { from: 1998, to: 2007, low: "9006 (HB4)",  high: "9005 (HB3)",  note: "100 series (varía)" },
+          { from: 2008, to: 2021, low: "H11",         high: "9005 (HB3)",  note: "200 series (varía)" },
+          { from: 2022, to: 2026, low: "H11 / LED",   high: "H11 / LED",   note: "Muchas versiones LED OEM" }
+        ]
       },
       Ford: {
-        "Fiesta": { socket:"H4 (varía)", rec:"R36", years:[2000,2026] },
-        "Ranger": { socket:"H4 / H11 (varía)", rec:"R36 / R33", years:[2000,2026] },
-        "Explorer": { socket:"H11 / HB3 (varía)", rec:"R36 / R33", years:[2000,2026] }
+        "Fiesta": [
+          { from: 2003, to: 2013, low: "H4",          high: "H4",          note: "Bifocal común (varía)" },
+          { from: 2014, to: 2019, low: "H11",         high: "9005 (HB3)",  note: "Varía por faro/mercado" },
+          { from: 2020, to: 2026, low: "H11 / LED",   high: "9005 / LED",  note: "Depende de versión" }
+        ],
+        "Ranger": [
+          { from: 2000, to: 2011, low: "H4",          high: "H4",          note: "Varía por mercado" },
+          { from: 2012, to: 2018, low: "H4 / H11",    high: "H4 / 9005",   note: "Varía por mercado/faro" },
+          { from: 2019, to: 2026, low: "H11",         high: "9005 (HB3)",  note: "Varía por faro" }
+        ],
+        "Explorer": [
+          { from: 2002, to: 2005, low: "9006 (HB4)",  high: "9005 (HB3)",  note: "Confirmar" },
+          { from: 2006, to: 2019, low: "H11",         high: "9005 (HB3)",  note: "Varía por versión" },
+          { from: 2020, to: 2026, low: "H11 / LED",   high: "9005 / LED",  note: "Muchas versiones LED OEM" }
+        ]
       },
       Chevrolet: {
-        "Corsa": { socket:"H4 (varía)", rec:"R20 / R36", years:[2000,2026] },
-        "Aveo": { socket:"H4 (varía)", rec:"R36", years:[2000,2026] },
-        "Spark": { socket:"H4 (varía)", rec:"R20 / R36", years:[2000,2026] }
+        "Corsa": [
+          { from: 2000, to: 2026, low: "H4",          high: "H4",          note: "Bifocal común (varía)" }
+        ],
+        "Aveo": [
+          { from: 2004, to: 2017, low: "H4",          high: "H4",          note: "Aveo clásico (varía por año)" },
+          { from: 2018, to: 2026, low: "H11 / H7",    high: "9005 / H1",   note: "Depende de generación/mercado" }
+        ],
+        "Spark": [
+          { from: 2006, to: 2015, low: "H4",          high: "H4",          note: "Muy común" },
+          { from: 2016, to: 2026, low: "H4 / H7",     high: "H4 / H1",     note: "Varía por faro" }
+        ]
       }
     };
 
     function fillYears(){
       const y = document.getElementById("cYear");
-      const minY = 2000;
+      const minY = 1998;
       const maxY = Math.max(2026, new Date().getFullYear() + 1);
-      y.innerHTML = `<option value="">Año</option>` + Array.from({length: maxY-minY+1}, (_,i)=>minY+i)
-        .map(v=>`<option value="${v}">${v}</option>`).join("");
+      y.innerHTML =
+        `<option value="">Año</option>` +
+        Array.from({length: maxY-minY+1}, (_,i)=>minY+i)
+          .map(v=>`<option value="${v}">${v}</option>`).join("");
     }
 
     function fillModels(brand){
       const m = document.getElementById("cModel");
-      const models = COMPAT[brand] ? Object.keys(COMPAT[brand]) : [];
-      m.innerHTML = `<option value="">Selecciona modelo</option>` + models.map(x=>`<option value="${x}">${x}</option>`).join("");
+      const models = COMPAT_TABLE[brand] ? Object.keys(COMPAT_TABLE[brand]) : [];
+      m.innerHTML =
+        `<option value="">Selecciona modelo</option>` +
+        models.map(x=>`<option value="${x}">${x}</option>`).join("");
+    }
+
+    function findCompatRow(brand, model, year){
+      const rows = COMPAT_TABLE?.[brand]?.[model];
+      if(!rows) return null;
+      return rows.find(r => year >= r.from && year <= r.to) || null;
     }
 
     function doCompat(){
@@ -1455,25 +1502,35 @@
         out.innerHTML = `⚠️ Completa <strong>marca, modelo y año</strong>.`;
         return;
       }
-      const row = COMPAT[b]?.[m];
+
+      const row = findCompatRow(b,m,y);
+
       if(!row){
         out.style.display="block";
-        out.innerHTML = `No encontramos datos para <strong>${b} ${m}</strong>. Escríbenos por WhatsApp y te asesoramos.`;
+        out.innerHTML = `
+          ⚠️ <strong>${b} ${m} ${y}</strong><br>
+          No tenemos un match verificado en la tabla para ese año.<br>
+          <div class="tiny" style="margin-top:8px;color:#6b7280">
+            Envíanos por WhatsApp una <b>foto del bombillo</b> o del <b>faro</b> para confirmar el socket (bajas/altas).
+          </div>
+        `;
         return;
       }
-      if(y < row.years[0] || y > row.years[1]){
-        out.style.display="block";
-        out.innerHTML = `Año fuera de rango para nuestra tabla. Escríbenos por WhatsApp.`;
-        return;
-      }
+
+      const hasLedOem = (String(row.low).includes("LED") || String(row.high).includes("LED"));
+      const rec = hasLedOem
+        ? "Si tu faro es LED OEM, necesitamos foto para recomendar el kit correcto."
+        : "Recomendación: R36 (balance) / R33 (máxima potencia) / R36T (dual).";
 
       out.style.display="block";
       out.innerHTML = `
         ✅ <strong>${b} ${m} ${y}</strong><br>
-        • Tipo de luz (referencial): <strong>${row.socket}</strong><br>
-        • Recomendación Brutalux: <strong>${row.rec}</strong><br>
+        • Luz baja: <strong>${row.low || "—"}</strong><br>
+        • Luz alta: <strong>${row.high || "—"}</strong><br>
+        • Nota: <strong>${row.note || "—"}</strong><br>
+        • ${rec}
         <div class="tiny" style="margin-top:8px;color:#6b7280">
-          Si tu versión cambia de socket, mándanos foto del bombillo o del faro.
+          Importante: puede variar por versión/mercado. Si difiere, mándanos foto del socket.
         </div>
       `;
     }
@@ -1824,16 +1881,25 @@
     renderRate();
     renderCatalog();
 
+    // ✅ Compat init fixed
     fillYears();
     document.getElementById("cBrand").addEventListener("change", (e)=>{
       const brand = e.target.value;
       const modelSel = document.getElementById("cModel");
       const yearSel = document.getElementById("cYear");
+      const out = document.getElementById("compatResult");
+
+      out.style.display = "none";
+      out.innerHTML = "";
+
       if(!brand){
-        modelSel.disabled = true; yearSel.disabled = true;
+        modelSel.disabled = true;
+        yearSel.disabled = true;
         modelSel.innerHTML = `<option value="">Primero marca</option>`;
+        yearSel.value = "";
         return;
       }
+
       fillModels(brand);
       modelSel.disabled = false;
       yearSel.disabled = false;
