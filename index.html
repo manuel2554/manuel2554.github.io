@@ -2523,6 +2523,8 @@ function renderCart(){
   const car  = document.getElementById("cartCar")?.value?.trim() || "";
   const city = document.getElementById("cartCity")?.value?.trim() || "";
   const note = document.getElementById("cartNote")?.value?.trim() || "";
+  const phone = document.getElementById("cartPhone")?.value?.trim() || "";
+const addr  = document.getElementById("cartAddr")?.value?.trim() || "";
 
   const lines = cart.map(it=>{
     const lineTotal = Number(it.qty) * Number(it.eur);
@@ -2535,6 +2537,8 @@ function renderCart(){
 Nombre: ${name || "—"}
 Vehículo: ${car || "—"}
 Ciudad/Estado: ${city || "—"}
+Teléfono: ${phone || "—"}
+Dirección: ${addr || "—"}
 Código de pedido: ${lastCode || "—"}
 
 Items:
@@ -2606,9 +2610,9 @@ function mountCart(){
     renderCart();
   });
 
-  ["cartName","cartCar","cartCity","cartNote"].forEach(id=>{
-    document.getElementById(id)?.addEventListener("input", renderCart);
-  });
+  ["cartName","cartCar","cartCity","cartNote","cartPhone","cartAddr"].forEach(id=>{
+  document.getElementById(id)?.addEventListener("input", renderCart);
+});
 
   document.getElementById("productCards")?.addEventListener("click",(e)=>{
     const b = e.target.closest("[data-addcart]");
@@ -2631,10 +2635,13 @@ function mountCart(){
 
     const payload = {
       customer: {
-        name: document.getElementById("cartName")?.value?.trim() || "",
-        car:  document.getElementById("cartCar")?.value?.trim() || "",
-        city: document.getElementById("cartCity")?.value?.trim() || "",
-        note: document.getElementById("cartNote")?.value?.trim() || ""
+  name: document.getElementById("cartName")?.value?.trim() || "",
+  car:  document.getElementById("cartCar")?.value?.trim() || "",
+  city: document.getElementById("cartCity")?.value?.trim() || "",
+  phone: document.getElementById("cartPhone")?.value?.trim() || "",
+  addr: document.getElementById("cartAddr")?.value?.trim() || "",
+  note: document.getElementById("cartNote")?.value?.trim() || ""
+},
       },
       items: cart,
       totals: { subEur, rate, subBs },
@@ -2803,6 +2810,12 @@ function refreshInvoicePreview(){
   const now = new Date();
   const dateStr = now.toLocaleDateString("es-VE") + " " +
     now.toLocaleTimeString("es-VE", { hour:"2-digit", minute:"2-digit" });
+  // ✅ QR (si hay código de pedido escrito)
+const code = (document.getElementById("invOrderCode")?.value || "").trim().toUpperCase();
+const orderUrl = code ? `${API_BASE}/api/order?code=${encodeURIComponent(code)}` : "";
+const qrUrl = orderUrl
+  ? `https://chart.googleapis.com/chart?cht=qr&chs=140x140&chl=${encodeURIComponent(orderUrl)}`
+  : "";
 
   const rows = inv.items.map((it)=>{
     const line = Number(it.qty) * Number(it.eur);
@@ -2836,7 +2849,18 @@ function refreshInvoicePreview(){
         <div>${dateStr}</div>
         <div style="margin-top:6px"><b>Moneda:</b> ${BASE_CCY} (Ref. Bs)</div>
       </div>
+    <div class="invMeta">
+  <b>Emisión</b>
+  <div>${dateStr}</div>
+  <div style="margin-top:6px"><b>Moneda:</b> ${BASE_CCY} (Ref. Bs)</div>
+
+  ${qrUrl ? `
+    <div style="margin-top:10px">
+      <img src="${qrUrl}" alt="QR" style="width:140px;height:140px;border:1px solid rgba(0,0,0,.12);border-radius:10px">
     </div>
+  ` : ""}
+</div>
+</div>
 
     <div class="invPad">
       <div class="invCards">
@@ -2913,6 +2937,10 @@ function refreshInvoicePreview(){
   `;
 }
    async function loadOrderIntoInvoice(){
+     document.getElementById("invOrderCode").value = code;
+     const c = order.customer || {};
+document.getElementById("invPhone").value = c.phone || "";
+document.getElementById("invAddr").value = c.addr || "";
   const code = (document.getElementById("invOrderCode")?.value || "")
     .trim()
     .toUpperCase();
@@ -3151,6 +3179,15 @@ document.addEventListener("DOMContentLoaded", ()=>{
             <label>Nombre</label>
             <input id="cartName" placeholder="Tu nombre">
           </div>
+          <div style="margin-top:10px" class="row">
+  <div>
+    <label>Teléfono</label>
+    <input id="cartPhone" placeholder="+58...">
+  </div>
+  <div>
+    <label>Dirección</label>
+    <input id="cartAddr" placeholder="Dirección completa">
+  </div>
           <div>
             <label>Vehículo (opcional)</label>
             <input id="cartCar" placeholder="Ej: Corolla 2014">
@@ -3195,6 +3232,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
