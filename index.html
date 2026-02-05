@@ -1288,6 +1288,17 @@
     border-radius: 22px;
   }
 }
+  /* ===== FIX capas: etiquetas sobre la imagen ===== */
+.card .img img{
+  position: relative;
+  z-index: 1;
+  display:block;
+}
+
+.tagTop{
+  position: absolute;
+  z-index: 5;
+}
   </style>
 </head>
 
@@ -3053,3 +3064,4 @@ else mountCart();
 </div>
 </body>
 </html>
+
