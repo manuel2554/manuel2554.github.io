@@ -1994,20 +1994,24 @@ header .nav > div:last-child{
   <!-- ✅ CÓDIGO DE PEDIDO (UNA SOLA VEZ, BIEN UBICADO) -->
   <div style="margin-top:10px" class="row">
     <div>
-      <label>Código de pedido</label>
-      <input id="invOrderCode" placeholder="Ej: BLX-T4N89">
-      <p class="mut" style="margin:8px 0 0">
-        Pega el código del pedido (BLX-XXXXX) y carga productos automáticamente en la factura.
-      </p>
-    </div>
-    <div style="display:flex;gap:10px;align-items:end">
-      <button class="btnWide green orbitron" id="btnLoadOrder" type="button">
-        <i class="fa-solid fa-download"></i> Cargar pedido
-      </button>
-    </div>
+      
   </div>
 
   <!-- Producto / Cantidad / Precio -->
+  <div style="margin-top:10px" class="row">
+  <div>
+    <label>Código de pedido</label>
+    <input id="invOrderCode" placeholder="Ej: BLX-T4N89">
+    <p class="mut" style="margin:8px 0 0">
+      Pega el código del pedido (BLX-XXXXX) y carga productos automáticamente en la factura.
+    </p>
+  </div>
+  <div style="display:flex;gap:10px;align-items:end">
+    <button class="btnWide green orbitron" id="btnLoadOrder" type="button">
+      <i class="fa-solid fa-download"></i> Cargar pedido
+    </button>
+  </div>
+</div>
   <div style="margin-top:10px" class="row3">
     <div>
       <label>Producto</label>
@@ -3270,6 +3274,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
