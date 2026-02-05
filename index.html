@@ -1395,6 +1395,111 @@
   0%,100% { transform: rotate(-6deg) scale(1); filter: brightness(1); }
   50%     { transform: rotate(8deg) scale(1.12); filter: brightness(1.25); }
 }
+  /* ===== Stickers fusionados con la card (como ejemplo) ===== */
+.card .img{ position:relative; overflow:visible; } /* deja que sobresalga */
+
+.sticker{
+  position:absolute;
+  right:14px;
+  top:-12px;              /* ✅ sobresale hacia arriba */
+  z-index: 10;
+  pointer-events:none;
+
+  padding:10px 14px;
+  border-radius:999px;
+  font-weight:1000;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  border:1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.10) inset;
+
+  transform: translateZ(0);
+}
+
+/* “base” para que se vea fusionado al borde */
+.sticker::before{
+  content:"";
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:-10px;
+  height:14px;
+  border-radius: 0 0 16px 16px;
+  background: rgba(0,0,0,.35);
+  filter: blur(8px);
+  opacity:.8;
+  z-index:-1;
+}
+
+/* MÁS VENDIDO: glow + flash */
+.sticker.best{
+  background: linear-gradient(90deg, #ffe08a, #ff5c00);
+  color:#1a0a00;
+  box-shadow:
+    0 18px 55px rgba(255,92,0,.18),
+    0 0 0 1px rgba(255,255,255,.14) inset,
+    0 0 26px rgba(255, 185, 64, .22);
+  overflow:hidden;
+  animation: bestPop 1.25s ease-in-out infinite;
+}
+
+.sticker.best::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background: linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,.95) 50%,
+    transparent 65%
+  );
+  transform: translateX(-70%) rotate(10deg);
+  animation: bestShine 1.7s ease-in-out infinite;
+  opacity:.65;
+}
+
+@keyframes bestPop{
+  0%,100% { transform: translateY(0) scale(1); filter: brightness(1); }
+  50%     { transform: translateY(-1px) scale(1.05); filter: brightness(1.18); }
+}
+
+@keyframes bestShine{
+  0%   { transform: translateX(-75%) rotate(10deg); opacity: 0; }
+  18%  { opacity: .9; }
+  55%  { opacity: .55; }
+  100% { transform: translateX(75%) rotate(10deg); opacity: 0; }
+}
+
+/* HOT: glow + llama animada */
+.sticker.hot{
+  background: linear-gradient(90deg, #ff2d55, #ff8a00);
+  color:#1a0a00;
+  box-shadow:
+    0 18px 55px rgba(255, 45, 85, .16),
+    0 0 0 1px rgba(255,255,255,.14) inset,
+    0 0 26px rgba(255, 92, 0, .22);
+}
+
+.sticker .flame{
+  display:inline-block;
+  animation: flameFlicker .55s ease-in-out infinite;
+  transform-origin: 50% 80%;
+  filter: drop-shadow(0 10px 12px rgba(0,0,0,.45));
+}
+
+@keyframes flameFlicker{
+  0%,100% { transform: rotate(-6deg) scale(1); filter: brightness(1); }
+  50%     { transform: rotate(8deg) scale(1.15); filter: brightness(1.25); }
+}
   </style>
 </head>
 
@@ -3172,6 +3277,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
