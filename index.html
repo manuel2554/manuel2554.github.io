@@ -2780,29 +2780,45 @@ function renderCart(){
   const wrap = document.getElementById("cartItems");
   if(!wrap) return;
 
-  const {cart, subUsd, subBs, rate} = calcCart();
+  const st = getState();
+  const cart = getCart();
+
+  const subEur = cart.reduce((a,it)=> a + (Number(it.usd) * Number(it.qty)), 0); // it.usd = precio base (ahora EUR)
+  const rate = Number(st.rate); // Bs por EUR
+  const subBs = (isFinite(rate) && rate > 0) ? (subEur * rate) : 0;
 
   wrap.innerHTML = cart.length ? cart.map((it, idx)=>`
     <div class="cartItem">
       <div>
         <div class="t">${it.name}</div>
-        <div class="m">${it.modelLine || it.id} • $${it.usd}</div>
+        <div class="m">${it.modelLine || it.id} • ${BASE_SYMBOL}${fmtMoney(it.usd)}</div>
       </div>
+
       <input class="cartQty" type="number" min="1" value="${it.qty}" data-qty="${idx}">
       <button class="btnRemove" type="button" data-del="${idx}">Quitar</button>
     </div>
   `).join("") : `<div class="tiny" style="color:#64748b">Tu carrito está vacío. Agrega productos del catálogo.</div>`;
 
-  document.getElementById("cartSubUsd").textContent = `€${fmtUsd(subUsd)}`;
-  document.getElementById("cartSubBs").textContent  = `Bs ${fmtBs(subBs)}`;
-  document.getElementById("cartRate").textContent   = `${fmtBs(rate)} Bs/EUR`;
+  // Totales
+  const subEl = document.getElementById("cartSubUsd");
+  const bsEl  = document.getElementById("cartSubBs");
+  const rateEl= document.getElementById("cartRate");
 
+  if(subEl) subEl.textContent = `${BASE_SYMBOL}${fmtMoney(subEur)}`;
+  if(bsEl)  bsEl.textContent  = `Bs ${fmtBs(subBs)}`;
+  if(rateEl) rateEl.textContent = (isFinite(rate) && rate > 0) ? `${fmtBs(rate)} ${RATE_PAIR_LABEL}` : "—";
+
+  // WhatsApp link
   const name = document.getElementById("cartName")?.value?.trim() || "";
   const car  = document.getElementById("cartCar")?.value?.trim() || "";
   const city = document.getElementById("cartCity")?.value?.trim() || "";
   const note = document.getElementById("cartNote")?.value?.trim() || "";
 
-  const lines = cart.map(it=>`- ${it.qty} x ${it.name} (${it.id}) = $${fmtUsd(it.qty*it.usd)}`).join("\n");
+  const lines = cart.map(it=>{
+    const lineTotal = Number(it.qty) * Number(it.usd);
+    return `- ${it.qty} x ${it.name} (${it.id}) = ${BASE_SYMBOL}${fmtMoney(lineTotal)}`;
+  }).join("\n");
+
   const msg =
 `Hola BRUTALUX, quiero hacer un pedido.
 Nombre: ${name || "—"}
@@ -2812,13 +2828,14 @@ Ciudad/Estado: ${city || "—"}
 Items:
 ${lines || "- (sin items)"}
 
-Subtotal: ${BASE_SYMBOL}${fmtMoney(subUsd)}
+Subtotal ${BASE_CCY}: ${BASE_SYMBOL}${fmtMoney(subEur)}
 Referencia Bs: Bs ${fmtBs(subBs)}
-Tasa BCV: ${fmtBs(rate)} Bs/EUR
+Tasa: ${(isFinite(rate) && rate > 0) ? fmtBs(rate) + " " + RATE_PAIR_LABEL : "—"}
 
 Observaciones: ${note || "—"}`;
 
-  document.getElementById("cartWhatsapp").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  const a = document.getElementById("cartWhatsapp");
+  if(a) a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 }
 
 function showCart(){
@@ -2978,6 +2995,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
