@@ -2434,8 +2434,31 @@ function getCart(){
     const raw = localStorage.getItem(CART_KEY);
     if(!raw) return [];
     const arr = JSON.parse(raw);
-    return Array.isArray(arr) ? arr : [];
-  }catch{ return []; }
+    if(!Array.isArray(arr)) return [];
+
+    // ✅ Normaliza y migra carritos viejos (usd -> eur)
+    const normalized = arr.map(it=>{
+      const qty = Math.max(1, parseInt(it?.qty, 10) || 1);
+
+      // Acepta eur (nuevo) o usd (viejo) y lo convierte a eur
+      const eur = Number.isFinite(Number(it?.eur)) ? Number(it.eur)
+                : Number.isFinite(Number(it?.usd)) ? Number(it.usd)
+                : 0;
+
+      return {
+        id: it?.id || "",
+        name: it?.name || "",
+        modelLine: it?.modelLine || "",
+        qty,
+        eur
+      };
+    });
+
+    // Filtra basura/corruptos para evitar NaN
+    return normalized.filter(it => it.id && it.name && it.qty > 0 && it.eur > 0);
+  }catch{
+    return [];
+  }
 }
 function setCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
 function cartCount(){ return getCart().reduce((a,it)=> a + (it.qty||0), 0); }
@@ -3121,6 +3144,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
