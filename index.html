@@ -2675,7 +2675,33 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   // compat listeners (si los tienes en tu script original, mantenlos)
 });
-</script>
+(function(){
+  const adminModal = document.getElementById("adminModal");
+  const fabAdmin   = document.getElementById("fabAdmin");
+  const openAdmin  = document.getElementById("openAdmin");
+  const closeAdmin = document.getElementById("closeAdmin");
+  if(!adminModal) return;
+
+  function showModal(){
+    adminModal.classList.add("show");
+    adminModal.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+  }
+  function hideModal(){
+    adminModal.classList.remove("show");
+    adminModal.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
+  }
+
+  fabAdmin?.addEventListener("click", showModal);
+  openAdmin?.addEventListener("click", showModal);
+  closeAdmin?.addEventListener("click", hideModal);
+
+  adminModal.addEventListener("click", (e)=>{
+    if(e.target === adminModal) hideModal();
+  });
+})();
+  </script>
 <!-- CART MODAL -->
 <div class="modal" id="cartModal" aria-hidden="true">
   <div class="panel" style="width:min(880px,96vw)">
@@ -2735,6 +2761,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
