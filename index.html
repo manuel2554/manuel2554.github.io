@@ -1662,10 +1662,26 @@ header .nav > div:last-child{
           <div>
             <label>Marca</label>
             <select id="cBrand">
-              <option value="">Selecciona</option>
-              <option value="Toyota">Toyota</option>
-              <option value="Ford">Ford</option>
-              <option value="Chevrolet">Chevrolet</option>
+  <option value="">Selecciona</option>
+
+  <option value="Toyota">Toyota</option>
+  <option value="Chevrolet">Chevrolet</option>
+  <option value="Ford">Ford</option>
+  <option value="Nissan">Nissan</option>
+  <option value="Hyundai">Hyundai</option>
+  <option value="Kia">Kia</option>
+  <option value="Mitsubishi">Mitsubishi</option>
+  <option value="Volkswagen">Volkswagen</option>
+  <option value="Honda">Honda</option>
+  <option value="Mazda">Mazda</option>
+  <option value="Suzuki">Suzuki</option>
+
+  <option value="Isuzu">Isuzu</option>
+  <option value="Daihatsu">Daihatsu</option>
+
+  <option value="Chery">Chery</option>
+  <option value="Great Wall">Great Wall</option>
+</select>
             </select>
           </div>
           <div>
@@ -2292,20 +2308,238 @@ const TIPS = [
  **********************/
 const COMPAT = {
   Toyota: {
-    Corolla: {
-      "2010": { baja: "H11", alta: "9005/HB3", neblina: "H11" },
-      "2014": { baja: "H11", alta: "9005/HB3", neblina: "H11" }
-    }
+    Corolla: [
+      { years:[1998, 2007], baja:"9006/HB4", alta:"9005/HB3", neblina:"H3" },
+      { years:[2008, 2013], baja:"H11", alta:"9005/HB3", neblina:"H11" },
+      { years:[2014, 2019], baja:"H11", alta:"9005/HB3", neblina:"H11" },
+      { years:[2020, 2025], baja:"LED OEM / H11*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    Hilux: [
+      { years:[2005, 2015], baja:"H4", alta:"H4", neblina:"H11" },
+      { years:[2016, 2025], baja:"H11", alta:"9005/HB3", neblina:"H11" }
+    ],
+    Fortuner: [
+      { years:[2005, 2015], baja:"H4", alta:"H4", neblina:"H11" },
+      { years:[2016, 2025], baja:"H11", alta:"9005/HB3", neblina:"H11" }
+    ],
+    "4Runner": [
+      { years:[2003, 2009], baja:"9006/HB4", alta:"9005/HB3", neblina:"H3" },
+      { years:[2010, 2025], baja:"H11", alta:"9005/HB3", neblina:"H11" }
+    ],
+    "Land Cruiser": [
+      { years:[1998, 2007], baja:"9006/HB4", alta:"9005/HB3", neblina:"H3" },
+      { years:[2008, 2025], baja:"D4S/D4R (Xenón)*", alta:"9005/HB3", neblina:"H11" }
+    ],
+    Camry: [
+      { years:[2002, 2006], baja:"9006/HB4", alta:"9005/HB3", neblina:"H3" },
+      { years:[2007, 2011], baja:"H11", alta:"9005/HB3", neblina:"H11" },
+      { years:[2012, 2017], baja:"H11", alta:"9005/HB3", neblina:"H11" }
+    ],
+    Yaris: [
+      { years:[2006, 2013], baja:"H4", alta:"H4", neblina:"H11/H3*" },
+      { years:[2014, 2020], baja:"H11/HIR2*", alta:"9005/HB3*", neblina:"H11*" }
+    ]
   },
-  Ford: {
-    Fiesta: {
-      "2012": { baja: "H7", alta: "H1", neblina: "H11" }
-    }
-  },
+
   Chevrolet: {
-    Corsa: {
-      "2008": { baja: "H4", alta: "H4", neblina: "H3" }
-    }
+    Aveo: [
+      { years:[2005, 2017], baja:"H4", alta:"H4", neblina:"H3" }
+    ],
+    Spark: [
+  { years:[2006, 2015], baja:"H4", alta:"H4", neblina:"H3/H11*" }
+],
+    Optra: [
+      { years:[2004, 2009], baja:"H4", alta:"H4", neblina:"H3" }
+    ],
+    Cruze: [
+      { years:[2010, 2015], baja:"H11", alta:"9005/HB3", neblina:"H8/H11*" }
+    ],
+    Corsa: [
+      { years:[1998, 2008], baja:"H4", alta:"H4", neblina:"H3" }
+    ],
+    "Silverado": [
+      { years:[2007, 2013], baja:"H13/9008", alta:"H13/9008", neblina:"H10/9145*" }
+    ]
+  },
+
+  Ford: {
+    Fiesta: [
+      { years:[2003, 2008], baja:"H4", alta:"H4", neblina:"H11/H3*" },
+      { years:[2009, 2019], baja:"H7*", alta:"H1*", neblina:"H11*" }
+    ],
+    Focus: [
+      { years:[2008, 2011], baja:"H11/H7*", alta:"9005/HB3*", neblina:"H11*" },
+      { years:[2012, 2018], baja:"H7*", alta:"H1*", neblina:"H11*" }
+    ],
+    Ranger: [
+      { years:[2006, 2011], baja:"H4", alta:"H4", neblina:"H11" },
+      { years:[2012, 2019], baja:"H13/9008*", alta:"H13/9008*", neblina:"H11*" }
+    ],
+    "F-150": [
+      { years:[2004, 2008], baja:"9007/HB5", alta:"9007/HB5", neblina:"H10/9145*" },
+      { years:[2009, 2014], baja:"H13/9008", alta:"H13/9008", neblina:"H10/9145*" }
+    ],
+    "F-350": [
+      { years:[2008, 2016], baja:"H13/9008", alta:"H13/9008", neblina:"H10/9145" }
+    ]
+  },
+
+  Isuzu: {
+  "D-Max": [
+    { years:[2005, 2012], baja:"H4", alta:"H4", neblina:"H11" },
+    { years:[2013, 2019], baja:"H11*", alta:"9005/HB3*", neblina:"H11*" },
+    { years:[2020, 2025], baja:"LED OEM / H11*", alta:"9005/HB3*", neblina:"H11*" }
+  ]
+},
+  Daihatsu: {
+  Terios: [
+    { years:[1998, 2005], baja:"H4", alta:"H4", neblina:"H3" },
+    { years:[2006, 2017], baja:"H4", alta:"H4", neblina:"H11/H3*" }
+  ]
+},
+  Nissan: {
+    Merú: [
+  { years:[2001, 2004], baja:"9007/HB5", alta:"9007/HB5", neblina:"H3" },
+  { years:[2005, 2015], baja:"H11*", alta:"9005/HB3*", neblina:"H11*" }
+],
+    Sentra: [
+      { years:[2000, 2006], baja:"H4", alta:"H4", neblina:"H3" },
+      { years:[2007, 2012], baja:"H11", alta:"9005/HB3", neblina:"H11" },
+      { years:[2013, 2019], baja:"H11", alta:"9005/HB3", neblina:"H11" }
+    ],
+    Tiida: [
+      { years:[2006, 2012], baja:"H4", alta:"H4", neblina:"H11/H3*" }
+    ],
+    Versa: [
+      { years:[2012, 2019], baja:"H4*", alta:"H4*", neblina:"H11*" },
+      { years:[2020, 2025], baja:"H11/HIR2*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    XTrail: [
+      { years:[2008, 2013], baja:"H11", alta:"9005/HB3", neblina:"H11" },
+      { years:[2014, 2020], baja:"H11/HID*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    Pathfinder: [
+      { years:[2005, 2012], baja:"H11", alta:"9005/HB3", neblina:"H11" }
+    ],
+    Frontier: [
+      { years:[2005, 2014], baja:"H4", alta:"H4", neblina:"H11" },
+      { years:[2015, 2025], baja:"H11*", alta:"9005/HB3*", neblina:"H11*" }
+    ]
+  },
+
+  Hyundai: {
+    Accent: [
+      { years:[2006, 2011], baja:"H4", alta:"H4", neblina:"H11/H3*" },
+      { years:[2012, 2017], baja:"H7*", alta:"H1*", neblina:"H11*" }
+    ],
+    Elantra: [
+      { years:[2007, 2010], baja:"H11/H7*", alta:"9005/HB3*", neblina:"H11*" },
+      { years:[2011, 2016], baja:"H7*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    Tucson: [
+      { years:[2005, 2009], baja:"H4", alta:"H4", neblina:"H11/H3*" },
+      { years:[2010, 2015], baja:"H11*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    SantaFe: [
+      { years:[2007, 2012], baja:"H11/HID*", alta:"9005/HB3*", neblina:"H11*" }
+    ]
+  },
+
+  Kia: {
+    Rio: [
+      { years:[2006, 2011], baja:"H4", alta:"H4", neblina:"H11/H3*" },
+      { years:[2012, 2017], baja:"H7*", alta:"H1*", neblina:"H11*" }
+    ],
+    Cerato: [
+      { years:[2009, 2013], baja:"H7*", alta:"H1*", neblina:"H11*" }
+    ],
+    Sportage: [
+      { years:[2005, 2010], baja:"H4", alta:"H4", neblina:"H11/H3*" },
+      { years:[2011, 2016], baja:"H7/HID*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    Sorento: [
+      { years:[2006, 2012], baja:"H7/HID*", alta:"9005/HB3*", neblina:"H11*" }
+    ]
+  },
+
+  Mitsubishi: {
+    Lancer: [
+      { years:[2004, 2007], baja:"H4", alta:"H4", neblina:"H3" },
+      { years:[2008, 2017], baja:"H11*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    Montero: [
+      { years:[2001, 2006], baja:"9006/HB4", alta:"9005/HB3", neblina:"H3" },
+      { years:[2007, 2016], baja:"D2S/D4S (Xenón)*", alta:"9005/HB3", neblina:"H11" }
+    ],
+    "L200": [
+      { years:[2007, 2015], baja:"H4", alta:"H4", neblina:"H11" },
+      { years:[2016, 2025], baja:"H11*", alta:"9005/HB3*", neblina:"H11*" }
+    ]
+  },
+
+  Volkswagen: {
+    Gol: [
+      { years:[2000, 2008], baja:"H4", alta:"H4", neblina:"H3" },
+      { years:[2009, 2016], baja:"H4*", alta:"H4*", neblina:"H11/H3*" }
+    ],
+    Jetta: [
+      { years:[2006, 2010], baja:"H7*", alta:"H1*", neblina:"H11*" },
+      { years:[2011, 2016], baja:"H7/HID*", alta:"H7/HID*", neblina:"H11*" }
+    ],
+    Tiguan: [
+      { years:[2009, 2016], baja:"H7/HID*", alta:"H7*", neblina:"H11*" }
+    ]
+  },
+
+  Honda: {
+    Civic: [
+      { years:[2001, 2005], baja:"9006/HB4", alta:"9005/HB3", neblina:"H3" },
+      { years:[2006, 2011], baja:"H11*", alta:"9005/HB3*", neblina:"H11*" },
+      { years:[2012, 2016], baja:"H11/HID*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    CRV: [
+      { years:[2002, 2006], baja:"9006/HB4", alta:"9005/HB3", neblina:"H3" },
+      { years:[2007, 2014], baja:"H11*", alta:"9005/HB3*", neblina:"H11*" }
+    ]
+  },
+
+  Mazda: {
+    "Mazda 3": [
+      { years:[2004, 2009], baja:"H7*", alta:"9005/HB3*", neblina:"H11*" },
+      { years:[2010, 2013], baja:"H11/HID*", alta:"9005/HB3*", neblina:"H11*" }
+    ],
+    "BT-50": [
+      { years:[2007, 2012], baja:"H4", alta:"H4", neblina:"H11" }
+    ]
+  },
+
+  Suzuki: {
+    Swift: [
+      { years:[2005, 2011], baja:"H4", alta:"H4", neblina:"H11/H3*" }
+    ],
+    "Grand Vitara": [
+  { years:[1998, 2005], baja:"H4", alta:"H4", neblina:"H3" },
+  { years:[2006, 2015], baja:"H7/H11*", alta:"9005/HB3*", neblina:"H11*" }
+],
+    Vitara: [
+      { years:[1999, 2004], baja:"H4", alta:"H4", neblina:"H3" },
+      { years:[2016, 2025], baja:"H11/HIR2*", alta:"9005/HB3*", neblina:"H11*" }
+    ]
+  },
+
+  Chery: {
+    Orinoco: [
+      { years:[2011, 2017], baja:"H4", alta:"H4", neblina:"H11/H3*" }
+    ],
+    Arauca: [
+      { years:[2011, 2017], baja:"H4", alta:"H4", neblina:"H11/H3*" }
+    ]
+  },
+
+  "Great Wall": {
+    Wingle: [
+      { years:[2009, 2018], baja:"H4", alta:"H4", neblina:"H11*" }
+    ]
   }
 };
 
@@ -3207,6 +3441,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
