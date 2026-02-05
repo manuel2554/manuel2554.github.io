@@ -1439,6 +1439,33 @@
   0%,100%{ transform: rotate(-6deg) scale(1); }
   50%{ transform: rotate(8deg) scale(1.15); }
 }
+  /* ===== FIX: que las etiquetas queden encima de la imagen ===== */
+.card .img{
+  position: relative;
+  overflow: hidden;
+}
+
+.card .img img{
+  position: relative;
+  z-index: 1;         /* la imagen abajo */
+  display:block;
+}
+
+.card .img .tagTop,
+.card .img .sticker{
+  position: absolute;
+  z-index: 5;         /* etiquetas arriba */
+}
+  /* posiciones */
+.card .img .tagTop{
+  left:12px;
+  top:12px;
+}
+
+.card .img .sticker{
+  right:12px;
+  top:12px;
+}
   </style>
 </head>
 
@@ -2305,6 +2332,7 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
      **********************/
     const fmtBs = (n) => new Intl.NumberFormat('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
     const fmtMoney = (n) => new Intl.NumberFormat('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
+    const fmtUsd = fmtMoney; // alias para no romper la factura
 
     function getState(){
       const raw = localStorage.getItem("brutalux_state");
@@ -3216,6 +3244,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
