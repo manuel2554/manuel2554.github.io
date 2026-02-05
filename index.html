@@ -3078,7 +3078,29 @@ else mountCart();
     renderRate();
     renderCatalog();
     scheduleInvoicePreview();
+  }
+  async function loadRateFromApi(){
+  try{
+    const res = await fetch("https://brutalux-api.vercel.app/api/rate", { cache: "no-store" });
+    if(!res.ok) return;
+
+    const data = await res.json();
+    const r = Number(data?.rate);
+
+    if(!isFinite(r) || r <= 0) return;
+
+    const st = getState();
+    setState({ ...st, rate: r });
+
+    renderRate();
+    renderCatalog();
+    scheduleInvoicePreview();
+    if(document.getElementById("cartModal")?.classList.contains("show")) renderCart();
   }catch(e){
+    // si falla, se queda con la tasa local guardada
+  }
+}
+    catch(e){
     // si falla, se queda con la tasa local por defecto
   }
 }
@@ -3142,6 +3164,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
