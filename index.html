@@ -2460,17 +2460,14 @@ async function loadRateFromApi(){
 }
 
 async function sendOrderToApi(payload){
-  try{
-    const res = await fetch("https://brutalux-api.vercel.app/api/order", {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json().catch(()=> ({}));
-    console.log("order api:", res.status, data);
-  }catch(e){
-    console.error("order api error:", e);
-  }
+  const res = await fetch("https://brutalux-api.vercel.app/api/order", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok) throw new Error(data?.error || "order failed");
+  return data; // { ok:true, code }
 }
 
 /**********************
@@ -2625,29 +2622,49 @@ function mountCart(){
 
   updateCartBadge();
 
-  document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
-    const st = getState();
-    const cart = getCart();
-    if(!cart.length) return;
+  document.getElementById("cartWhatsapp")?.addEventListener("click", async ()=>{
+  const st = getState();
+  const cart = getCart();
+  if(!cart.length) return;
 
-    const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
-    const rate = Number(st.rate);
-    const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
+  const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
+  const rate = Number(st.rate);
+  const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
 
-    const payload = {
-      customer: {
-        name: document.getElementById("cartName")?.value?.trim() || "",
-        car:  document.getElementById("cartCar")?.value?.trim() || "",
-        city: document.getElementById("cartCity")?.value?.trim() || "",
-        note: document.getElementById("cartNote")?.value?.trim() || ""
-      },
-      items: cart,
-      totals: { subEur, rate, subBs },
-      meta: { page: location.href, ua: navigator.userAgent }
-    };
-    sendOrderToApi(payload);
-  });
-}
+  const payload = {
+    customer: {
+      name: document.getElementById("cartName")?.value?.trim() || "",
+      car:  document.getElementById("cartCar")?.value?.trim() || "",
+      city: document.getElementById("cartCity")?.value?.trim() || "",
+      note: document.getElementById("cartNote")?.value?.trim() || ""
+    },
+    items: cart,
+    totals: { subEur, rate, subBs },
+    meta: { page: location.href, ua: navigator.userAgent }
+  };
+
+  try{
+    const out = await sendOrderToApi(payload);
+    const code = out.code;
+
+    // Guardar para usar en Admin
+    localStorage.setItem("brutalux_last_order_code", code);
+
+    // URL del pedido (para QR)
+    const orderUrl = `https://brutalux-api.vercel.app/api/order?code=${encodeURIComponent(code)}`;
+    const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=220x220&chl=${encodeURIComponent(orderUrl)}`;
+
+    // Mostrar QR + code en un alert (rápido)
+    alert(`Pedido registrado: ${code}\nQR listo. (También se guardó para Admin)`);
+
+    // (Opcional) aquí luego lo mostraremos dentro del modal bonito
+    console.log("QR:", qrUrl);
+
+  }catch(e){
+    alert("No se pudo registrar el pedido. Intenta de nuevo.");
+    console.error(e);
+  }
+});
 
 /**********************
  * ADMIN + INVOICE (simple)
@@ -3011,6 +3028,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
