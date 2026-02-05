@@ -3039,21 +3039,6 @@ function mountCompat(){
   });
 }
 
-    if(!data){
-      out.innerHTML = `No encontramos ese vehículo. Envíanos foto del socket por WhatsApp para ayudarte.`;
-      return;
-    }
-
-    out.innerHTML = `
-      <strong>${brand} ${model} ${year}</strong><br>
-      Baja: <b>${data.baja || "—"}</b><br>
-      Alta: <b>${data.alta || "—"}</b><br>
-      Neblina: <b>${data.neblina || "—"}</b><br><br>
-      Recomendación: envíanos si es <b>baja/alta/neblina</b> y una foto del socket para confirmarte el modelo BRUTALUX ideal.
-    `;
-  });
-}
-
 /**********************
  * ADMIN + INVOICE
  **********************/
@@ -3489,6 +3474,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
