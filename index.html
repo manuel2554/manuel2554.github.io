@@ -3055,6 +3055,29 @@ function mountCart(){
   });
 
   updateCartBadge();
+document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
+  const st = getState();
+  const cart = getCart();
+  if(!cart.length) return;
+
+  const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
+  const rate = Number(st.rate);
+  const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
+
+  const payload = {
+    customer: {
+      name: document.getElementById("cartName")?.value?.trim() || "",
+      car:  document.getElementById("cartCar")?.value?.trim() || "",
+      city: document.getElementById("cartCity")?.value?.trim() || "",
+      note: document.getElementById("cartNote")?.value?.trim() || ""
+    },
+    items: cart,
+    totals: { subEur, rate, subBs },
+    meta: { page: location.href, ua: navigator.userAgent }
+  };
+
+  sendOrderToApi(payload);
+});
 }
 
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountCart);
@@ -3079,6 +3102,15 @@ else mountCart();
   }catch(e){
     // si falla, se queda con la tasa local guardada
   }
+}
+  async function sendOrderToApi(payload){
+  try{
+    await fetch("https://brutalux-api.vercel.app/api/order", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(payload)
+    });
+  }catch(e){}
 }
   </script>
 <!-- CART MODAL -->
@@ -3140,6 +3172,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
