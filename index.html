@@ -2918,10 +2918,7 @@ function refreshInvoicePreview(){
         <div class="k">Subtotal</div>
         <div class="v">${BASE_SYMBOL}${fmtMoney(sub)}</div>
       </div>
-      <div class="boxT">
-        <div class="k">Impuestos / Descuento</div>
-        <div class="v">${BASE_SYMBOL}${fmtMoney(Math.max(0, tax - discount))}</div>
-      </div>
+    
       <div class="boxT primary">
         <div class="k">Total a pagar</div>
         <div class="v">
@@ -3210,6 +3207,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
