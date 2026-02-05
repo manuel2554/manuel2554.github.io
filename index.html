@@ -2199,7 +2199,7 @@ const WHATSAPP = "584126835635";
 const DEFAULTS = {
   rate: 375.08,
   warranty: "5 años",
-  logo: "https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg",
+  logo: "https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at_9_11_46_PM.jpg",
   heroBg: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=2200&q=80"
 };
 
@@ -2622,52 +2622,49 @@ function mountCart(){
 
   updateCartBadge();
 
+  // ✅ Guardar pedido (code+QR) al hacer click en WhatsApp
   document.getElementById("cartWhatsapp")?.addEventListener("click", async ()=>{
-  const st = getState();
-  const cart = getCart();
-  if(!cart.length) return;
+    const st = getState();
+    const cart = getCart();
+    if(!cart.length) return;
 
-  const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
-  const rate = Number(st.rate);
-  const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
+    const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
+    const rate = Number(st.rate);
+    const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
 
-  const payload = {
-    customer: {
-      name: document.getElementById("cartName")?.value?.trim() || "",
-      car:  document.getElementById("cartCar")?.value?.trim() || "",
-      city: document.getElementById("cartCity")?.value?.trim() || "",
-      note: document.getElementById("cartNote")?.value?.trim() || ""
-    },
-    items: cart,
-    totals: { subEur, rate, subBs },
-    meta: { page: location.href, ua: navigator.userAgent }
-  };
+    const payload = {
+      customer: {
+        name: document.getElementById("cartName")?.value?.trim() || "",
+        car:  document.getElementById("cartCar")?.value?.trim() || "",
+        city: document.getElementById("cartCity")?.value?.trim() || "",
+        note: document.getElementById("cartNote")?.value?.trim() || ""
+      },
+      items: cart,
+      totals: { subEur, rate, subBs },
+      meta: { page: location.href, ua: navigator.userAgent }
+    };
 
-  try{
-    const out = await sendOrderToApi(payload);
-    const code = out.code;
+    try{
+      const out = await sendOrderToApi(payload);
+      const code = out.code;
 
-    // Guardar para usar en Admin
-    localStorage.setItem("brutalux_last_order_code", code);
+      localStorage.setItem("brutalux_last_order_code", code);
 
-    // URL del pedido (para QR)
-    const orderUrl = `https://brutalux-api.vercel.app/api/order?code=${encodeURIComponent(code)}`;
-    const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=220x220&chl=${encodeURIComponent(orderUrl)}`;
+      const orderUrl = `https://brutalux-api.vercel.app/api/order?code=${encodeURIComponent(code)}`;
+      const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=220x220&chl=${encodeURIComponent(orderUrl)}`;
 
-    // Mostrar QR + code en un alert (rápido)
-    alert(`Pedido registrado: ${code}\nQR listo. (También se guardó para Admin)`);
-
-    // (Opcional) aquí luego lo mostraremos dentro del modal bonito
-    console.log("QR:", qrUrl);
-
-  }catch(e){
-    alert("No se pudo registrar el pedido. Intenta de nuevo.");
-    console.error(e);
-  }
-});
+      alert(`Pedido registrado: ${code}\nQR listo (ver consola).`);
+      console.log("ORDER URL:", orderUrl);
+      console.log("QR URL:", qrUrl);
+    }catch(e){
+      alert("No se pudo registrar el pedido. Intenta de nuevo.");
+      console.error(e);
+    }
+  });
+}
 
 /**********************
- * ADMIN + INVOICE (simple)
+ * ADMIN + INVOICE (funcional)
  **********************/
 function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
 function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
@@ -2739,7 +2736,7 @@ function refreshInvoicePreview(){
   const dateStr = now.toLocaleDateString("es-VE") + " " +
     now.toLocaleTimeString("es-VE", { hour:"2-digit", minute:"2-digit" });
 
-  const rows = inv.items.map((it, idx)=>{
+  const rows = inv.items.map((it)=>{
     const line = Number(it.qty) * Number(it.usd);
     return `
       <tr>
@@ -2946,7 +2943,7 @@ function mountAdmin(){
     setTimeout(()=> window.print(), 80);
   });
 
-  ["invClient","invId","invPrice","invQty"].forEach(id=>{
+  ["invClient","invId","invPhone","invAddr","invTax","invDiscount","invPrice","invQty"].forEach(id=>{
     document.getElementById(id)?.addEventListener("input", refreshInvoicePreview);
   });
 
@@ -3028,6 +3025,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
