@@ -2536,11 +2536,13 @@ function renderCart(){
     return `- ${it.qty} x ${it.name} (${it.id}) = ${BASE_SYMBOL}${fmtMoney(lineTotal)}`;
   }).join("\n");
 
+  const lastCode = localStorage.getItem("brutalux_last_order_code") || "";
   const msg =
-`Hola BRUTALUX, quiero hacer un pedido.
+    `Hola BRUTALUX, quiero hacer un pedido.
 Nombre: ${name || "—"}
 Vehículo: ${car || "—"}
 Ciudad/Estado: ${city || "—"}
+Código de pedido: ${lastCode || "—"}
 
 Items:
 ${lines || "- (sin items)"}
@@ -2643,6 +2645,7 @@ function mountCart(){
       totals: { subEur, rate, subBs },
       meta: { page: location.href, ua: navigator.userAgent }
     };
+    }
 
     try{
       const out = await sendOrderToApi(payload);
@@ -3025,6 +3028,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
