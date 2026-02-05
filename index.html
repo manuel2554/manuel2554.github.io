@@ -1313,6 +1313,88 @@
   background: linear-gradient(90deg, #00c8ff, #a855f7);
   color:#061018;
 }
+  /* ===== Best seller / Hot stickers (PRO) ===== */
+.sticker{
+  position:absolute;
+  right:12px;
+  top:12px;
+  z-index: 5;
+  pointer-events:none;
+
+  padding:9px 12px;
+  border-radius:999px;
+  font-weight:1000;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+
+  border:1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* MÁS VENDIDO: reluciente con flashes */
+.sticker.best{
+  background: linear-gradient(90deg, #ffd36b, #ff5c00);
+  color:#1a0a00;
+  overflow:hidden;
+  box-shadow:
+    0 16px 45px rgba(255,92,0,.25),
+    0 0 0 1px rgba(255,255,255,.18) inset;
+  animation: bestGlow 1.15s ease-in-out infinite;
+}
+
+.sticker.best::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background: linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,.95) 50%,
+    transparent 65%
+  );
+  transform: translateX(-60%) rotate(8deg);
+  animation: bestShine 1.6s ease-in-out infinite;
+  opacity:.65;
+}
+
+@keyframes bestGlow{
+  0%,100% { filter: brightness(1); transform: translateY(0) scale(1); }
+  50%     { filter: brightness(1.25); transform: translateY(-1px) scale(1.03); }
+}
+
+@keyframes bestShine{
+  0%   { transform: translateX(-70%) rotate(8deg); opacity: 0; }
+  15%  { opacity: .85; }
+  50%  { opacity: .55; }
+  100% { transform: translateX(70%) rotate(8deg); opacity: 0; }
+}
+
+/* HOT */
+.sticker.hot{
+  background: linear-gradient(90deg, #ff3b30, #ff8a00);
+  color:#1a0a00;
+  box-shadow:
+    0 18px 50px rgba(255,59,48,.22),
+    0 0 0 1px rgba(255,255,255,.18) inset;
+}
+
+.sticker .flame{
+  width:16px;
+  height:16px;
+  display:inline-block;
+  animation: flameFlicker .55s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+
+@keyframes flameFlicker{
+  0%,100% { transform: rotate(-6deg) scale(1); filter: brightness(1); }
+  50%     { transform: rotate(8deg) scale(1.12); filter: brightness(1.25); }
+}
   </style>
 </head>
 
@@ -2074,6 +2156,7 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
         usd: 90,
         badge: { text: "👑 R33 · TOP POTENCIA", cls: "tGold" },
         sticker: { type: "best", text: "MÁS VENDIDO" },
+        sticker: { type: "best", text: "MÁS VENDIDO" },
         image: "https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg",
         specs: ["33.000 lm (par)", "6500K blanco puro", "Zinc + 3 tubos de cobre"],
         waText: "Hola, me interesa la BRUTALUX R33 ($90)."
@@ -2084,6 +2167,7 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
         modelLine: "MODELO R36T · 16.000 LM",
         usd: 85,
         badge: { text: "🌓 R36T · BLANCO / AMARILLO", cls: "tPurple" },
+        sticker: { type: "hot", text: "HOT" },
         sticker: { type: "hot", text: "HOT" },
         image: "https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg",
         specs: ["16.000 lm (par)", "3000K–6500K (dual)", "Chip CSP 12 núcleos"],
@@ -2208,7 +2292,12 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
         <div class="img">
   <div class="tagTop ${p.badge.cls}">${p.badge.text}</div>
 
-  ${p.sticker ? `<div class="sticker ${p.sticker.type}">${p.sticker.text}</div>` : ""}
+  ${p.sticker ? `
+  <div class="sticker ${p.sticker.type}">
+    ${p.sticker.type === "hot" ? `<span class="flame">🔥</span>` : ""}
+    <span>${p.sticker.text}</span>
+  </div>
+` : ""}
 
   <img src="${p.image}" alt="${p.name}" loading="lazy">
 </div>
@@ -3083,6 +3172,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
