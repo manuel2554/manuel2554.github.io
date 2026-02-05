@@ -1904,7 +1904,7 @@
 
               <div class="row">
                 <div>
-                  <label>Tasa BCV (Bs/USD)</label>
+                  <label>Tasa BCV (Bs/EUR)</label>
                   <input id="rateInput" placeholder="Ej: 375,08">
                 </div>
                 <div>
@@ -2026,6 +2026,10 @@
       logo: "https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg",
       heroBg: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=2200&q=80"
     };
+    // ===== MONEDA BASE (cambiar aquí una sola vez) =====
+const BASE_CCY = "EUR";
+const BASE_SYMBOL = "€";
+const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
 
     const PRODUCTS = [
       {
@@ -2087,7 +2091,7 @@
      * UTILITIES
      **********************/
     const fmtBs = (n) => new Intl.NumberFormat('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
-    const fmtUsd = (n) => new Intl.NumberFormat('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
+    const fmtMoney = (n) => new Intl.NumberFormat('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
 
     function getState(){
       const raw = localStorage.getItem("brutalux_state");
@@ -2132,14 +2136,14 @@
 
           <div class="priceRow">
             <div>
-              <div class="usd orbitron">$${p.usd}</div>
+              <div class="usd orbitron">€${p.usd}</div>
               <div class="bs">(Bs ${fmtBs(bs)})</div>
             </div>
           </div>
 
           <div class="actions">
             <a class="btnSmall btnGreen orbitron" target="_blank" rel="noopener"
-              href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.waText + ' Tasa BCV: ' + fmtBs(st.rate) + ' Bs/USD')}">
+              href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.waText + ' Tasa BCV: ' + fmtBs(st.rate) + ' Bs/EUR')}">
               <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
             </a>
 
@@ -2567,8 +2571,8 @@
           <tr>
             <td>${it.desc}</td>
             <td class="r">${it.qty}</td>
-            <td class="r">$${fmtUsd(it.usd)}</td>
-            <td class="r">$${fmtUsd(line)}</td>
+            <td class="r">€${fmtUsd(it.usd)}</td>
+            <td class="r">€${fmtUsd(line)}</td>
             <td class="r"><button type="button" class="btnRemove" data-remove="${idx}">Quitar</button></td>
           </tr>
         `;
@@ -2580,7 +2584,7 @@
       pv.innerHTML = `
         <div class="invHeaderBar">
           <div class="title">Factura / Nota de Venta</div>
-          <div class="chip">Tasa BCV: ${fmtBs(st.rate)} Bs/USD</div>
+          <div class="chip">Tasa BCV: ${fmtBs(st.rate)} Bs/EUR</div>
         </div>
 
         <div class="invTop">
@@ -2611,10 +2615,10 @@
 
             <div class="invCard">
               <div class="h"><i class="fa-solid fa-receipt"></i> Resumen</div>
-              <div class="l"><b>Subtotal:</b> $${fmtUsd(sub)}</div>
-              <div class="l"><b>IVA (${taxPct}%):</b> $${fmtUsd(tax)}</div>
-              <div class="l"><b>Descuento:</b> $${fmtUsd(discount)}</div>
-              <div class="l" style="margin-top:8px"><b>Total USD:</b> $${fmtUsd(totalUsd)}</div>
+              <div class="l"><b>Subtotal:</b> ${BASE_SYMBOL}${fmtMoney(sub)}</div>
+              <div class="l"><b>IVA (${taxPct}%):</b> ${BASE_SYMBOL}${fmtMoney(tax)}</div>
+              <div class="l"><b>Descuento:</b> ${BASE_SYMBOL}${fmtMoney(discount)}</div>
+              <div class="l" style="margin-top:8px"><b>Total USD:</b> ${BASE_SYMBOL}${fmtMoney(totalUsd)}</div>
               <div class="l"><b>Total Bs (ref.):</b> Bs ${fmtBs(totalBs)}</div>
             </div>
           </div>
@@ -2789,9 +2793,9 @@ function renderCart(){
     </div>
   `).join("") : `<div class="tiny" style="color:#64748b">Tu carrito está vacío. Agrega productos del catálogo.</div>`;
 
-  document.getElementById("cartSubUsd").textContent = `$${fmtUsd(subUsd)}`;
+  document.getElementById("cartSubUsd").textContent = `€${fmtUsd(subUsd)}`;
   document.getElementById("cartSubBs").textContent  = `Bs ${fmtBs(subBs)}`;
-  document.getElementById("cartRate").textContent   = `${fmtBs(rate)} Bs/USD`;
+  document.getElementById("cartRate").textContent   = `${fmtBs(rate)} Bs/EUR`;
 
   const name = document.getElementById("cartName")?.value?.trim() || "";
   const car  = document.getElementById("cartCar")?.value?.trim() || "";
@@ -2808,9 +2812,9 @@ Ciudad/Estado: ${city || "—"}
 Items:
 ${lines || "- (sin items)"}
 
-Subtotal: $${fmtUsd(subUsd)}
+Subtotal: ${BASE_SYMBOL}${fmtMoney(subUsd)}
 Referencia Bs: Bs ${fmtBs(subBs)}
-Tasa BCV: ${fmtBs(rate)} Bs/USD
+Tasa BCV: ${fmtBs(rate)} Bs/EUR
 
 Observaciones: ${note || "—"}`;
 
@@ -2953,7 +2957,7 @@ else mountCart();
         <div id="cartItems" class="cartItems"></div>
 
         <div class="cartTotals">
-          <div class="pill">Subtotal USD: <b id="cartSubUsd">$0.00</b></div>
+          <div class="pill">Subtotal EUR: <b id="cartSubUsd">€0.00</b></div>
           <div class="pill">Ref. Bs: <b id="cartSubBs">Bs 0,00</b></div>
           <div class="pill">Tasa: <b id="cartRate">—</b></div>
         </div>
@@ -2974,6 +2978,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
