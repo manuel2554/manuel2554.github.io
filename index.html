@@ -1375,6 +1375,70 @@
   0%,100%{ transform: rotate(-6deg) scale(1); }
   50%{ transform: rotate(8deg) scale(1.15); }
 }
+  /* ===== FORZAR estilo del sticker (prioridad alta) ===== */
+.card .img .sticker{
+  position:absolute !important;
+  top:12px !important;
+  right:12px !important;
+  z-index:999 !important;
+  pointer-events:none !important;
+
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:8px !important;
+
+  height:32px !important;
+  padding:0 14px 0 12px !important;
+
+  font-weight:1000 !important;
+  font-size:12px !important;
+  letter-spacing:.12em !important;
+  text-transform:uppercase !important;
+
+  color:#140700 !important;
+  border-radius:999px !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+
+  box-shadow: 0 16px 40px rgba(0,0,0,.45) !important;
+}
+
+/* MÁS VENDIDO */
+.card .img .sticker.best{
+  background: linear-gradient(90deg, #ffd36b, #ff7a00) !important;
+  overflow:hidden !important;
+}
+
+.card .img .sticker.best::after{
+  content:"" !important;
+  position:absolute !important;
+  inset:-60% !important;
+  background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.95) 50%, transparent 60%) !important;
+  transform: translateX(-70%) rotate(10deg) !important;
+  animation: bestShine 1.8s ease-in-out infinite !important;
+  opacity:.65 !important;
+}
+
+@keyframes bestShine{
+  0%{ transform: translateX(-80%) rotate(10deg); opacity:0; }
+  18%{ opacity:.9; }
+  100%{ transform: translateX(80%) rotate(10deg); opacity:0; }
+}
+
+/* HOT */
+.card .img .sticker.hot{
+  background: linear-gradient(90deg, #ff2d55, #ff8a00) !important;
+}
+
+.card .img .sticker .flame{
+  display:inline-block !important;
+  animation: flameFlicker .55s ease-in-out infinite !important;
+  transform-origin: 50% 80% !important;
+}
+
+@keyframes flameFlicker{
+  0%,100%{ transform: rotate(-6deg) scale(1); }
+  50%{ transform: rotate(8deg) scale(1.15); }
+}
   </style>
 </head>
 
@@ -3152,6 +3216,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
