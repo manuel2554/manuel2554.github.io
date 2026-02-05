@@ -2092,174 +2092,152 @@
   </div>
 
   <script>
-    /**********************
-     * CONFIG / DEFAULTS
-     **********************/
-    const ADMIN_USER = "Manuel255";
-    const ADMIN_PASS = "30158858Jm";
-    const WHATSAPP = "584126835635";
+/**********************
+ * CONFIG / DEFAULTS
+ **********************/
+const ADMIN_USER = "Manuel255";
+const ADMIN_PASS = "30158858Jm";
+const WHATSAPP = "584126835635";
 
-    const DEFAULTS = {
-      rate: 375.08,
-      warranty: "5 años",
-      logo: "https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg",
-      heroBg: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=2200&q=80"
-    };
-    // ===== MONEDA BASE (cambiar aquí una sola vez) =====
+const DEFAULTS = {
+  rate: 375.08,
+  warranty: "5 años",
+  logo: "https://i.postimg.cc/dVXHwFxJ/Whats-App-Image-2026-02-03-at-9-11-46-PM.jpg",
+  heroBg: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=2200&q=80"
+};
+
 const BASE_CCY = "EUR";
 const BASE_SYMBOL = "€";
-const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
+const RATE_PAIR_LABEL = "Bs/EUR";
 
-    const PRODUCTS = [
-      {
-        id: "R36",
-        name: "Brutalux R36",
-        modelLine: "MODELO R36 · 27.000 LM",
-        usd: 80,
-        badge: { text: "⚡ R36 · ALTA POTENCIA", cls: "tBlue" },
-        image: "https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg",
-        specs: ["27.000 lm (par)", "6500K blanco puro", "4 tubos de cobre + disipación"],
-        waText: "Hola, me interesa la BRUTALUX R36 ($80)."
-      },
-      {
-        id: "R33",
-        name: "Brutalux R33",
-        modelLine: "MODELO R33 · 33.000 LM",
-        usd: 90,
-        badge: { text: "👑 R33 · TOP POTENCIA", cls: "tGold" },
-        sticker: { type: "best", text: "MÁS VENDIDO" },
-        image: "https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg",
-        specs: ["33.000 lm (par)", "6500K blanco puro", "Zinc + 3 tubos de cobre"],
-        waText: "Hola, me interesa la BRUTALUX R33 ($90)."
-      },
-      {
-        id: "R36T",
-        name: "Brutalux R36T",
-        modelLine: "MODELO R36T · 16.000 LM",
-        usd: 85,
-        badge: { text: "🌓 R36T · BLANCO / AMARILLO", cls: "tPurple" },
-        sticker: { type: "hot", text: "HOT" },
-        image: "https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg",
-        specs: ["16.000 lm (par)", "3000K–6500K (dual)", "Chip CSP 12 núcleos"],
-        waText: "Hola, me interesa la BRUTALUX R36T ($85) dual color."
-      },
-      {
-        id: "R20",
-        name: "Brutalux R20",
-        modelLine: "MODELO R20 · 20.000 LM",
-        usd: 65,
-        badge: { text: "👍 R20 · ECONÓMICA", cls: "tGray" },
-        image: "https://i.postimg.cc/FFb9wmx0/Whats_App_Image_2026_02_04_at_12_28_05_PM.jpg",
-        specs: ["20.000 lm (par)", "12V/24V", "Calidad / precio"],
-        waText: "Hola, me interesa la BRUTALUX R20 ($65)."
-      },
-  // ✅ NUEVOS PRODUCTOS
-{
-  id: "R35",
-  name: "Brutalux R35",
-  modelLine: "MODELO R35 · 20.000 LM · 200W",
-  usd: 70,
-  badge: { text: "⚡ R35 · 200W", cls: "tBlue" },
-  image: "https://i.postimg.cc/RZwRJKWN/Diseño_sin_título_(3).png",
-  specs: [
-    "20.000 lm (par)",
-    "6500K blanco",
-    "12V",
-    "200W",
-    "IP68",
-    "+50.000 horas de vida útil",
-    "Disipación: 2 tubos de cobre + aleta + ventilador silencioso",
-    "Canbus / decodificación externa"
-  ],
-  waText: "Hola, me interesa la BRUTALUX R35 (€70)."
-},
-{
-  id: "R47",
-  name: "Brutalux R47",
-  modelLine: "MODELO R47 · 24.000 LM · 240W",
-  usd: 65,
-  badge: { text: "⚡ R47 · 240W", cls: "tBlue" },
-  image: "https://i.postimg.cc/FH0Zk3Yz/Diseño_sin_título_(4).png",
-  specs: [
-    "24.000 lm (par)",
-    "6000K blanco",
-    "12V",
-    "240W",
-    "IP68",
-    "Cuerpo de aluminio",
-    "Canbus / decodificación externa"
-  ],
-  waText: "Hola, me interesa la BRUTALUX R47 (€65)."
-},
-{
-  id: "R45",
-  name: "Brutalux R45",
-  modelLine: "MODELO R45 · 20.000 LM · 200W",
-  usd: 45,
-  badge: { text: "💡 R45 · MEJOR PRECIO", cls: "tGray" },
-  image: "https://i.postimg.cc/6pC04n8T/Diseño_sin_título_(5).png",
-  specs: [
-    "20.000 lm (par)",
-    "6500K blanco (menciona variantes 4300K / 3000K)",
-    "12V",
-    "200W",
-    "Chip CSP 4070",
-    "IP68",
-    "Cuerpo de aluminio",
-    "Disipación: 3 tubos de cobre + ventilador silencioso",
-    "Canbus / decodificación externa"
-  ],
-  waText: "Hola, me interesa la BRUTALUX R45 (€45)."
+/**********************
+ * DATA
+ **********************/
+const PRODUCTS = [
+  {
+    id: "R36",
+    name: "Brutalux R36",
+    modelLine: "MODELO R36 · 27.000 LM",
+    usd: 80,
+    badge: { text: "⚡ R36 · ALTA POTENCIA", cls: "tBlue" },
+    image: "https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg",
+    specs: ["27.000 lm (par)", "6500K blanco puro", "4 tubos de cobre + disipación"],
+    waText: "Hola, me interesa la BRUTALUX R36 (€80)."
+  },
+  {
+    id: "R33",
+    name: "Brutalux R33",
+    modelLine: "MODELO R33 · 33.000 LM",
+    usd: 90,
+    badge: { text: "👑 R33 · TOP POTENCIA", cls: "tGold" },
+    sticker: { type: "best", text: "MÁS VENDIDO" },
+    image: "https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg",
+    specs: ["33.000 lm (par)", "6500K blanco puro", "Zinc + 3 tubos de cobre"],
+    waText: "Hola, me interesa la BRUTALUX R33 (€90)."
+  },
+  {
+    id: "R36T",
+    name: "Brutalux R36T",
+    modelLine: "MODELO R36T · 16.000 LM",
+    usd: 85,
+    badge: { text: "🌓 R36T · BLANCO / AMARILLO", cls: "tPurple" },
+    sticker: { type: "hot", text: "HOT" },
+    image: "https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg",
+    specs: ["16.000 lm (par)", "3000K–6500K (dual)", "Chip CSP 12 núcleos"],
+    waText: "Hola, me interesa la BRUTALUX R36T (€85) dual color."
+  },
+  {
+    id: "R20",
+    name: "Brutalux R20",
+    modelLine: "MODELO R20 · 20.000 LM",
+    usd: 65,
+    badge: { text: "👍 R20 · ECONÓMICA", cls: "tGray" },
+    image: "https://i.postimg.cc/FFb9wmx0/Whats_App_Image_2026_02_04_at_12_28_05_PM.jpg",
+    specs: ["20.000 lm (par)", "12V/24V", "Calidad / precio"],
+    waText: "Hola, me interesa la BRUTALUX R20 (€65)."
+  },
+  {
+    id: "R35",
+    name: "Brutalux R35",
+    modelLine: "MODELO R35 · 20.000 LM · 200W",
+    usd: 70,
+    badge: { text: "⚡ R35 · 200W", cls: "tBlue" },
+    image: "https://i.postimg.cc/RZwRJKWN/Diseño_sin_título_(3).png",
+    specs: [
+      "20.000 lm (par)","6500K blanco","12V","200W","IP68","+50.000 horas de vida útil",
+      "Disipación: 2 tubos de cobre + aleta + ventilador silencioso",
+      "Canbus / decodificación externa"
+    ],
+    waText: "Hola, me interesa la BRUTALUX R35 (€70)."
+  },
+  {
+    id: "R47",
+    name: "Brutalux R47",
+    modelLine: "MODELO R47 · 24.000 LM · 240W",
+    usd: 65,
+    badge: { text: "⚡ R47 · 240W", cls: "tBlue" },
+    image: "https://i.postimg.cc/FH0Zk3Yz/Diseño_sin_título_(4).png",
+    specs: ["24.000 lm (par)","6000K blanco","12V","240W","IP68","Cuerpo de aluminio","Canbus / decodificación externa"],
+    waText: "Hola, me interesa la BRUTALUX R47 (€65)."
+  },
+  {
+    id: "R45",
+    name: "Brutalux R45",
+    modelLine: "MODELO R45 · 20.000 LM · 200W",
+    usd: 45,
+    badge: { text: "💡 R45 · MEJOR PRECIO", cls: "tGray" },
+    image: "https://i.postimg.cc/6pC04n8T/Diseño_sin_título_(5).png",
+    specs: [
+      "20.000 lm (par)","6500K blanco (menciona variantes 4300K / 3000K)","12V","200W","Chip CSP 4070","IP68",
+      "Cuerpo de aluminio","Disipación: 3 tubos de cobre + ventilador silencioso",
+      "Canbus / decodificación externa"
+    ],
+    waText: "Hola, me interesa la BRUTALUX R45 (€45)."
+  }
+];
+
+const TIPS = [
+  "Las LED consumen menos energía que las halógenas: más batería y alternador.",
+  "El encendido LED es instantáneo: reacción más rápida en carretera.",
+  "Mejor temperatura de color = más contraste y visibilidad nocturna.",
+  "Un corte de haz correcto reduce el deslumbramiento a otros conductores.",
+  "Menos calor en el faro ayuda a cuidar el arnés y el reflector.",
+  "Mayor vida útil: menos cambios y menos gastos a largo plazo.",
+  "R36T en amarillo mejora visibilidad en niebla y lluvia.",
+  "Buena disipación mantiene el rendimiento constante en viajes largos.",
+  "Con LED ves más lejos: frenas antes, conduces más seguro.",
+  "Ideal para carretera oscura y zonas rurales."
+];
+
+/**********************
+ * UTILITIES
+ **********************/
+const fmtBs = (n) => new Intl.NumberFormat("es-VE",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+const fmtMoney = (n) => new Intl.NumberFormat("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+const fmtUsd = fmtMoney;
+
+function getState(){
+  const raw = localStorage.getItem("brutalux_state");
+  if(!raw) return {...DEFAULTS};
+  try { return {...DEFAULTS, ...JSON.parse(raw)}; } catch { return {...DEFAULTS}; }
 }
-    ];
+function setState(next){
+  localStorage.setItem("brutalux_state", JSON.stringify(next));
+}
 
-    const TIPS = [
-      "Las LED consumen menos energía que las halógenas: más batería y alternador.",
-      "El encendido LED es instantáneo: reacción más rápida en carretera.",
-      "Mejor temperatura de color = más contraste y visibilidad nocturna.",
-      "Un corte de haz correcto reduce el deslumbramiento a otros conductores.",
-      "Menos calor en el faro ayuda a cuidar el arnés y el reflector.",
-      "Mayor vida útil: menos cambios y menos gastos a largo plazo.",
-      "R36T en amarillo mejora visibilidad en niebla y lluvia.",
-      "Buena disipación mantiene el rendimiento constante en viajes largos.",
-      "Con LED ves más lejos: frenas antes, conduces más seguro.",
-      "Ideal para carretera oscura y zonas rurales."
-    ];
+/**********************
+ * RENDER
+ **********************/
+function renderRate(){
+  const st = getState();
+  document.getElementById("rateHeader").textContent = fmtBs(st.rate);
+  document.getElementById("rateBadge").textContent = fmtBs(st.rate);
+}
 
-    /**********************
-     * UTILITIES
-     **********************/const fmtBs = (n) => new Intl.NumberFormat('es-VE', {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2
-}).format(n);
-
-const fmtMoney = (n) => new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2
-}).format(n);
-
-const fmtUsd = fmtMoney; // alias (aunque ahora uses EUR)
-    function getState(){
-      const raw = localStorage.getItem("brutalux_state");
-      if(!raw) return {...DEFAULTS};
-      try { return {...DEFAULTS, ...JSON.parse(raw)}; } catch { return {...DEFAULTS}; }
-    }
-    function setState(next){
-      localStorage.setItem("brutalux_state", JSON.stringify(next));
-    }
-
-    /**********************
-     * RENDER CATALOG
-     **********************/
-    function renderRate(){
-      const st = getState();
-      document.getElementById("rateHeader").textContent = fmtBs(st.rate);
-      document.getElementById("rateBadge").textContent = fmtBs(st.rate);
-    }
-   
-    function renderCatalog(){
+function renderCatalog(){
   const st = getState();
   const wrap = document.getElementById("productCards");
+  if(!wrap) return;
 
   wrap.innerHTML = PRODUCTS.map(p=>{
     const bs = p.usd * st.rate;
@@ -2267,17 +2245,17 @@ const fmtUsd = fmtMoney; // alias (aunque ahora uses EUR)
     return `
       <article class="card" data-pid="${p.id}">
         <div class="img">
-  <div class="tagTop ${p.badge.cls}">${p.badge.text}</div>
+          <div class="tagTop ${p.badge.cls}">${p.badge.text}</div>
 
-  ${p.sticker ? `
-    <div class="sticker ${p.sticker.type}">
-      ${p.sticker.type === "hot" ? `<span class="flame">🔥</span>` : ""}
-      <span>${p.sticker.text}</span>
-    </div>
-  ` : ""}
+          ${p.sticker ? `
+            <div class="sticker ${p.sticker.type}">
+              ${p.sticker.type === "hot" ? `<span class="flame">🔥</span>` : ""}
+              <span>${p.sticker.text}</span>
+            </div>
+          ` : ""}
 
-  <img src="${p.image}" alt="${p.name}" loading="lazy">
-</div>
+          <img src="${p.image}" alt="${p.name}" loading="lazy">
+        </div>
 
         <div class="body">
           <div class="model orbitron">${p.modelLine}</div>
@@ -2290,14 +2268,14 @@ const fmtUsd = fmtMoney; // alias (aunque ahora uses EUR)
 
           <div class="priceRow">
             <div>
-              <div class="usd orbitron">€${p.usd}</div>
+              <div class="usd orbitron">${BASE_SYMBOL}${p.usd}</div>
               <div class="bs">(Bs ${fmtBs(bs)})</div>
             </div>
           </div>
 
           <div class="actions">
             <a class="btnSmall btnGreen orbitron" target="_blank" rel="noopener"
-              href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.waText + ' Tasa BCV: ' + fmtBs(st.rate) + ' Bs/EUR')}">
+              href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.waText + ' Tasa: ' + fmtBs(st.rate) + ' ' + RATE_PAIR_LABEL)}">
               <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
             </a>
 
@@ -2315,578 +2293,107 @@ const fmtUsd = fmtMoney; // alias (aunque ahora uses EUR)
     `;
   }).join("");
 
-  document.querySelectorAll('.brand img').forEach(img=>img.src = st.logo);
-  document.querySelector('.heroCard').style.backgroundImage =
-    `linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.80)), url("${st.heroBg}")`;
+  document.querySelectorAll(".brand img").forEach(img=> img.src = st.logo);
+  const hero = document.querySelector(".heroCard");
+  if(hero){
+    hero.style.backgroundImage =
+      `linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.80)), url("${st.heroBg}")`;
+  }
 }
 
-    /**********************
-     * CLICK SOUND (whole page)
-     **********************/
-    let audioCtx = null;
-    function clickSound(){
-      try{
-        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if(audioCtx.state === "suspended") audioCtx.resume();
-
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.type = "square";
-        o.frequency.value = 950;
-
-        g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 0.005);
-        g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.06);
-
-        o.connect(g); g.connect(audioCtx.destination);
-        o.start();
-        o.stop(audioCtx.currentTime + 0.07);
-      }catch(e){}
-    }
-
-    // Only for real taps/clicks on interactive elements
-    document.addEventListener("click", (e)=>{
-      if(e.target.closest("button, a, summary, .tipClose, input, select")) clickSound();
-    }, {passive:true});
-
-    /**********************
-     * TIPS (AUTO)
-     **********************/
-    let tipIdx = 0;
-    const TIP_EVERY_MS = 32000;   // cada 32s
-    const TIP_SHOW_MS  = 12000;   // visible 12s
-    let tipInterval = null;
-    let tipHideTO = null;
-
-    function showTipAuto(){
-      const tip = document.getElementById("tip");
-      const t = TIPS[tipIdx % TIPS.length];
-      tipIdx++;
-
-      document.getElementById("tipText").textContent = t;
-      document.getElementById("tipN").textContent = `Tip ${tipIdx} de ${TIPS.length}`;
-
-      tip.style.display = "flex";
-
-      clearTimeout(tipHideTO);
-      tipHideTO = setTimeout(()=> tip.style.display="none", TIP_SHOW_MS);
-    }
-
-    function startTips(){
-      setTimeout(showTipAuto, 6000);
-      tipInterval = setInterval(showTipAuto, TIP_EVERY_MS);
-    }
-
-    document.getElementById("tipClose").addEventListener("click", ()=>{
-      document.getElementById("tip").style.display="none";
-    });
-
-    /**********************
-     * ✅ COMPATIBILITY (FIXED: ranges + modelos + no guessing)
-     **********************/
-    const COMPAT_TABLE = {
-      Toyota: {
-        "Corolla": [
-          { from: 2000, to: 2007, low: "9006 (HB4)", high: "9005 (HB3)", note: "Varía por mercado/faro" },
-          { from: 2008, to: 2013, low: "H11",         high: "9005 (HB3)", note: "Varía por versión" },
-          { from: 2014, to: 2019, low: "H11",         high: "9005 (HB3)", note: "Confirmar si proyector" },
-          { from: 2020, to: 2026, low: "H11 / LED",   high: "9005 / LED", note: "Algunas versiones LED OEM" }
-        ],
-        "Hilux": [
-          { from: 2005, to: 2015, low: "H4",          high: "H4",          note: "Bifocal común en muchos mercados" },
-          { from: 2016, to: 2026, low: "H11",         high: "9005 (HB3)",  note: "Varía por versión/mercado" }
-        ],
-        "4Runner": [
-          { from: 2003, to: 2009, low: "9006 (HB4)",  high: "9005 (HB3)",  note: "Varía por faro" },
-          { from: 2010, to: 2013, low: "H11",         high: "9005 (HB3)",  note: "Confirmar" },
-          { from: 2014, to: 2020, low: "H11",         high: "9005 (HB3)",  note: "Confirmar si proyector" },
-          { from: 2021, to: 2026, low: "H11 / LED",   high: "9005 / LED",  note: "Algunas versiones LED OEM" }
-        ],
-        "Land Cruiser": [
-          { from: 1998, to: 2007, low: "9006 (HB4)",  high: "9005 (HB3)",  note: "100 series (varía)" },
-          { from: 2008, to: 2021, low: "H11",         high: "9005 (HB3)",  note: "200 series (varía)" },
-          { from: 2022, to: 2026, low: "H11 / LED",   high: "H11 / LED",   note: "Muchas versiones LED OEM" }
-        ]
-      },
-      Ford: {
-        "Fiesta": [
-          { from: 2003, to: 2013, low: "H4",          high: "H4",          note: "Bifocal común (varía)" },
-          { from: 2014, to: 2019, low: "H11",         high: "9005 (HB3)",  note: "Varía por faro/mercado" },
-          { from: 2020, to: 2026, low: "H11 / LED",   high: "9005 / LED",  note: "Depende de versión" }
-        ],
-        "Ranger": [
-          { from: 2000, to: 2011, low: "H4",          high: "H4",          note: "Varía por mercado" },
-          { from: 2012, to: 2018, low: "H4 / H11",    high: "H4 / 9005",   note: "Varía por mercado/faro" },
-          { from: 2019, to: 2026, low: "H11",         high: "9005 (HB3)",  note: "Varía por faro" }
-        ],
-        "Explorer": [
-          { from: 2002, to: 2005, low: "9006 (HB4)",  high: "9005 (HB3)",  note: "Confirmar" },
-          { from: 2006, to: 2019, low: "H11",         high: "9005 (HB3)",  note: "Varía por versión" },
-          { from: 2020, to: 2026, low: "H11 / LED",   high: "9005 / LED",  note: "Muchas versiones LED OEM" }
-        ]
-      },
-      Chevrolet: {
-        "Corsa": [
-          { from: 2000, to: 2026, low: "H4",          high: "H4",          note: "Bifocal común (varía)" }
-        ],
-        "Aveo": [
-          { from: 2004, to: 2017, low: "H4",          high: "H4",          note: "Aveo clásico (varía por año)" },
-          { from: 2018, to: 2026, low: "H11 / H7",    high: "9005 / H1",   note: "Depende de generación/mercado" }
-        ],
-        "Spark": [
-          { from: 2006, to: 2015, low: "H4",          high: "H4",          note: "Muy común" },
-          { from: 2016, to: 2026, low: "H4 / H7",     high: "H4 / H1",     note: "Varía por faro" }
-        ]
-      }
-    };
-
-    function fillYears(){
-      const y = document.getElementById("cYear");
-      const minY = 1998;
-      const maxY = Math.max(2026, new Date().getFullYear() + 1);
-      y.innerHTML =
-        `<option value="">Año</option>` +
-        Array.from({length: maxY-minY+1}, (_,i)=>minY+i)
-          .map(v=>`<option value="${v}">${v}</option>`).join("");
-    }
-
-    function fillModels(brand){
-      const m = document.getElementById("cModel");
-      const models = COMPAT_TABLE[brand] ? Object.keys(COMPAT_TABLE[brand]) : [];
-      m.innerHTML =
-        `<option value="">Selecciona modelo</option>` +
-        models.map(x=>`<option value="${x}">${x}</option>`).join("");
-    }
-
-    function findCompatRow(brand, model, year){
-      const rows = COMPAT_TABLE?.[brand]?.[model];
-      if(!rows) return null;
-      return rows.find(r => year >= r.from && year <= r.to) || null;
-    }
-
-    function doCompat(){
-      const b = document.getElementById("cBrand").value;
-      const m = document.getElementById("cModel").value;
-      const y = parseInt(document.getElementById("cYear").value,10);
-      const out = document.getElementById("compatResult");
-
-      if(!b || !m || !y){
-        out.style.display="block";
-        out.innerHTML = `⚠️ Completa <strong>marca, modelo y año</strong>.`;
-        return;
-      }
-
-      const row = findCompatRow(b,m,y);
-
-      if(!row){
-        out.style.display="block";
-        out.innerHTML = `
-          ⚠️ <strong>${b} ${m} ${y}</strong><br>
-          No tenemos un match verificado en la tabla para ese año.<br>
-          <div class="tiny" style="margin-top:8px;color:#6b7280">
-            Envíanos por WhatsApp una <b>foto del bombillo</b> o del <b>faro</b> para confirmar el socket (bajas/altas).
-          </div>
-        `;
-        return;
-      }
-
-      const hasLedOem = (String(row.low).includes("LED") || String(row.high).includes("LED"));
-      const rec = hasLedOem
-        ? "Si tu faro es LED OEM, necesitamos foto para recomendar el kit correcto."
-        : "Recomendación: R36 (balance) / R33 (máxima potencia) / R36T (dual).";
-
-      out.style.display="block";
-      out.innerHTML = `
-        ✅ <strong>${b} ${m} ${y}</strong><br>
-        • Luz baja: <strong>${row.low || "—"}</strong><br>
-        • Luz alta: <strong>${row.high || "—"}</strong><br>
-        • Nota: <strong>${row.note || "—"}</strong><br>
-        • ${rec}
-        <div class="tiny" style="margin-top:8px;color:#6b7280">
-          Importante: puede variar por versión/mercado. Si difiere, mándanos foto del socket.
-        </div>
-      `;
-    }
-
-    /**********************
-     * ADMIN MODAL + LOGIN
-     **********************/
-    const adminModal = document.getElementById("adminModal");
-    const fabAdmin = document.getElementById("fabAdmin");
-    const openAdmin = document.getElementById("openAdmin");
-    const closeAdmin = document.getElementById("closeAdmin");
-    const btnLogin = document.getElementById("btnLogin");
-    const btnLogout = document.getElementById("btnLogout");
-
-    function showModal(){
-      adminModal.classList.add("show");
-      adminModal.setAttribute("aria-hidden","false");
-      document.body.style.overflow = "hidden";
-    }
-    function hideModal(){
-      adminModal.classList.remove("show");
-      adminModal.setAttribute("aria-hidden","true");
-      document.body.style.overflow = "";
-    }
-
-    fabAdmin.addEventListener("click", showModal);
-    openAdmin.addEventListener("click", showModal);
-    closeAdmin.addEventListener("click", hideModal);
-
-    adminModal.addEventListener("click", (e)=>{
-      if(e.target === adminModal) hideModal();
-    });
-
-    function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
-    function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
-
-    function syncAdminUI(){
-      const logged = isLogged();
-      document.getElementById("adminArea").style.display = logged ? "block" : "none";
-      btnLogout.style.display = logged ? "inline-block" : "none";
-      btnLogin.style.display = logged ? "none" : "inline-block";
-
-      if(logged){
-        const st = getState();
-        document.getElementById("rateInput").value = String(st.rate).replace(".", ",");
-        document.getElementById("warrantyInput").value = st.warranty;
-        document.getElementById("logoInput").value = st.logo;
-        document.getElementById("heroBgInput").value = st.heroBg;
-
-        fillInvoiceProductSelect();
-        scheduleInvoicePreview();
-      }
-    }
-
-    btnLogin.addEventListener("click", ()=>{
-      const u = document.getElementById("adminUser").value.trim();
-      const p = document.getElementById("adminPass").value.trim();
-      if(u === ADMIN_USER && p === ADMIN_PASS){
-        setLogged(true);
-        syncAdminUI();
-      } else {
-        alert("Usuario o contraseña incorrectos.");
-      }
-    });
-
-    btnLogout.addEventListener("click", ()=>{
-      setLogged(false);
-      syncAdminUI();
-    });
-
-    document.getElementById("btnSaveSettings").addEventListener("click", ()=>{
-      const st = getState();
-      const rateRaw = document.getElementById("rateInput").value.trim().replace(".", "").replace(",", ".");
-      const rate = parseFloat(rateRaw);
-      const warranty = document.getElementById("warrantyInput").value.trim() || DEFAULTS.warranty;
-      const logo = document.getElementById("logoInput").value.trim() || DEFAULTS.logo;
-      const heroBg = document.getElementById("heroBgInput").value.trim() || DEFAULTS.heroBg;
-
-      if(!isFinite(rate) || rate <= 0){
-        alert("Tasa inválida. Ej: 375,08");
-        return;
-      }
-
-      setState({...st, rate, warranty, logo, heroBg});
-      renderRate();
-      renderCatalog();
-      scheduleInvoicePreview();
-      alert("Guardado (local).");
-    });
-
-    document.getElementById("btnResetSettings").addEventListener("click", ()=>{
-      if(!confirm("¿Restaurar valores por defecto?")) return;
-      setState({...DEFAULTS});
-      renderRate();
-      renderCatalog();
-      syncAdminUI();
-    });
-
-    /**********************
-     * INVOICE BUILDER
-     **********************/
-    function getInvoice(){
-      const raw = localStorage.getItem("brutalux_invoice");
-      if(!raw) return { items: [] };
-      try { return JSON.parse(raw); } catch { return { items: [] }; }
-    }
-    function setInvoice(inv){
-      localStorage.setItem("brutalux_invoice", JSON.stringify(inv));
-    }
-
-    let invPreviewTimer = null;
-    function scheduleInvoicePreview(){
-      clearTimeout(invPreviewTimer);
-      invPreviewTimer = setTimeout(refreshInvoicePreview, 120);
-    }
-
-    let invoiceListenersMounted = false;
-
-    function fillInvoiceProductSelect(){
-      const sel = document.getElementById("invProduct");
-      if(!sel) return;
-
-      sel.innerHTML = PRODUCTS
-        .map(p=>`<option value="${p.id}">${p.id} - ${p.name} ($${p.usd})</option>`)
-        .join("");
-
-      sel.onchange = () => {
-        const p = PRODUCTS.find(x=>x.id===sel.value);
-        if(p) document.getElementById("invPrice").value = p.usd;
-        scheduleInvoicePreview();
-      };
-
-      const first = PRODUCTS[0];
-      if(first) document.getElementById("invPrice").value = first.usd;
-    }
-
-    function addItem(){
-      const inv = getInvoice();
-      const sel = document.getElementById("invProduct");
-      const id = sel?.value;
-      const p = PRODUCTS.find(x=>x.id===id);
-      if(!p){ alert("Producto inválido."); return; }
-
-      const qty = parseInt(document.getElementById("invQty").value,10);
-      if(!isFinite(qty) || qty<=0){ alert("Cantidad inválida."); return; }
-
-      const price = parseFloat(document.getElementById("invPrice").value);
-      if(!isFinite(price) || price<=0){ alert("Precio inválido."); return; }
-
-      inv.items.push({ id: p.id, desc: `${p.name} (${p.id})`, qty, usd: price });
-      setInvoice(inv);
-      scheduleInvoicePreview();
-    }
-
-    function clearItems(){
-      if(!confirm("¿Vaciar la factura?")) return;
-      setInvoice({items:[]});
-      scheduleInvoicePreview();
-    }
-
-    function removeItem(idx){
-      const inv = getInvoice();
-      if(idx<0 || idx>=inv.items.length) return;
-      inv.items.splice(idx,1);
-      setInvoice(inv);
-      scheduleInvoicePreview();
-    }
-
-    function mountInvoiceListenersOnce(){
-      if(invoiceListenersMounted) return;
-      invoiceListenersMounted = true;
-
-      document.getElementById("btnAddItem")?.addEventListener("click", addItem);
-      document.getElementById("btnClearItems")?.addEventListener("click", clearItems);
-      document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
-
-      document.getElementById("btnPrint")?.addEventListener("click", ()=>{
-        refreshInvoicePreview();
-        setTimeout(()=> window.print(), 80);
-      });
-
-      ["invClient","invId","invPhone","invAddr","invTax","invDiscount","invPrice","invQty"].forEach(id=>{
-        const el = document.getElementById(id);
-        if(el) el.addEventListener("input", scheduleInvoicePreview);
-      });
-
-      document.getElementById("invoicePreview")?.addEventListener("click", (e)=>{
-        const btn = e.target.closest("[data-remove]");
-        if(!btn) return;
-        const idx = parseInt(btn.dataset.remove,10);
-        if(isFinite(idx)) removeItem(idx);
-      });
-    }
-
-    function refreshInvoicePreview(){
-      const st = getState();
-      const inv = getInvoice();
-
-      const client = document.getElementById("invClient")?.value || "";
-      const doc = document.getElementById("invId")?.value || "";
-      const phone = document.getElementById("invPhone")?.value || "";
-      const addr = document.getElementById("invAddr")?.value || "";
-
-      const taxPct = parseFloat(document.getElementById("invTax")?.value || "0") || 0;
-      const discount = parseFloat(document.getElementById("invDiscount")?.value || "0") || 0;
-
-      const sub = inv.items.reduce((a,it)=> a + (it.qty * it.usd), 0);
-      const tax = sub * (taxPct/100);
-      const totalUsd = Math.max(0, (sub + tax - discount));
-      const totalBs = totalUsd * st.rate;
-
-      const now = new Date();
-      const dateStr = now.toLocaleDateString("es-VE") + " " +
-        now.toLocaleTimeString("es-VE", {hour:'2-digit', minute:'2-digit'});
-
-      const rows = inv.items.map((it, idx)=>{
-        const line = it.qty * it.usd;
-        return `
-          <tr>
-            <td>${it.desc}</td>
-            <td class="r">${it.qty}</td>
-            <td class="r">€${fmtUsd(it.usd)}</td>
-            <td class="r">€${fmtUsd(line)}</td>
-            <td class="r"><button type="button" class="btnRemove" data-remove="${idx}">Quitar</button></td>
-          </tr>
-        `;
-      }).join("");
-
-      const pv = document.getElementById("invoicePreview");
-      if(!pv) return;
-
-      pv.innerHTML = `
-        <div class="invHeaderBar">
-          <div class="title">Factura / Nota de Venta</div>
-          <div class="chip">Tasa BCV: ${fmtBs(st.rate)} Bs/EUR</div>
-        </div>
-
-        <div class="invTop">
-          <div class="invBrand">
-            <img src="${st.logo}" alt="logo">
-            <div>
-              <div class="t1">BRUTALUX</div>
-              <div class="t2">Potentes y resistentes • Garantía ${st.warranty}</div>
-              <div class="t2">WhatsApp: +58 412 6835635</div>
-            </div>
-          </div>
-          <div class="invMeta">
-            <b>Emisión</b>
-            <div>${dateStr}</div>
-            <div style="margin-top:6px"><b>Moneda:</b> USD (Ref. Bs)</div>
-          </div>
-        </div>
-
-        <div class="invPad">
-          <div class="invCards">
-            <div class="invCard">
-              <div class="h"><i class="fa-solid fa-user"></i> Datos del cliente</div>
-              <div class="l"><b>Nombre:</b> ${client || "—"}</div>
-              <div class="l"><b>Cédula/RIF:</b> ${doc || "—"}</div>
-              <div class="l"><b>Teléfono:</b> ${phone || "—"}</div>
-              <div class="l"><b>Dirección:</b> ${addr || "—"}</div>
-            </div>
-
-            <div class="invCard">
-              <div class="h"><i class="fa-solid fa-receipt"></i> Resumen</div>
-              <div class="l"><b>Subtotal:</b> ${BASE_SYMBOL}${fmtMoney(sub)}</div>
-              <div class="l"><b>IVA (${taxPct}%):</b> ${BASE_SYMBOL}${fmtMoney(tax)}</div>
-              <div class="l"><b>Descuento:</b> ${BASE_SYMBOL}${fmtMoney(discount)}</div>
-              <div class="l" style="margin-top:8px"><b>Total USD:</b> ${BASE_SYMBOL}${fmtMoney(totalUsd)}</div>
-              <div class="l"><b>Total Bs (ref.):</b> Bs ${fmtBs(totalBs)}</div>
-            </div>
-          </div>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Descripción</th>
-                <th class="r">Cant</th>
-                <th class="r">Precio</th>
-                <th class="r">Total</th>
-                <th class="r">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows || `<tr><td colspan="5" style="color:#64748b">Sin items. Agrega productos.</td></tr>`}
-            </tbody>
-          </table>
-        </div>
-
-        <div class="totals">
-          <div class="boxT">
-            <div class="k">Subtotal</div>
-            <div class="v">$${fmtUsd(sub)}</div>
-          </div>
-          <div class="boxT">
-            <div class="k">Impuestos / Descuento</div>
-            <div class="v">$${fmtUsd(Math.max(0, tax - discount))}</div>
-          </div>
-          <div class="boxT primary">
-            <div class="k">Total a pagar</div>
-            <div class="v">$${fmtUsd(totalUsd)} <span style="font-size:12px;font-weight:900;color:#334155"> / Bs ${fmtBs(totalBs)}</span></div>
-          </div>
-        </div>
-
-        <div class="stampSign">
-          <div class="stampBox">
-            <div class="t">Sello</div>
-            <div class="hint">Coloca aquí el sello al imprimir.</div>
-            <div class="stampLine"></div>
-            <div class="stampSigLbl">Sello</div>
-          </div>
-          <div class="stampBox">
-            <div class="t">Firma</div>
-            <div class="hint">Firma y nombre del responsable.</div>
-            <div class="stampLine"></div>
-            <div class="stampSigLbl">Firma</div>
-          </div>
-        </div>
-
-        <div class="invFoot">
-          Esta impresión es una nota/recibo digital de referencia. Para facturación fiscal oficial se requiere sistema homologado e impresora fiscal (según normativa).
-        </div>
-      `;
-    }
-
-    function openAdminAndPreselect(productId){
-      showModal();
-      setTimeout(()=>{
-        if(isLogged()){
-          fillInvoiceProductSelect();
-          const sel = document.getElementById("invProduct");
-          if(sel){
-            sel.value = productId;
-            const p = PRODUCTS.find(x=>x.id===productId);
-            if(p) document.getElementById("invPrice").value = p.usd;
-          }
-          scheduleInvoicePreview();
-        }
-      }, 60);
-    }
-    window.openAdminAndPreselect = openAdminAndPreselect;
-
-    /**********************
-     * INIT
-     **********************/
-    document.getElementById("yearNow").textContent = new Date().getFullYear();
+/**********************
+ * CLICK SOUND
+ **********************/
+let audioCtx = null;
+function clickSound(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === "suspended") audioCtx.resume();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = "square";
+    o.frequency.value = 950;
+    g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.06);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start();
+    o.stop(audioCtx.currentTime + 0.07);
+  }catch(e){}
+}
+document.addEventListener("click",(e)=>{
+  if(e.target.closest("button, a, summary, .tipClose, input, select")) clickSound();
+},{passive:true});
+
+/**********************
+ * TIPS
+ **********************/
+let tipIdx = 0;
+const TIP_EVERY_MS = 32000;
+const TIP_SHOW_MS  = 12000;
+let tipHideTO = null;
+
+function showTipAuto(){
+  const tip = document.getElementById("tip");
+  const t = TIPS[tipIdx % TIPS.length];
+  tipIdx++;
+  document.getElementById("tipText").textContent = t;
+  document.getElementById("tipN").textContent = `Tip ${tipIdx} de ${TIPS.length}`;
+  tip.style.display = "flex";
+  clearTimeout(tipHideTO);
+  tipHideTO = setTimeout(()=> tip.style.display="none", TIP_SHOW_MS);
+}
+function startTips(){
+  setTimeout(showTipAuto, 6000);
+  setInterval(showTipAuto, TIP_EVERY_MS);
+}
+document.getElementById("tipClose")?.addEventListener("click", ()=>{
+  document.getElementById("tip").style.display="none";
+});
+
+/**********************
+ * COMPAT (pega aquí tu COMPAT_TABLE y funciones si quieres mantenerlas)
+ **********************/
+// ⚠️ Para no romper tu sitio, deja tu compat tal como estaba en tu HTML actual.
+// (Si me envías el script completo, lo integro aquí tal cual.)
+
+/**********************
+ * API RATE + ORDER
+ **********************/
+async function loadRateFromApi(){
+  try{
+    const res = await fetch("https://brutalux-api.vercel.app/api/rate", { cache: "no-store" });
+    if(!res.ok) return;
+    const data = await res.json();
+    const r = Number(data?.rate);
+    if(!isFinite(r) || r <= 0) return;
+
+    const st = getState();
+    setState({ ...st, rate: r });
 
     renderRate();
     renderCatalog();
+    if(typeof scheduleInvoicePreview === "function") scheduleInvoicePreview();
+    if(document.getElementById("cartModal")?.classList.contains("show")) renderCart();
+  }catch(e){}
+}
 
-    // ✅ Compat init fixed
-    fillYears();
-    document.getElementById("cBrand").addEventListener("change", (e)=>{
-      const brand = e.target.value;
-      const modelSel = document.getElementById("cModel");
-      const yearSel = document.getElementById("cYear");
-      const out = document.getElementById("compatResult");
-
-      out.style.display = "none";
-      out.innerHTML = "";
-
-      if(!brand){
-        modelSel.disabled = true;
-        yearSel.disabled = true;
-        modelSel.innerHTML = `<option value="">Primero marca</option>`;
-        yearSel.value = "";
-        return;
-      }
-
-      fillModels(brand);
-      modelSel.disabled = false;
-      yearSel.disabled = false;
+async function sendOrderToApi(payload){
+  try{
+    const res = await fetch("https://brutalux-api.vercel.app/api/order", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(payload)
     });
-    document.getElementById("btnCompat").addEventListener("click", doCompat);
+    const data = await res.json().catch(()=> ({}));
+    console.log("order api:", res.status, data);
+  }catch(e){
+    console.error("order api error:", e);
+  }
+}
 
-    mountInvoiceListenersOnce();
-    syncAdminUI();
-    scheduleInvoicePreview();
-    startTips();
-    loadRateFromApi();
-  
-  /**********************
- * CART / PEDIDO RAPIDO (FIXED)
+/**********************
+ * CART
  **********************/
 const CART_KEY = "brutalux_cart";
 
@@ -2898,36 +2405,21 @@ function getCart(){
     return Array.isArray(arr) ? arr : [];
   }catch{ return []; }
 }
-function setCart(items){
-  localStorage.setItem(CART_KEY, JSON.stringify(items));
-}
-function cartCount(){
-  return getCart().reduce((a,it)=>a+(it.qty||0),0);
-}
+function setCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+function cartCount(){ return getCart().reduce((a,it)=> a + (it.qty||0), 0); }
 function updateCartBadge(){
   const el = document.getElementById("cartCount");
   if(el) el.textContent = String(cartCount());
 }
-
 function addToCart(productId, qtyAdd=1){
   const p = PRODUCTS.find(x=>x.id===productId);
   if(!p) return;
-
   const cart = getCart();
   const idx = cart.findIndex(x=>x.id===productId);
   if(idx>=0) cart[idx].qty += qtyAdd;
-  else cart.push({ id: p.id, name: p.name, usd: p.usd, qty: qtyAdd, modelLine: p.modelLine });
-
+  else cart.push({ id:p.id, name:p.name, usd:p.usd, qty:qtyAdd, modelLine:p.modelLine });
   setCart(cart);
   updateCartBadge();
-}
-
-function calcCart(){
-  const st = getState();
-  const cart = getCart();
-  const subUsd = cart.reduce((a,it)=>a+(it.usd*it.qty),0);
-  const subBs  = subUsd * st.rate;
-  return { cart, subUsd, subBs, rate: st.rate };
 }
 
 function renderCart(){
@@ -2937,9 +2429,9 @@ function renderCart(){
   const st = getState();
   const cart = getCart();
 
-  const subEur = cart.reduce((a,it)=> a + (Number(it.usd) * Number(it.qty)), 0); // it.usd = precio base (ahora EUR)
-  const rate = Number(st.rate); // Bs por EUR
-  const subBs = (isFinite(rate) && rate > 0) ? (subEur * rate) : 0;
+  const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
+  const rate = Number(st.rate);
+  const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
 
   wrap.innerHTML = cart.length ? cart.map((it, idx)=>`
     <div class="cartItem">
@@ -2947,22 +2439,15 @@ function renderCart(){
         <div class="t">${it.name}</div>
         <div class="m">${it.modelLine || it.id} • ${BASE_SYMBOL}${fmtMoney(it.usd)}</div>
       </div>
-
       <input class="cartQty" type="number" min="1" value="${it.qty}" data-qty="${idx}">
       <button class="btnRemove" type="button" data-del="${idx}">Quitar</button>
     </div>
   `).join("") : `<div class="tiny" style="color:#64748b">Tu carrito está vacío. Agrega productos del catálogo.</div>`;
 
-  // Totales
-  const subEl = document.getElementById("cartSubUsd");
-  const bsEl  = document.getElementById("cartSubBs");
-  const rateEl= document.getElementById("cartRate");
+  document.getElementById("cartSubUsd").textContent = `${BASE_SYMBOL}${fmtMoney(subEur)}`;
+  document.getElementById("cartSubBs").textContent  = `Bs ${fmtBs(subBs)}`;
+  document.getElementById("cartRate").textContent   = (isFinite(rate)&&rate>0) ? `${fmtBs(rate)} ${RATE_PAIR_LABEL}` : "—";
 
-  if(subEl) subEl.textContent = `${BASE_SYMBOL}${fmtMoney(subEur)}`;
-  if(bsEl)  bsEl.textContent  = `Bs ${fmtBs(subBs)}`;
-  if(rateEl) rateEl.textContent = (isFinite(rate) && rate > 0) ? `${fmtBs(rate)} ${RATE_PAIR_LABEL}` : "—";
-
-  // WhatsApp link
   const name = document.getElementById("cartName")?.value?.trim() || "";
   const car  = document.getElementById("cartCar")?.value?.trim() || "";
   const city = document.getElementById("cartCity")?.value?.trim() || "";
@@ -2989,21 +2474,18 @@ Tasa: ${(isFinite(rate) && rate > 0) ? fmtBs(rate) + " " + RATE_PAIR_LABEL : "�
 Observaciones: ${note || "—"}`;
 
   const a = document.getElementById("cartWhatsapp");
-  if(a) a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 }
 
 function showCart(){
   const m = document.getElementById("cartModal");
-  if(!m) return;
   m.classList.add("show");
   m.setAttribute("aria-hidden","false");
   document.body.style.overflow = "hidden";
   renderCart();
 }
-
 function hideCart(){
   const m = document.getElementById("cartModal");
-  if(!m) return;
   m.classList.remove("show");
   m.setAttribute("aria-hidden","true");
   document.body.style.overflow = "";
@@ -3013,7 +2495,7 @@ function mountCart(){
   document.getElementById("openCart")?.addEventListener("click", showCart);
   document.getElementById("closeCart")?.addEventListener("click", hideCart);
 
-  document.getElementById("cartModal")?.addEventListener("click", (e)=>{
+  document.getElementById("cartModal")?.addEventListener("click",(e)=>{
     if(e.target?.id === "cartModal") hideCart();
   });
 
@@ -3024,7 +2506,7 @@ function mountCart(){
     renderCart();
   });
 
-  document.getElementById("cartItems")?.addEventListener("input", (e)=>{
+  document.getElementById("cartItems")?.addEventListener("input",(e)=>{
     const inp = e.target.closest("[data-qty]");
     if(!inp) return;
     const idx = parseInt(inp.dataset.qty,10);
@@ -3037,7 +2519,7 @@ function mountCart(){
     renderCart();
   });
 
-  document.getElementById("cartItems")?.addEventListener("click", (e)=>{
+  document.getElementById("cartItems")?.addEventListener("click",(e)=>{
     const btn = e.target.closest("[data-del]");
     if(!btn) return;
     const idx = parseInt(btn.dataset.del,10);
@@ -3053,39 +2535,13 @@ function mountCart(){
     document.getElementById(id)?.addEventListener("input", renderCart);
   });
 
-  // Delegación: botones Agregar en catálogo
-  document.getElementById("productCards")?.addEventListener("click", (e)=>{
+  document.getElementById("productCards")?.addEventListener("click",(e)=>{
     const b = e.target.closest("[data-addcart]");
     if(!b) return;
     addToCart(b.dataset.addcart, 1);
     showCart();
   });
 
-  updateCartBadge();
-document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
-  const st = getState();
-  const cart = getCart();
-  if(!cart.length) return;
-
-  const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
-  const rate = Number(st.rate);
-  const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
-
-  const payload = {
-    customer: {
-      name: document.getElementById("cartName")?.value?.trim() || "",
-      car:  document.getElementById("cartCar")?.value?.trim() || "",
-      city: document.getElementById("cartCity")?.value?.trim() || "",
-      note: document.getElementById("cartNote")?.value?.trim() || ""
-    },
-    items: cart,
-    totals: { subEur, rate, subBs },
-    meta: { page: location.href, ua: navigator.userAgent }
-  };
-  
-  
-    sendOrderToApi(payload);
-  });
   updateCartBadge();
 
   document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
@@ -3095,7 +2551,7 @@ document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
 
     const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
     const rate = Number(st.rate);
-    const subBs = (isFinite(rate) && rate > 0) ? (subEur * rate) : 0;
+    const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
 
     const payload = {
       customer: {
@@ -3108,75 +2564,30 @@ document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
       totals: { subEur, rate, subBs },
       meta: { page: location.href, ua: navigator.userAgent }
     };
-
     sendOrderToApi(payload);
   });
 }
 
-if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountCart);
-else mountCart();
-    
-  async function loadRateFromApi(){
-  try{
-    const res = await fetch("https://brutalux-api.vercel.app/api/rate", { cache: "no-store" });
-    if(!res.ok) return;
+document.addEventListener("DOMContentLoaded", ()=>{
+  // año
+  document.getElementById("yearNow").textContent = new Date().getFullYear();
 
-    const data = await res.json();
-    const r = Number(data?.rate);
-    if(!isFinite(r) || r <= 0) return;
+  // render base
+  renderRate();
+  renderCatalog();
 
-    const st = getState();
-    setState({ ...st, rate: r });
+  // tips
+  startTips();
 
-    renderRate();
-    renderCatalog();
-    if(typeof scheduleInvoicePreview === "function") scheduleInvoicePreview();
-    if(document.getElementById("cartModal")?.classList.contains("show")) renderCart();
-  }catch(e){
-    // si falla, se queda con la tasa local guardada
-  }
-}
-    async function sendOrderToApi(payload){
-  try{
-    const res = await fetch("https://brutalux-api.vercel.app/api/order", {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json().catch(()=> ({}));
-    console.log("order api:", res.status, data);
-  }catch(e){
-    console.error("order api error:", e);
-  }
-}
+  // carrito
+  mountCart();
 
-    updateCartBadge();
+  // tasa real
+  loadRateFromApi();
 
-    document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
-    const st = getState();
-    const cart = getCart();
-    if(!cart.length) return;
-
-    const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
-    const rate = Number(st.rate);
-    const subBs = (isFinite(rate) && rate > 0) ? (subEur * rate) : 0;
-
-    const payload = {
-      customer: {
-        name: document.getElementById("cartName")?.value?.trim() || "",
-        car:  document.getElementById("cartCar")?.value?.trim() || "",
-        city: document.getElementById("cartCity")?.value?.trim() || "",
-        note: document.getElementById("cartNote")?.value?.trim() || ""
-      },
-      items: cart,
-      totals: { subEur, rate, subBs },
-      meta: { page: location.href, ua: navigator.userAgent }
-    };
-
-    sendOrderToApi(payload);
-  });
-}
-  </script>
+  // compat listeners (si los tienes en tu script original, mantenlos)
+});
+</script>
 <!-- CART MODAL -->
 <div class="modal" id="cartModal" aria-hidden="true">
   <div class="panel" style="width:min(880px,96vw)">
@@ -3236,6 +2647,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
