@@ -37,150 +37,6 @@
   font-size:12px;
 }
 
-.compare{
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:24px;
-  overflow:hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.25));
-  box-shadow: 0 18px 50px rgba(0,0,0,.35);
-}
-.compareRow{
-  display:grid;
-  grid-template-columns: 1.35fr 1fr 1fr 1fr;
-  align-items:stretch;
-}
-.compareRow > div{
-  padding:14px 14px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  border-right:1px solid rgba(255,255,255,.06);
-}
-.compareRow > div:last-child{ border-right:none; }
-.compareRow.head > div{
-  background: rgba(255,255,255,.06);
-  font-weight:1000;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  font-size:12px;
-  color: rgba(233,237,245,.92);
-}
-.compareRow .k{font-weight:1000;color: rgba(233,237,245,.95);}
-.compareRow .v{color: rgba(233,237,245,.82);font-size:13px;line-height:1.35;}
-.compareRow .best{
-  background: linear-gradient(180deg, rgba(0,200,255,.14), rgba(255,92,0,.10));
-  font-weight:1000;
-}
-.compareRow.head .best{
-  color:#061018;
-  background: linear-gradient(90deg, #00c8ff, #ff5c00);
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-}
-
-.infoGrid{
-  display:grid;
-  grid-template-columns: repeat(3,1fr);
-  gap:12px;
-}
-.infoCard{
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:22px;
-  padding:14px;
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.22));
-  box-shadow: 0 14px 40px rgba(0,0,0,.28);
-}
-.infoCard .h{
-  font-weight:1000;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  display:flex;gap:10px;align-items:center;
-}
-.infoCard .h i{color:var(--blue)}
-.li{margin:10px 0 0;padding:0 0 0 18px;color:rgba(233,237,245,.82);font-size:13px}
-.li li{margin:6px 0}
-
-.steps{
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap:12px;
-}
-.step{
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:22px;
-  padding:14px;
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.22));
-  box-shadow: 0 14px 40px rgba(0,0,0,.28);
-  display:flex;gap:12px;
-}
-.step .n{
-  width:42px;height:42px;border-radius:16px;
-  display:grid;place-items:center;
-  background:rgba(255,92,0,.16);
-  border:1px solid rgba(255,92,0,.22);
-  font-weight:1000;
-}
-.step .t{font-weight:1000}
-.step .d{color:rgba(233,237,245,.78);font-size:13px;margin-top:4px}
-
-.policy{
-  display:grid;
-  grid-template-columns: repeat(3,1fr);
-  gap:12px;
-}
-.policyCard{
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:22px;
-  padding:14px;
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.22));
-  box-shadow: 0 14px 40px rgba(0,0,0,.28);
-}
-.policyCard .h{
-  font-weight:1000;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  display:flex;gap:10px;align-items:center;
-}
-.policyCard .h i{color:var(--yellow)}
-
-.cartItems{display:grid;gap:10px}
-.cartItem{
-  display:grid;
-  grid-template-columns: 1fr auto auto;
-  gap:10px;
-  align-items:center;
-  padding:12px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(0,0,0,.22);
-}
-.cartItem .t{font-weight:1000}
-.cartItem .m{font-size:12px;color:rgba(233,237,245,.70);margin-top:3px}
-.cartQty{
-  width:92px;
-  padding:10px 10px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.30);
-  color:var(--text);
-}
-.cartTotals{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-
-@media (max-width:1050px){
-  .infoGrid{grid-template-columns:1fr}
-  .steps{grid-template-columns:1fr}
-  .policy{grid-template-columns:1fr}
-}
-
-/* Comparativa responsive tipo cards */
-@media (max-width: 720px){
-  .compareRow{ grid-template-columns: 1fr; }
-  .compareRow.head{ display:none; }
-  .compareRow > div{ border-right:none; }
-  .compareRow{ background: rgba(0,0,0,.18); }
-  .compareRow > div:nth-child(2)::before{ content:"Halógeno: "; font-weight:1000; color:rgba(233,237,245,.92); }
-  .compareRow > div:nth-child(3)::before{ content:"LED genérico: "; font-weight:1000; color:rgba(233,237,245,.92); }
-  .compareRow > div:nth-child(4)::before{ content:"BRUTALUX: "; font-weight:1000; color:rgba(233,237,245,.92); }
-  .compareRow > div:nth-child(4){ border-top:1px solid rgba(255,255,255,.08); }
-}
     :root{
       --bg:#06070b;
       --card:#0d1018;
@@ -2145,7 +2001,7 @@ header .nav > div:last-child{
                   <input id="invQty" type="number" min="1" value="1">
                 </div>
                 <div>
-                  <label>Precio (USD)</label>
+                  <label>Precio (EUR)</label>
                   <input id="invPrice" type="number" step="0.01" placeholder="Auto">
                 </div>
               </div>
@@ -2209,13 +2065,14 @@ const RATE_PAIR_LABEL = "Bs/EUR";
 
 /**********************
  * DATA
+ * ✅ FIX: moneda consistente (EUR). Antes decía "usd" pero en UI es EUR.
  **********************/
 const PRODUCTS = [
   {
     id: "R36",
     name: "Brutalux R36",
     modelLine: "MODELO R36 · 27.000 LM",
-    usd: 80,
+    eur: 80,
     badge: { text: "⚡ R36 · ALTA POTENCIA", cls: "tBlue" },
     image: "https://i.postimg.cc/wxV6w417/Whats_App_Imag_ñe_2026_02_03_at_8_35_01_PM.jpg",
     specs: ["27.000 lm (par)", "6500K blanco puro", "4 tubos de cobre + disipación"],
@@ -2225,7 +2082,7 @@ const PRODUCTS = [
     id: "R33",
     name: "Brutalux R33",
     modelLine: "MODELO R33 · 33.000 LM",
-    usd: 90,
+    eur: 90,
     badge: { text: "👑 R33 · TOP POTENCIA", cls: "tGold" },
     sticker: { type: "best", text: "MÁS VENDIDO" },
     image: "https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg",
@@ -2236,7 +2093,7 @@ const PRODUCTS = [
     id: "R36T",
     name: "Brutalux R36T",
     modelLine: "MODELO R36T · 16.000 LM",
-    usd: 85,
+    eur: 85,
     badge: { text: "🌓 R36T · BLANCO / AMARILLO", cls: "tPurple" },
     sticker: { type: "hot", text: "HOT" },
     image: "https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg",
@@ -2247,7 +2104,7 @@ const PRODUCTS = [
     id: "R20",
     name: "Brutalux R20",
     modelLine: "MODELO R20 · 20.000 LM",
-    usd: 65,
+    eur: 65,
     badge: { text: "👍 R20 · ECONÓMICA", cls: "tGray" },
     image: "https://i.postimg.cc/FFb9wmx0/Whats_App_Image_2026_02_04_at_12_28_05_PM.jpg",
     specs: ["20.000 lm (par)", "12V/24V", "Calidad / precio"],
@@ -2257,7 +2114,7 @@ const PRODUCTS = [
     id: "R35",
     name: "Brutalux R35",
     modelLine: "MODELO R35 · 20.000 LM · 200W",
-    usd: 70,
+    eur: 70,
     badge: { text: "⚡ R35 · 200W", cls: "tBlue" },
     image: "https://i.postimg.cc/RZwRJKWN/Diseño_sin_título_(3).png",
     specs: [
@@ -2271,7 +2128,7 @@ const PRODUCTS = [
     id: "R47",
     name: "Brutalux R47",
     modelLine: "MODELO R47 · 24.000 LM · 240W",
-    usd: 65,
+    eur: 65,
     badge: { text: "⚡ R47 · 240W", cls: "tBlue" },
     image: "https://i.postimg.cc/FH0Zk3Yz/Diseño_sin_título_(4).png",
     specs: ["24.000 lm (par)","6000K blanco","12V","240W","IP68","Cuerpo de aluminio","Canbus / decodificación externa"],
@@ -2281,7 +2138,7 @@ const PRODUCTS = [
     id: "R45",
     name: "Brutalux R45",
     modelLine: "MODELO R45 · 20.000 LM · 200W",
-    usd: 45,
+    eur: 45,
     badge: { text: "💡 R45 · MEJOR PRECIO", cls: "tGray" },
     image: "https://i.postimg.cc/6pC04n8T/Diseño_sin_título_(5).png",
     specs: [
@@ -2307,16 +2164,40 @@ const TIPS = [
 ];
 
 /**********************
+ * COMPATIBILIDAD
+ * ✅ FIX: antes el UI existía pero no había lógica/datos (no hacía nada).
+ * Edita/expande esto con tus modelos reales.
+ **********************/
+const COMPAT = {
+  Toyota: {
+    Corolla: {
+      "2010": { baja: "H11", alta: "9005/HB3", neblina: "H11" },
+      "2014": { baja: "H11", alta: "9005/HB3", neblina: "H11" }
+    }
+  },
+  Ford: {
+    Fiesta: {
+      "2012": { baja: "H7", alta: "H1", neblina: "H11" }
+    }
+  },
+  Chevrolet: {
+    Corsa: {
+      "2008": { baja: "H4", alta: "H4", neblina: "H3" }
+    }
+  }
+};
+
+/**********************
  * UTILITIES
  **********************/
 const fmtBs = (n) => new Intl.NumberFormat("es-VE",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
 const fmtMoney = (n) => new Intl.NumberFormat("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
-const fmtUsd = fmtMoney;
 
 function getState(){
   const raw = localStorage.getItem("brutalux_state");
-  if(!raw) return {...DEFAULTS};
-  try { return {...DEFAULTS, ...JSON.parse(raw)}; } catch { return {...DEFAULTS}; }
+  if(!raw) return { ...DEFAULTS };
+  try { return { ...DEFAULTS, ...JSON.parse(raw) }; }
+  catch { return { ...DEFAULTS }; }
 }
 function setState(next){
   localStorage.setItem("brutalux_state", JSON.stringify(next));
@@ -2337,7 +2218,7 @@ function renderCatalog(){
   if(!wrap) return;
 
   wrap.innerHTML = PRODUCTS.map(p=>{
-    const bs = p.usd * st.rate;
+    const bs = p.eur * st.rate;
     return `
       <article class="card" data-pid="${p.id}">
         <div class="img">
@@ -2364,7 +2245,7 @@ function renderCatalog(){
 
           <div class="priceRow">
             <div>
-              <div class="usd orbitron">${BASE_SYMBOL}${p.usd}</div>
+              <div class="usd orbitron">${BASE_SYMBOL}${fmtMoney(p.eur)}</div>
               <div class="bs">(Bs ${fmtBs(bs)})</div>
             </div>
           </div>
@@ -2380,6 +2261,7 @@ function renderCatalog(){
     `;
   }).join("");
 
+  // aplica ajustes admin a logo y hero bg
   document.querySelectorAll(".brand img").forEach(img=> img.src = st.logo);
   const hero = document.querySelector(".heroCard");
   if(hero){
@@ -2422,6 +2304,8 @@ let tipHideTO = null;
 
 function showTipAuto(){
   const tip = document.getElementById("tip");
+  if(!tip) return;
+
   const t = TIPS[tipIdx % TIPS.length];
   tipIdx++;
   document.getElementById("tipText").textContent = t;
@@ -2435,7 +2319,8 @@ function startTips(){
   setInterval(showTipAuto, TIP_EVERY_MS);
 }
 document.getElementById("tipClose")?.addEventListener("click", ()=>{
-  document.getElementById("tip").style.display="none";
+  const tip = document.getElementById("tip");
+  if(tip) tip.style.display="none";
 });
 
 /**********************
@@ -2489,13 +2374,14 @@ function updateCartBadge(){
   const el = document.getElementById("cartCount");
   if(el) el.textContent = String(cartCount());
 }
+
 function addToCart(productId, qtyAdd=1){
   const p = PRODUCTS.find(x=>x.id===productId);
   if(!p) return;
   const cart = getCart();
   const idx = cart.findIndex(x=>x.id===productId);
   if(idx>=0) cart[idx].qty += qtyAdd;
-  else cart.push({ id:p.id, name:p.name, usd:p.usd, qty:qtyAdd, modelLine:p.modelLine });
+  else cart.push({ id:p.id, name:p.name, eur:p.eur, qty:qtyAdd, modelLine:p.modelLine });
   setCart(cart);
   updateCartBadge();
 }
@@ -2507,7 +2393,7 @@ function renderCart(){
   const st = getState();
   const cart = getCart();
 
-  const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
+  const subEur = cart.reduce((a,it)=> a + (Number(it.eur)*Number(it.qty)), 0);
   const rate = Number(st.rate);
   const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
 
@@ -2515,14 +2401,14 @@ function renderCart(){
     <div class="cartItem">
       <div>
         <div class="t">${it.name}</div>
-        <div class="m">${it.modelLine || it.id} • ${BASE_SYMBOL}${fmtMoney(it.usd)}</div>
+        <div class="m">${it.modelLine || it.id} • ${BASE_SYMBOL}${fmtMoney(it.eur)}</div>
       </div>
       <input class="cartQty" type="number" min="1" value="${it.qty}" data-qty="${idx}">
       <button class="btnRemove" type="button" data-del="${idx}">Quitar</button>
     </div>
   `).join("") : `<div class="tiny" style="color:#64748b">Tu carrito está vacío. Agrega productos del catálogo.</div>`;
 
-  document.getElementById("cartSubUsd").textContent = `${BASE_SYMBOL}${fmtMoney(subEur)}`;
+  document.getElementById("cartSubUsd").textContent = `${BASE_SYMBOL}${fmtMoney(subEur)}`; // id histórico
   document.getElementById("cartSubBs").textContent  = `Bs ${fmtBs(subBs)}`;
   document.getElementById("cartRate").textContent   = (isFinite(rate)&&rate>0) ? `${fmtBs(rate)} ${RATE_PAIR_LABEL}` : "—";
 
@@ -2532,13 +2418,13 @@ function renderCart(){
   const note = document.getElementById("cartNote")?.value?.trim() || "";
 
   const lines = cart.map(it=>{
-    const lineTotal = Number(it.qty) * Number(it.usd);
+    const lineTotal = Number(it.qty) * Number(it.eur);
     return `- ${it.qty} x ${it.name} (${it.id}) = ${BASE_SYMBOL}${fmtMoney(lineTotal)}`;
   }).join("\n");
 
   const lastCode = localStorage.getItem("brutalux_last_order_code") || "";
   const msg =
-    `Hola BRUTALUX, quiero hacer un pedido.
+`Hola BRUTALUX, quiero hacer un pedido.
 Nombre: ${name || "—"}
 Vehículo: ${car || "—"}
 Ciudad/Estado: ${city || "—"}
@@ -2554,11 +2440,12 @@ Tasa: ${(isFinite(rate) && rate > 0) ? fmtBs(rate) + " " + RATE_PAIR_LABEL : "�
 Observaciones: ${note || "—"}`;
 
   const a = document.getElementById("cartWhatsapp");
-  a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  if(a) a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 }
 
 function showCart(){
   const m = document.getElementById("cartModal");
+  if(!m) return;
   m.classList.add("show");
   m.setAttribute("aria-hidden","false");
   document.body.style.overflow = "hidden";
@@ -2566,6 +2453,7 @@ function showCart(){
 }
 function hideCart(){
   const m = document.getElementById("cartModal");
+  if(!m) return;
   m.classList.remove("show");
   m.setAttribute("aria-hidden","true");
   document.body.style.overflow = "";
@@ -2630,7 +2518,7 @@ function mountCart(){
     const cart = getCart();
     if(!cart.length) return;
 
-    const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
+    const subEur = cart.reduce((a,it)=> a + (Number(it.eur)*Number(it.qty)), 0);
     const rate = Number(st.rate);
     const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
 
@@ -2666,7 +2554,79 @@ function mountCart(){
 }
 
 /**********************
- * ADMIN + INVOICE (funcional)
+ * COMPAT (UI)
+ **********************/
+function mountCompat(){
+  const b = document.getElementById("cBrand");
+  const m = document.getElementById("cModel");
+  const y = document.getElementById("cYear");
+  const btn = document.getElementById("btnCompat");
+  const out = document.getElementById("compatResult");
+
+  if(!b || !m || !y || !btn || !out) return;
+
+  b.addEventListener("change", ()=>{
+    const brand = b.value;
+    out.style.display = "none";
+
+    m.innerHTML = `<option value="">Selecciona</option>`;
+    y.innerHTML = `<option value="">Año</option>`;
+    m.disabled = true;
+    y.disabled = true;
+
+    if(!COMPAT[brand]) return;
+
+    Object.keys(COMPAT[brand]).forEach(model=>{
+      m.insertAdjacentHTML("beforeend", `<option value="${model}">${model}</option>`);
+    });
+    m.disabled = false;
+  });
+
+  m.addEventListener("change", ()=>{
+    const brand = b.value;
+    const model = m.value;
+    out.style.display = "none";
+
+    y.innerHTML = `<option value="">Año</option>`;
+    y.disabled = true;
+
+    const years = COMPAT?.[brand]?.[model];
+    if(!years) return;
+
+    Object.keys(years).sort().forEach(yr=>{
+      y.insertAdjacentHTML("beforeend", `<option value="${yr}">${yr}</option>`);
+    });
+    y.disabled = false;
+  });
+
+  btn.addEventListener("click", ()=>{
+    const brand = b.value, model = m.value, year = y.value;
+    const data = COMPAT?.[brand]?.[model]?.[year];
+
+    out.style.display = "block";
+
+    if(!brand || !model || !year){
+      out.innerHTML = `Selecciona <strong>marca</strong>, <strong>modelo</strong> y <strong>año</strong>.`;
+      return;
+    }
+
+    if(!data){
+      out.innerHTML = `No encontramos ese vehículo. Envíanos foto del socket por WhatsApp para ayudarte.`;
+      return;
+    }
+
+    out.innerHTML = `
+      <strong>${brand} ${model} ${year}</strong><br>
+      Baja: <b>${data.baja || "—"}</b><br>
+      Alta: <b>${data.alta || "—"}</b><br>
+      Neblina: <b>${data.neblina || "—"}</b><br><br>
+      Recomendación: envíanos si es <b>baja/alta/neblina</b> y una foto del socket para confirmarte el modelo BRUTALUX ideal.
+    `;
+  });
+}
+
+/**********************
+ * ADMIN + INVOICE
  **********************/
 function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
 function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
@@ -2674,14 +2634,14 @@ function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
 function fillInvoiceProductSelect(){
   const sel = document.getElementById("invProduct");
   if(!sel) return;
-  sel.innerHTML = PRODUCTS.map(p=>`<option value="${p.id}">${p.id} - ${p.name} (${BASE_SYMBOL}${p.usd})</option>`).join("");
+  sel.innerHTML = PRODUCTS.map(p=>`<option value="${p.id}">${p.id} - ${p.name} (${BASE_SYMBOL}${fmtMoney(p.eur)})</option>`).join("");
   sel.onchange = ()=>{
     const p = PRODUCTS.find(x=>x.id===sel.value);
-    if(p && document.getElementById("invPrice")) document.getElementById("invPrice").value = p.usd;
+    if(p && document.getElementById("invPrice")) document.getElementById("invPrice").value = p.eur;
     refreshInvoicePreview();
   };
   const first = PRODUCTS[0];
-  if(first && document.getElementById("invPrice")) document.getElementById("invPrice").value = first.usd;
+  if(first && document.getElementById("invPrice")) document.getElementById("invPrice").value = first.eur;
 }
 
 function getInvoice(){
@@ -2698,12 +2658,12 @@ function addInvoiceItem(){
   if(!p) return alert("Producto inválido.");
 
   const qty = parseInt(document.getElementById("invQty")?.value || "1", 10);
-  const price = parseFloat(document.getElementById("invPrice")?.value || String(p.usd));
+  const price = parseFloat(document.getElementById("invPrice")?.value || String(p.eur));
 
   if(!isFinite(qty) || qty<=0) return alert("Cantidad inválida.");
   if(!isFinite(price) || price<=0) return alert("Precio inválido.");
 
-  inv.items.push({ desc: `${p.name} (${p.id})`, qty, usd: price });
+  inv.items.push({ desc: `${p.name} (${p.id})`, qty, eur: price });
   setInvoice(inv);
   refreshInvoicePreview();
 }
@@ -2729,7 +2689,7 @@ function refreshInvoicePreview(){
   const taxPct   = parseFloat(document.getElementById("invTax")?.value || "0") || 0;
   const discount = parseFloat(document.getElementById("invDiscount")?.value || "0") || 0;
 
-  const sub = inv.items.reduce((a,it)=> a + (Number(it.qty)*Number(it.usd)), 0);
+  const sub = inv.items.reduce((a,it)=> a + (Number(it.qty)*Number(it.eur)), 0);
   const tax = sub * (taxPct/100);
   const totalEur = Math.max(0, sub + tax - discount);
   const totalBs  = totalEur * Number(st.rate);
@@ -2739,12 +2699,12 @@ function refreshInvoicePreview(){
     now.toLocaleTimeString("es-VE", { hour:"2-digit", minute:"2-digit" });
 
   const rows = inv.items.map((it)=>{
-    const line = Number(it.qty) * Number(it.usd);
+    const line = Number(it.qty) * Number(it.eur);
     return `
       <tr>
         <td>${it.desc}</td>
         <td class="r">${it.qty}</td>
-        <td class="r">${BASE_SYMBOL}${fmtMoney(it.usd)}</td>
+        <td class="r">${BASE_SYMBOL}${fmtMoney(it.eur)}</td>
         <td class="r">${BASE_SYMBOL}${fmtMoney(line)}</td>
       </tr>
     `;
@@ -2818,7 +2778,10 @@ function refreshInvoicePreview(){
       </div>
       <div class="boxT primary">
         <div class="k">Total a pagar</div>
-        <div class="v">${BASE_SYMBOL}${fmtMoney(totalEur)} <span style="font-size:12px;font-weight:900;color:#334155"> / Bs ${fmtBs(totalBs)}</span></div>
+        <div class="v">
+          ${BASE_SYMBOL}${fmtMoney(totalEur)}
+          <span style="font-size:12px;font-weight:900;color:#334155"> / Bs ${fmtBs(totalBs)}</span>
+        </div>
       </div>
     </div>
 
@@ -2858,10 +2821,10 @@ function syncAdminUI(){
 
   if(logged){
     const st = getState();
-    document.getElementById("rateInput") && (document.getElementById("rateInput").value = String(st.rate).replace(".", ","));
-    document.getElementById("warrantyInput") && (document.getElementById("warrantyInput").value = st.warranty);
-    document.getElementById("logoInput") && (document.getElementById("logoInput").value = st.logo);
-    document.getElementById("heroBgInput") && (document.getElementById("heroBgInput").value = st.heroBg);
+    if(document.getElementById("rateInput")) document.getElementById("rateInput").value = String(st.rate).replace(".", ",");
+    if(document.getElementById("warrantyInput")) document.getElementById("warrantyInput").value = st.warranty;
+    if(document.getElementById("logoInput")) document.getElementById("logoInput").value = st.logo;
+    if(document.getElementById("heroBgInput")) document.getElementById("heroBgInput").value = st.heroBg;
 
     fillInvoiceProductSelect();
     refreshInvoicePreview();
@@ -2912,12 +2875,16 @@ function mountAdmin(){
 
   document.getElementById("btnSaveSettings")?.addEventListener("click", ()=>{
     const st = getState();
-    const rateRaw = (document.getElementById("rateInput")?.value || "").trim().replace(".", "").replace(",", ".");
-    const rate = parseFloat(rateRaw);
+
+    // ✅ FIX: parsing de tasa robusto: "375,08" o "375.08"
+    const rateTxt = (document.getElementById("rateInput")?.value || "").trim();
+    const rate = parseFloat(rateTxt.replace(/\./g,"").replace(",", "."));
+
     if(!isFinite(rate) || rate <= 0){
       alert("Tasa inválida. Ej: 447,22");
       return;
     }
+
     const warranty = document.getElementById("warrantyInput")?.value?.trim() || DEFAULTS.warranty;
     const logo = document.getElementById("logoInput")?.value?.trim() || DEFAULTS.logo;
     const heroBg = document.getElementById("heroBgInput")?.value?.trim() || DEFAULTS.heroBg;
@@ -2956,7 +2923,8 @@ function mountAdmin(){
  * BOOT
  **********************/
 document.addEventListener("DOMContentLoaded", ()=>{
-  document.getElementById("yearNow").textContent = new Date().getFullYear();
+  const y = document.getElementById("yearNow");
+  if(y) y.textContent = new Date().getFullYear();
 
   renderRate();
   renderCatalog();
@@ -2964,6 +2932,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   startTips();
   mountCart();
   mountAdmin();
+  mountCompat(); // ✅ FIX: compatibilidad ahora funciona
 
   loadRateFromApi();
 });
@@ -3027,6 +2996,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
