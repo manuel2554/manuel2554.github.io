@@ -1991,6 +1991,21 @@ header .nav > div:last-child{
                 </div>
               </div>
 
+              <div style="margin-top:10px" class="row">
+  <div>
+    <label>Código de pedido</label>
+    <input id="invOrderCode" placeholder="Ej: BLX-T4N89">
+  </div>
+  <div style="display:flex;gap:10px;align-items:end">
+    <button class="btnWide green orbitron" id="btnLoadOrder" type="button">
+      <i class="fa-solid fa-download"></i> Cargar pedido
+    </button>
+  </div>
+</div>
+
+<p class="mut" style="margin:8px 0 0">
+  Pega el código del pedido (BLX-XXXXX) y carga productos automáticamente en la factura.
+</p>
               <div style="margin-top:10px" class="row3">
                 <div>
                   <label>Producto</label>
@@ -2897,6 +2912,41 @@ function refreshInvoicePreview(){
     </div>
   `;
 }
+   async function loadOrderIntoInvoice(){
+  const code = (document.getElementById("invOrderCode")?.value || "")
+    .trim()
+    .toUpperCase();
+
+  if(!code) return alert("Escribe el código del pedido (ej: BLX-XXXXX).");
+
+  try{
+    const res = await fetch(`${API_BASE}/api/order?code=${encodeURIComponent(code)}`, { cache:"no-store" });
+    const data = await res.json().catch(()=> ({}));
+
+    if(!res.ok || !data?.ok) throw new Error(data?.error || "Order not found");
+    const order = data.order;
+
+    // Items -> factura
+    const items = Array.isArray(order.items) ? order.items : [];
+    const invItems = items.map(it => ({
+      desc: `${it.name} (${it.id})`,
+      qty: Number(it.qty) || 1,
+      eur: Number(it.eur ?? it.usd ?? 0) || 0
+    })).filter(x => x.qty > 0 && x.eur > 0);
+
+    setInvoice({ items: invItems });
+
+    // (Opcional) cargar nombre del cliente si existe
+    const c = order.customer || {};
+    if(document.getElementById("invClient")) document.getElementById("invClient").value = c.name || "";
+
+    refreshInvoicePreview();
+    alert(`Pedido ${code} cargado en la factura.`);
+  }catch(e){
+    console.error(e);
+    alert("No se pudo cargar el pedido. Verifica el código.");
+  }
+}
 
 function syncAdminUI(){
   const logged = isLogged();
@@ -3053,6 +3103,7 @@ function mountAdmin(){
   // Factura
   document.getElementById("btnAddItem")?.addEventListener("click", addInvoiceItem);
   document.getElementById("btnClearItems")?.addEventListener("click", clearInvoiceItems);
+  document.getElementById("btnLoadOrder")?.addEventListener("click", loadOrderIntoInvoice);
   document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
   document.getElementById("btnPrint")?.addEventListener("click", ()=>{
     refreshInvoicePreview();
@@ -3144,6 +3195,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
