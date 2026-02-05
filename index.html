@@ -2701,6 +2701,42 @@ document.addEventListener("DOMContentLoaded", ()=>{
     if(e.target === adminModal) hideModal();
   });
 })();
+  (function(){
+  const btnLogin = document.getElementById("btnLogin");
+  const btnLogout = document.getElementById("btnLogout");
+
+  function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
+  function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
+
+  function sync(){
+    const logged = isLogged();
+    const adminArea = document.getElementById("adminArea");
+    const loginBox = document.getElementById("loginBox");
+    if(adminArea) adminArea.style.display = logged ? "block" : "none";
+    if(loginBox) loginBox.style.display = logged ? "none" : "block";
+    if(btnLogout) btnLogout.style.display = logged ? "inline-block" : "none";
+    if(btnLogin) btnLogin.style.display = logged ? "none" : "inline-block";
+  }
+
+  btnLogin?.addEventListener("click", ()=>{
+    const u = document.getElementById("adminUser")?.value?.trim() || "";
+    const p = document.getElementById("adminPass")?.value?.trim() || "";
+    if(u === ADMIN_USER && p === ADMIN_PASS){
+      setLogged(true);
+      sync();
+    } else {
+      alert("Usuario o contraseña incorrectos.");
+    }
+  });
+
+  btnLogout?.addEventListener("click", ()=>{
+    setLogged(false);
+    sync();
+  });
+
+  // al abrir la página, sincroniza
+  sync();
+})();
   </script>
 <!-- CART MODAL -->
 <div class="modal" id="cartModal" aria-hidden="true">
@@ -2761,6 +2797,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
