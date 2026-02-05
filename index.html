@@ -2231,6 +2231,7 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
      **********************/
     const fmtBs = (n) => new Intl.NumberFormat('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
     const fmtMoney = (n) => new Intl.NumberFormat('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
+    const fmtUsd = fmtMoney; // alias (aunque ahora uses EUR)
 
     function getState(){
       const raw = localStorage.getItem("brutalux_state");
@@ -2876,7 +2877,7 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
     syncAdminUI();
     scheduleInvoicePreview();
     startTips();
-    loadRateFromJson();
+    loadRateFromApi();
   
   /**********************
  * CART / PEDIDO RAPIDO (FIXED)
@@ -3172,6 +3173,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
