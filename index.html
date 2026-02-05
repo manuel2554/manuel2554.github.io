@@ -3083,6 +3083,32 @@ document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
     meta: { page: location.href, ua: navigator.userAgent }
   };
   
+  
+    sendOrderToApi(payload);
+  });
+  updateCartBadge();
+
+  document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
+    const st = getState();
+    const cart = getCart();
+    if(!cart.length) return;
+
+    const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
+    const rate = Number(st.rate);
+    const subBs = (isFinite(rate) && rate > 0) ? (subEur * rate) : 0;
+
+    const payload = {
+      customer: {
+        name: document.getElementById("cartName")?.value?.trim() || "",
+        car:  document.getElementById("cartCar")?.value?.trim() || "",
+        city: document.getElementById("cartCity")?.value?.trim() || "",
+        note: document.getElementById("cartNote")?.value?.trim() || ""
+      },
+      items: cart,
+      totals: { subEur, rate, subBs },
+      meta: { page: location.href, ua: navigator.userAgent }
+    };
+
     sendOrderToApi(payload);
   });
 }
@@ -3126,14 +3152,14 @@ else mountCart();
 
     updateCartBadge();
 
-  document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
+    document.getElementById("cartWhatsapp")?.addEventListener("click", ()=>{
     const st = getState();
     const cart = getCart();
     if(!cart.length) return;
 
     const subEur = cart.reduce((a,it)=> a + (Number(it.usd)*Number(it.qty)), 0);
     const rate = Number(st.rate);
-    const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
+    const subBs = (isFinite(rate) && rate > 0) ? (subEur * rate) : 0;
 
     const payload = {
       customer: {
@@ -3146,6 +3172,9 @@ else mountCart();
       totals: { subEur, rate, subBs },
       meta: { page: location.href, ua: navigator.userAgent }
     };
+
+    sendOrderToApi(payload);
+  });
 }
   </script>
 <!-- CART MODAL -->
@@ -3207,6 +3236,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
