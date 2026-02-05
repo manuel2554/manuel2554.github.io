@@ -2706,35 +2706,72 @@ function refreshInvoicePreview(){
   const inv = getInvoice();
 
   const client = document.getElementById("invClient")?.value || "";
-  const doc = document.getElementById("invId")?.value || "";
+  const doc    = document.getElementById("invId")?.value || "";
+  const phone  = document.getElementById("invPhone")?.value || "";
+  const addr   = document.getElementById("invAddr")?.value || "";
+
+  const taxPct   = parseFloat(document.getElementById("invTax")?.value || "0") || 0;
+  const discount = parseFloat(document.getElementById("invDiscount")?.value || "0") || 0;
 
   const sub = inv.items.reduce((a,it)=> a + (Number(it.qty)*Number(it.usd)), 0);
-  const totalBs = sub * Number(st.rate);
+  const tax = sub * (taxPct/100);
+  const totalEur = Math.max(0, sub + tax - discount);
+  const totalBs  = totalEur * Number(st.rate);
 
-  const rows = inv.items.map(it=>`
-    <tr>
-      <td>${it.desc}</td>
-      <td class="r">${it.qty}</td>
-      <td class="r">${BASE_SYMBOL}${fmtMoney(it.usd)}</td>
-      <td class="r">${BASE_SYMBOL}${fmtMoney(it.qty*it.usd)}</td>
-    </tr>
-  `).join("");
+  const now = new Date();
+  const dateStr = now.toLocaleDateString("es-VE") + " " +
+    now.toLocaleTimeString("es-VE", { hour:"2-digit", minute:"2-digit" });
+
+  const rows = inv.items.map((it, idx)=>{
+    const line = Number(it.qty) * Number(it.usd);
+    return `
+      <tr>
+        <td>${it.desc}</td>
+        <td class="r">${it.qty}</td>
+        <td class="r">${BASE_SYMBOL}${fmtMoney(it.usd)}</td>
+        <td class="r">${BASE_SYMBOL}${fmtMoney(line)}</td>
+      </tr>
+    `;
+  }).join("");
 
   pv.innerHTML = `
     <div class="invHeaderBar">
-      <div class="title">Factura / Nota de Venta</div>
+      <div class="title">Factura / Nota de Garantía</div>
       <div class="chip">Tasa: ${fmtBs(st.rate)} ${RATE_PAIR_LABEL}</div>
     </div>
+
+    <div class="invTop">
+      <div class="invBrand">
+        <img src="${st.logo}" alt="logo">
+        <div>
+          <div class="t1">BRUTALUX LIGHTING</div>
+          <div class="t2">Iluminación LED • Garantía ${st.warranty}</div>
+          <div class="t2">WhatsApp: +58 412 6835635</div>
+        </div>
+      </div>
+      <div class="invMeta">
+        <b>Emisión</b>
+        <div>${dateStr}</div>
+        <div style="margin-top:6px"><b>Moneda:</b> ${BASE_CCY} (Ref. Bs)</div>
+      </div>
+    </div>
+
     <div class="invPad">
       <div class="invCards">
         <div class="invCard">
-          <div class="h"><i class="fa-solid fa-user"></i> Cliente</div>
+          <div class="h"><i class="fa-solid fa-user"></i> Datos del cliente</div>
           <div class="l"><b>Nombre:</b> ${client || "—"}</div>
           <div class="l"><b>Cédula/RIF:</b> ${doc || "—"}</div>
+          <div class="l"><b>Teléfono:</b> ${phone || "—"}</div>
+          <div class="l"><b>Dirección:</b> ${addr || "—"}</div>
         </div>
+
         <div class="invCard">
-          <div class="h"><i class="fa-solid fa-receipt"></i> Totales</div>
+          <div class="h"><i class="fa-solid fa-receipt"></i> Resumen</div>
           <div class="l"><b>Subtotal:</b> ${BASE_SYMBOL}${fmtMoney(sub)}</div>
+          <div class="l"><b>IVA (${taxPct}%):</b> ${BASE_SYMBOL}${fmtMoney(tax)}</div>
+          <div class="l"><b>Descuento:</b> ${BASE_SYMBOL}${fmtMoney(discount)}</div>
+          <div class="l" style="margin-top:8px"><b>Total:</b> ${BASE_SYMBOL}${fmtMoney(totalEur)}</div>
           <div class="l"><b>Ref. Bs:</b> Bs ${fmtBs(totalBs)}</div>
         </div>
       </div>
@@ -2752,6 +2789,41 @@ function refreshInvoicePreview(){
           ${rows || `<tr><td colspan="4" style="color:#64748b">Sin items. Agrega productos.</td></tr>`}
         </tbody>
       </table>
+    </div>
+
+    <div class="totals">
+      <div class="boxT">
+        <div class="k">Subtotal</div>
+        <div class="v">${BASE_SYMBOL}${fmtMoney(sub)}</div>
+      </div>
+      <div class="boxT">
+        <div class="k">Impuestos / Descuento</div>
+        <div class="v">${BASE_SYMBOL}${fmtMoney(Math.max(0, tax - discount))}</div>
+      </div>
+      <div class="boxT primary">
+        <div class="k">Total a pagar</div>
+        <div class="v">${BASE_SYMBOL}${fmtMoney(totalEur)} <span style="font-size:12px;font-weight:900;color:#334155"> / Bs ${fmtBs(totalBs)}</span></div>
+      </div>
+    </div>
+
+    <div class="stampSign">
+      <div class="stampBox">
+        <div class="t">Sello BRUTALUX</div>
+        <div class="hint">Coloca aquí el sello al imprimir.</div>
+        <div class="stampLine"></div>
+        <div class="stampSigLbl">Sello</div>
+      </div>
+      <div class="stampBox">
+        <div class="t">Firma autorizada</div>
+        <div class="hint">Firma y nombre del responsable.</div>
+        <div class="stampLine"></div>
+        <div class="stampSigLbl">Firma</div>
+      </div>
+    </div>
+
+    <div class="invFoot">
+      <b>Garantía:</b> ${st.warranty}. Esta nota sirve como comprobante para validar garantía.
+      Conserve este documento y el producto. Requiere evidencia (foto/video) y verificación de instalación.
     </div>
   `;
 }
@@ -2939,6 +3011,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
