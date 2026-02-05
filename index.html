@@ -2188,7 +2188,7 @@ header .nav > div:last-child{
     </div>
   </div>
 
-  <script>
+ <script>
 /**********************
  * CONFIG / DEFAULTS
  **********************/
@@ -2338,7 +2338,6 @@ function renderCatalog(){
 
   wrap.innerHTML = PRODUCTS.map(p=>{
     const bs = p.usd * st.rate;
-
     return `
       <article class="card" data-pid="${p.id}">
         <div class="img">
@@ -2371,11 +2370,11 @@ function renderCatalog(){
           </div>
 
           <div class="actions">
-  <button class="btnSmall orbitron" data-addcart="${p.id}"
-    style="background:rgba(0,200,255,.14);border-color:rgba(0,200,255,.24)">
-    <i class="fa-solid fa-cart-plus"></i> Agregar
-  </button>
-</div>
+            <button class="btnSmall orbitron" data-addcart="${p.id}"
+              style="background:rgba(0,200,255,.14);border-color:rgba(0,200,255,.24)">
+              <i class="fa-solid fa-cart-plus"></i> Agregar
+            </button>
+          </div>
         </div>
       </article>
     `;
@@ -2440,12 +2439,6 @@ document.getElementById("tipClose")?.addEventListener("click", ()=>{
 });
 
 /**********************
- * COMPAT (pega aquí tu COMPAT_TABLE y funciones si quieres mantenerlas)
- **********************/
-// ⚠️ Para no romper tu sitio, deja tu compat tal como estaba en tu HTML actual.
-// (Si me envías el script completo, lo integro aquí tal cual.)
-
-/**********************
  * API RATE + ORDER
  **********************/
 async function loadRateFromApi(){
@@ -2461,7 +2454,7 @@ async function loadRateFromApi(){
 
     renderRate();
     renderCatalog();
-    if(typeof scheduleInvoicePreview === "function") scheduleInvoicePreview();
+    refreshInvoicePreview();
     if(document.getElementById("cartModal")?.classList.contains("show")) renderCart();
   }catch(e){}
 }
@@ -2656,26 +2649,138 @@ function mountCart(){
   });
 }
 
-document.addEventListener("DOMContentLoaded", ()=>{
-  // año
-  document.getElementById("yearNow").textContent = new Date().getFullYear();
+/**********************
+ * ADMIN + INVOICE (simple)
+ **********************/
+function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
+function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
 
-  // render base
-  renderRate();
-  renderCatalog();
+function fillInvoiceProductSelect(){
+  const sel = document.getElementById("invProduct");
+  if(!sel) return;
+  sel.innerHTML = PRODUCTS.map(p=>`<option value="${p.id}">${p.id} - ${p.name} (${BASE_SYMBOL}${p.usd})</option>`).join("");
+  sel.onchange = ()=>{
+    const p = PRODUCTS.find(x=>x.id===sel.value);
+    if(p && document.getElementById("invPrice")) document.getElementById("invPrice").value = p.usd;
+    refreshInvoicePreview();
+  };
+  const first = PRODUCTS[0];
+  if(first && document.getElementById("invPrice")) document.getElementById("invPrice").value = first.usd;
+}
 
-  // tips
-  startTips();
+function getInvoice(){
+  const raw = localStorage.getItem("brutalux_invoice");
+  if(!raw) return { items: [] };
+  try { return JSON.parse(raw); } catch { return { items: [] }; }
+}
+function setInvoice(inv){ localStorage.setItem("brutalux_invoice", JSON.stringify(inv)); }
 
-  // carrito
-  mountCart();
+function addInvoiceItem(){
+  const inv = getInvoice();
+  const id = document.getElementById("invProduct")?.value;
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return alert("Producto inválido.");
 
-  // tasa real
-  loadRateFromApi();
+  const qty = parseInt(document.getElementById("invQty")?.value || "1", 10);
+  const price = parseFloat(document.getElementById("invPrice")?.value || String(p.usd));
 
-  // compat listeners (si los tienes en tu script original, mantenlos)
-});
-(function(){
+  if(!isFinite(qty) || qty<=0) return alert("Cantidad inválida.");
+  if(!isFinite(price) || price<=0) return alert("Precio inválido.");
+
+  inv.items.push({ desc: `${p.name} (${p.id})`, qty, usd: price });
+  setInvoice(inv);
+  refreshInvoicePreview();
+}
+
+function clearInvoiceItems(){
+  if(!confirm("¿Vaciar la factura?")) return;
+  setInvoice({ items: [] });
+  refreshInvoicePreview();
+}
+
+function refreshInvoicePreview(){
+  const pv = document.getElementById("invoicePreview");
+  if(!pv) return;
+
+  const st = getState();
+  const inv = getInvoice();
+
+  const client = document.getElementById("invClient")?.value || "";
+  const doc = document.getElementById("invId")?.value || "";
+
+  const sub = inv.items.reduce((a,it)=> a + (Number(it.qty)*Number(it.usd)), 0);
+  const totalBs = sub * Number(st.rate);
+
+  const rows = inv.items.map(it=>`
+    <tr>
+      <td>${it.desc}</td>
+      <td class="r">${it.qty}</td>
+      <td class="r">${BASE_SYMBOL}${fmtMoney(it.usd)}</td>
+      <td class="r">${BASE_SYMBOL}${fmtMoney(it.qty*it.usd)}</td>
+    </tr>
+  `).join("");
+
+  pv.innerHTML = `
+    <div class="invHeaderBar">
+      <div class="title">Factura / Nota de Venta</div>
+      <div class="chip">Tasa: ${fmtBs(st.rate)} ${RATE_PAIR_LABEL}</div>
+    </div>
+    <div class="invPad">
+      <div class="invCards">
+        <div class="invCard">
+          <div class="h"><i class="fa-solid fa-user"></i> Cliente</div>
+          <div class="l"><b>Nombre:</b> ${client || "—"}</div>
+          <div class="l"><b>Cédula/RIF:</b> ${doc || "—"}</div>
+        </div>
+        <div class="invCard">
+          <div class="h"><i class="fa-solid fa-receipt"></i> Totales</div>
+          <div class="l"><b>Subtotal:</b> ${BASE_SYMBOL}${fmtMoney(sub)}</div>
+          <div class="l"><b>Ref. Bs:</b> Bs ${fmtBs(totalBs)}</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Descripción</th>
+            <th class="r">Cant</th>
+            <th class="r">Precio</th>
+            <th class="r">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows || `<tr><td colspan="4" style="color:#64748b">Sin items. Agrega productos.</td></tr>`}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function syncAdminUI(){
+  const logged = isLogged();
+  const adminArea = document.getElementById("adminArea");
+  const loginBox  = document.getElementById("loginBox");
+  const btnLogin  = document.getElementById("btnLogin");
+  const btnLogout = document.getElementById("btnLogout");
+
+  if(adminArea) adminArea.style.display = logged ? "block" : "none";
+  if(loginBox)  loginBox.style.display  = logged ? "none" : "block";
+  if(btnLogout) btnLogout.style.display = logged ? "inline-block" : "none";
+  if(btnLogin)  btnLogin.style.display  = logged ? "none" : "inline-block";
+
+  if(logged){
+    const st = getState();
+    document.getElementById("rateInput") && (document.getElementById("rateInput").value = String(st.rate).replace(".", ","));
+    document.getElementById("warrantyInput") && (document.getElementById("warrantyInput").value = st.warranty);
+    document.getElementById("logoInput") && (document.getElementById("logoInput").value = st.logo);
+    document.getElementById("heroBgInput") && (document.getElementById("heroBgInput").value = st.heroBg);
+
+    fillInvoiceProductSelect();
+    refreshInvoicePreview();
+  }
+}
+
+function mountAdmin(){
   const adminModal = document.getElementById("adminModal");
   const fabAdmin   = document.getElementById("fabAdmin");
   const openAdmin  = document.getElementById("openAdmin");
@@ -2686,6 +2791,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     adminModal.classList.add("show");
     adminModal.setAttribute("aria-hidden","false");
     document.body.style.overflow = "hidden";
+    syncAdminUI();
   }
   function hideModal(){
     adminModal.classList.remove("show");
@@ -2696,48 +2802,84 @@ document.addEventListener("DOMContentLoaded", ()=>{
   fabAdmin?.addEventListener("click", showModal);
   openAdmin?.addEventListener("click", showModal);
   closeAdmin?.addEventListener("click", hideModal);
-
-  adminModal.addEventListener("click", (e)=>{
+  adminModal.addEventListener("click",(e)=>{
     if(e.target === adminModal) hideModal();
   });
-})();
-  (function(){
-  const btnLogin = document.getElementById("btnLogin");
-  const btnLogout = document.getElementById("btnLogout");
 
-  function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
-  function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
-
-  function sync(){
-    const logged = isLogged();
-    const adminArea = document.getElementById("adminArea");
-    const loginBox = document.getElementById("loginBox");
-    if(adminArea) adminArea.style.display = logged ? "block" : "none";
-    if(loginBox) loginBox.style.display = logged ? "none" : "block";
-    if(btnLogout) btnLogout.style.display = logged ? "inline-block" : "none";
-    if(btnLogin) btnLogin.style.display = logged ? "none" : "inline-block";
-  }
-
-  btnLogin?.addEventListener("click", ()=>{
+  document.getElementById("btnLogin")?.addEventListener("click", ()=>{
     const u = document.getElementById("adminUser")?.value?.trim() || "";
     const p = document.getElementById("adminPass")?.value?.trim() || "";
     if(u === ADMIN_USER && p === ADMIN_PASS){
       setLogged(true);
-      sync();
-    } else {
+      syncAdminUI();
+    }else{
       alert("Usuario o contraseña incorrectos.");
     }
   });
 
-  btnLogout?.addEventListener("click", ()=>{
+  document.getElementById("btnLogout")?.addEventListener("click", ()=>{
     setLogged(false);
-    sync();
+    syncAdminUI();
   });
 
-  // al abrir la página, sincroniza
-  sync();
-})();
-  </script>
+  document.getElementById("btnSaveSettings")?.addEventListener("click", ()=>{
+    const st = getState();
+    const rateRaw = (document.getElementById("rateInput")?.value || "").trim().replace(".", "").replace(",", ".");
+    const rate = parseFloat(rateRaw);
+    if(!isFinite(rate) || rate <= 0){
+      alert("Tasa inválida. Ej: 447,22");
+      return;
+    }
+    const warranty = document.getElementById("warrantyInput")?.value?.trim() || DEFAULTS.warranty;
+    const logo = document.getElementById("logoInput")?.value?.trim() || DEFAULTS.logo;
+    const heroBg = document.getElementById("heroBgInput")?.value?.trim() || DEFAULTS.heroBg;
+
+    setState({ ...st, rate, warranty, logo, heroBg });
+    renderRate();
+    renderCatalog();
+    refreshInvoicePreview();
+    alert("Guardado (local).");
+  });
+
+  document.getElementById("btnResetSettings")?.addEventListener("click", ()=>{
+    if(!confirm("¿Restaurar valores por defecto?")) return;
+    setState({ ...DEFAULTS });
+    renderRate();
+    renderCatalog();
+    syncAdminUI();
+  });
+
+  document.getElementById("btnAddItem")?.addEventListener("click", addInvoiceItem);
+  document.getElementById("btnClearItems")?.addEventListener("click", clearInvoiceItems);
+  document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
+  document.getElementById("btnPrint")?.addEventListener("click", ()=>{
+    refreshInvoicePreview();
+    setTimeout(()=> window.print(), 80);
+  });
+
+  ["invClient","invId","invPrice","invQty"].forEach(id=>{
+    document.getElementById(id)?.addEventListener("input", refreshInvoicePreview);
+  });
+
+  syncAdminUI();
+}
+
+/**********************
+ * BOOT
+ **********************/
+document.addEventListener("DOMContentLoaded", ()=>{
+  document.getElementById("yearNow").textContent = new Date().getFullYear();
+
+  renderRate();
+  renderCatalog();
+
+  startTips();
+  mountCart();
+  mountAdmin();
+
+  loadRateFromApi();
+});
+</script>
 <!-- CART MODAL -->
 <div class="modal" id="cartModal" aria-hidden="true">
   <div class="panel" style="width:min(880px,96vw)">
