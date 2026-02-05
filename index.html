@@ -3059,7 +3059,7 @@ function mountCart(){
 
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountCart);
 else mountCart();
-}
+    
   async function loadRateFromApi(){
   try{
     const res = await fetch("https://brutalux-api.vercel.app/api/rate", { cache: "no-store" });
@@ -3140,6 +3140,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
