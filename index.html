@@ -1364,6 +1364,70 @@
   0%,100%{ transform: rotate(-6deg) scale(1); }
   50%{ transform: rotate(8deg) scale(1.15); }
 }
+  /* ===== Mobile polish ===== */
+@media (max-width: 560px){
+  /* Header más compacto */
+  header .nav{ padding:10px 0; }
+  .brand img{ height:36px; border-radius:10px; }
+  .pill{ padding:8px 10px; font-size:11px; }
+  .cta-wa{ padding:9px 11px; font-size:12px; }
+  .cta-cart{ padding:9px 11px; }
+
+  /* Hero: menos aire y texto más legible */
+  .hero{ padding:26px 0 18px; }
+  .heroCard{ padding:28px 14px; border-radius:22px; }
+  .hero p{ font-size:13px; line-height:1.45; }
+  .heroBtns .btn{ width:100%; justify-content:center; } /* botones en columna */
+  .heroBtns{ gap:8px; }
+
+  /* Catálogo: 1 columna con cards más pro */
+  .cards{ grid-template-columns: 1fr !important; gap:12px; }
+  .card{ border-radius:22px; }
+  .card .img{ height:210px; }
+  .card .body{ padding:12px; gap:10px; }
+  .card .name{ font-size:18px; }
+  .card .model{ font-size:11px; }
+  .spec li{ font-size:12px; }
+
+  /* Botones del catálogo: apilados, grandes */
+  .card .actions{ flex-direction:column; gap:8px; }
+  .btnSmall{ width:100%; padding:12px 12px; border-radius:16px; font-size:12px; }
+
+  /* Sticker y tag mejor ubicados en móvil */
+  .tagTop{ left:10px; top:10px; padding:7px 10px; font-size:11px; }
+  .sticker{ right:10px; top:10px; padding:8px 12px; font-size:11px; }
+
+  /* Modales a pantalla completa en móvil */
+  .modal{ padding:0; }
+  .panel{
+    width:100% !important;
+    height:100vh;
+    max-height:100vh;
+    border-radius:0;
+  }
+  .panelHead{ position:sticky; top:0; z-index:2; }
+  .panelBody{ padding:12px; }
+
+  /* Inputs del carrito/admin más cómodos */
+  input, select{ padding:13px 12px; border-radius:16px; }
+
+  /* Carrito items más compactos */
+  .cartItem{ grid-template-columns: 1fr; gap:10px; }
+  .cartQty{ width:100%; }
+  .btnRemove{ width:100%; }
+
+  /* Comparativa: reduce padding */
+  .compare{ border-radius:18px; }
+}
+
+/* Tablets: 2 columnas en catálogo */
+@media (max-width: 900px){
+  .cards{ grid-template-columns: repeat(2,1fr); }
+}
+  @media (max-width: 560px){
+  button, a, summary{ -webkit-tap-highlight-color: transparent; }
+  .btn, .btnSmall, .btnWide, .cta-wa, .cta-cart{ min-height:44px; }
+}
   </style>
 </head>
 
@@ -2647,6 +2711,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
