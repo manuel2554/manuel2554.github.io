@@ -1289,92 +1289,6 @@
     border-radius: 22px;
   }
 
-  /* ===== Stickers fusionados en esquina (PRO clean) ===== */
-.sticker{
-  position:absolute;
-  top:12px;
-  right:12px;
-  z-index:5;
-  pointer-events:none;
-
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-
-  height:28px;
-  padding:0 12px 0 10px;
-
-  font-weight:1000;
-  font-size:12px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-
-  color:#140700;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.22);
-
-  box-shadow:
-    0 16px 40px rgba(0,0,0,.45),
-    0 0 0 1px rgba(255,255,255,.10) inset;
-}
-
-/* “fusionado” al borde: recorte en la parte izquierda */
-.sticker::before{
-  content:"";
-  width:10px;height:10px;
-  background:rgba(0,0,0,.40);
-  border-radius:3px;
-  display:inline-block;
-  margin-right:2px;
-  box-shadow: 0 0 0 2px rgba(0,0,0,.25) inset;
-  opacity:.55;
-}
-
-/* MÁS VENDIDO: dorado con flash */
-.sticker.best{
-  background: linear-gradient(90deg, #ffd36b, #ff7a00);
-  animation: bestPulse 1.2s ease-in-out infinite;
-  overflow:hidden;
-}
-.sticker.best::after{
-  content:"";
-  position:absolute;
-  inset:-60%;
-  background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.95) 50%, transparent 60%);
-  transform: translateX(-70%) rotate(10deg);
-  animation: bestShine 1.8s ease-in-out infinite;
-  opacity:.65;
-}
-@keyframes bestPulse{
-  0%,100%{ filter:brightness(1); }
-  50%{ filter:brightness(1.22); }
-}
-@keyframes bestShine{
-  0%{ transform: translateX(-80%) rotate(10deg); opacity:0; }
-  18%{ opacity:.9; }
-  100%{ transform: translateX(80%) rotate(10deg); opacity:0; }
-}
-
-/* HOT: rojo/naranja con “vibración” leve */
-.sticker.hot{
-  background: linear-gradient(90deg, #ff2d55, #ff8a00);
-  animation: hotWiggle .55s ease-in-out infinite;
-}
-@keyframes hotWiggle{
-  0%,100%{ transform: translateX(0); }
-  50%{ transform: translateX(-1px); }
-}
-
-/* llama */
-.sticker .flame{
-  display:inline-block;
-  animation: flameFlicker .55s ease-in-out infinite;
-  transform-origin: 50% 80%;
-}
-@keyframes flameFlicker{
-  0%,100%{ transform: rotate(-6deg) scale(1); }
-  50%{ transform: rotate(8deg) scale(1.15); }
-}
   /* ===== FORZAR estilo del sticker (prioridad alta) ===== */
 .card .img .sticker{
   position:absolute !important;
@@ -1418,12 +1332,6 @@
   opacity:.65 !important;
 }
 
-@keyframes bestShine{
-  0%{ transform: translateX(-80%) rotate(10deg); opacity:0; }
-  18%{ opacity:.9; }
-  100%{ transform: translateX(80%) rotate(10deg); opacity:0; }
-}
-
 /* HOT */
 .card .img .sticker.hot{
   background: linear-gradient(90deg, #ff2d55, #ff8a00) !important;
@@ -1435,10 +1343,6 @@
   transform-origin: 50% 80% !important;
 }
 
-@keyframes flameFlicker{
-  0%,100%{ transform: rotate(-6deg) scale(1); }
-  50%{ transform: rotate(8deg) scale(1.15); }
-}
   /* ===== FIX: que las etiquetas queden encima de la imagen ===== */
 .card .img{
   position: relative;
@@ -1465,6 +1369,73 @@
 .card .img .sticker{
   right:12px;
   top:12px;
+}
+  /* ===== STICKERS DEFINITIVOS (solo este debe existir) ===== */
+
+/* asegurar capas */
+.card .img{ position:relative; overflow:hidden; }
+.card .img img{ position:relative; z-index:1; display:block; }
+.card .img .tagTop{ position:absolute; z-index:5; left:12px; top:12px; }
+.card .img .sticker{ position:absolute; z-index:6; right:12px; top:12px; }
+
+/* sticker base */
+.card .img .sticker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  padding:10px 14px;
+  border-radius:999px;
+
+  font-weight:1000;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+
+  border:1px solid rgba(255,255,255,.22);
+  color:#140700;
+
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.45),
+    0 0 0 1px rgba(255,255,255,.10) inset;
+}
+
+/* MÁS VENDIDO */
+.card .img .sticker.best{
+  background: linear-gradient(90deg, #ffd36b, #ff7a00);
+  overflow:hidden;
+}
+
+.card .img .sticker.best::after{
+  content:"";
+  position:absolute;
+  inset:-60%;
+  background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.95) 50%, transparent 60%);
+  transform: translateX(-80%) rotate(10deg);
+  animation: bestShine 1.6s ease-in-out infinite;
+  opacity:.7;
+}
+
+@keyframes bestShine{
+  0%{ transform: translateX(-80%) rotate(10deg); opacity:0; }
+  20%{ opacity:.95; }
+  100%{ transform: translateX(80%) rotate(10deg); opacity:0; }
+}
+
+/* HOT + llama */
+.card .img .sticker.hot{
+  background: linear-gradient(90deg, #ff2d55, #ff8a00);
+}
+
+.card .img .sticker .flame{
+  display:inline-block;
+  animation: flameFlicker .55s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+
+@keyframes flameFlicker{
+  0%,100%{ transform: rotate(-6deg) scale(1); }
+  50%{ transform: rotate(8deg) scale(1.15); }
 }
   </style>
 </head>
@@ -3244,6 +3215,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
