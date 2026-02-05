@@ -1288,6 +1288,31 @@
     border-radius: 22px;
   }
 }
+  /* ===== Best seller / Hot stickers ===== */
+.sticker{
+  position:absolute;
+  right:12px;
+  top:12px;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:1000;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+}
+
+.sticker.best{
+  background: linear-gradient(90deg, #fbbf24, #ff5c00);
+  color:#1a0a00;
+}
+
+.sticker.hot{
+  background: linear-gradient(90deg, #00c8ff, #a855f7);
+  color:#061018;
+}
   </style>
 </head>
 
@@ -2051,6 +2076,7 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
         image: "https://i.postimg.cc/SQryg1nn/Whats_App_Image_2026_02_03_at_8_35_01_PM.jpg",
         specs: ["33.000 lm (par)", "6500K blanco puro", "Zinc + 3 tubos de cobre"],
         waText: "Hola, me interesa la BRUTALUX R33 ($90)."
+        sticker: { type: "best", text: "MÁS VENDIDO" },
       },
       {
         id: "R36T",
@@ -2061,6 +2087,7 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
         image: "https://i.postimg.cc/3rBKtfkN/Whats_App_Im_age_2026_02_03_at_8_35_01_PM.jpg",
         specs: ["16.000 lm (par)", "3000K–6500K (dual)", "Chip CSP 12 núcleos"],
         waText: "Hola, me interesa la BRUTALUX R36T ($85) dual color."
+                sticker: { type: "hot", text: "HOT" },
       },
       {
         id: "R20",
@@ -2179,9 +2206,12 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
     return `
       <article class="card" data-pid="${p.id}">
         <div class="img">
-          <div class="tagTop ${p.badge.cls}">${p.badge.text}</div>
-          <img src="${p.image}" alt="${p.name}" loading="lazy">
-        </div>
+  <div class="tagTop ${p.badge.cls}">${p.badge.text}</div>
+
+  ${p.sticker ? `<div class="sticker ${p.sticker.type}">${p.sticker.text}</div>` : ""}
+
+  <img src="${p.image}" alt="${p.name}" loading="lazy">
+</div>
 
         <div class="body">
           <div class="model orbitron">${p.modelLine}</div>
@@ -3053,6 +3083,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
