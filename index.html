@@ -2010,6 +2010,17 @@ header .nav > div:last-child{
                 <div>
                   <label>Producto</label>
                   <select id="invProduct"></select>
+                  <div style="margin-top:10px" class="row">
+  <div>
+    <label>Código de pedido</label>
+    <input id="invOrderCode" placeholder="Ej: BLX-T4N89">
+  </div>
+  <div style="display:flex;gap:10px;align-items:end">
+    <button class="btnWide green orbitron" id="btnLoadOrder" type="button">
+      <i class="fa-solid fa-download"></i> Cargar pedido
+    </button>
+  </div>
+</div>
                 </div>
                 <div>
                   <label>Cantidad</label>
@@ -2936,6 +2947,42 @@ const qrUrl = orderUrl
   `;
 }
    async function loadOrderIntoInvoice(){
+  const code = (document.getElementById("invOrderCode")?.value || "")
+    .trim()
+    .toUpperCase();
+
+  if(!code) return alert("Escribe el código del pedido (BLX-XXXXX).");
+
+  try{
+    const res = await fetch(`${API_BASE}/api/order?code=${encodeURIComponent(code)}`, { cache:"no-store" });
+    const data = await res.json().catch(()=> ({}));
+    if(!res.ok || !data?.ok) throw new Error(data?.error || "Order not found");
+
+    const order = data.order;
+
+    // Cliente
+    const c = order.customer || {};
+    if(document.getElementById("invClient")) document.getElementById("invClient").value = c.name || "";
+    if(document.getElementById("invPhone"))  document.getElementById("invPhone").value = c.phone || "";
+    if(document.getElementById("invAddr"))   document.getElementById("invAddr").value = c.addr || "";
+
+    // Items -> Factura
+    const items = Array.isArray(order.items) ? order.items : [];
+    const invItems = items.map(it => ({
+      desc: `${it.name} (${it.id})`,
+      qty: Number(it.qty) || 1,
+      eur: Number(it.eur ?? it.usd ?? 0) || 0
+    })).filter(x => x.qty > 0 && x.eur > 0);
+
+    setInvoice({ items: invItems });
+    refreshInvoicePreview();
+    alert(`Pedido ${code} cargado en la factura.`);
+  }catch(e){
+    console.error(e);
+    alert("No se pudo cargar el pedido. Verifica el código.");
+  }
+}
+   async function loadOrderIntoInvoice(){
      document.getElementById("invOrderCode").value = code;
      const c = order.customer || {};
 document.getElementById("invPhone").value = c.phone || "";
@@ -3129,6 +3176,7 @@ function mountAdmin(){
 
   // Factura
   document.getElementById("btnAddItem")?.addEventListener("click", addInvoiceItem);
+  document.getElementById("btnLoadOrder")?.addEventListener("click", loadOrderIntoInvoice);
   document.getElementById("btnClearItems")?.addEventListener("click", clearInvoiceItems);
   document.getElementById("btnLoadOrder")?.addEventListener("click", loadOrderIntoInvoice);
   document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
@@ -3231,6 +3279,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
