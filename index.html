@@ -2371,20 +2371,11 @@ function renderCatalog(){
           </div>
 
           <div class="actions">
-            <a class="btnSmall btnGreen orbitron" target="_blank" rel="noopener"
-              href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(p.waText + ' Tasa: ' + fmtBs(st.rate) + ' ' + RATE_PAIR_LABEL)}">
-              <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
-            </a>
-
-            <button class="btnSmall orbitron" data-addcart="${p.id}"
-              style="background:rgba(0,200,255,.14);border-color:rgba(0,200,255,.24)">
-              <i class="fa-solid fa-cart-plus"></i> Agregar
-            </button>
-
-            <button class="btnSmall btnOrange orbitron" onclick="openAdminAndPreselect('${p.id}')">
-              <i class="fa-solid fa-file-invoice"></i> Facturar
-            </button>
-          </div>
+  <button class="btnSmall orbitron" data-addcart="${p.id}"
+    style="background:rgba(0,200,255,.14);border-color:rgba(0,200,255,.24)">
+    <i class="fa-solid fa-cart-plus"></i> Agregar
+  </button>
+</div>
         </div>
       </article>
     `;
@@ -2744,6 +2735,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
