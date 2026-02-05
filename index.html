@@ -1428,6 +1428,39 @@
   button, a, summary{ -webkit-tap-highlight-color: transparent; }
   .btn, .btnSmall, .btnWide, .cta-wa, .cta-cart{ min-height:44px; }
 }
+  /* ===== Fix overflow horizontal (móvil) ===== */
+html, body { max-width: 100%; overflow-x: hidden; }
+
+header .container { max-width: 100%; }
+header .nav { min-width: 0; }
+
+/* Evita que el bloque derecho se salga */
+header .nav > div:last-child{
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* En móvil: compactar botones de la derecha */
+@media (max-width: 560px){
+  header .nav{
+    gap:10px;
+  }
+
+  /* marca puede encogerse */
+  .brand{ min-width: 0; }
+  .brand .tag{ display:none; } /* opcional: quita el subtítulo en móvil */
+
+  /* fila derecha: que no se salga */
+  header .nav > div:last-child{
+    gap:8px !important;
+    align-items:center;
+  }
+
+  .cta-wa{ padding:8px 10px; font-size:12px; }
+  .cta-cart{ padding:8px 10px; }
+  .cta-cart span{ display:none; } /* deja solo icono + contador */
+}
   </style>
 </head>
 
@@ -2711,6 +2744,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
