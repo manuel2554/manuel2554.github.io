@@ -15,11 +15,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-            - name: Fetch EURVES rate (with fallback sources)
+      - name: Fetch EURVES rate (with fallback sources)
         run: |
           set -e
 
+          # Fuente 1 (BCV mirror) - puede fallar por DNS en runners
           URL1="https://pydolarve.org/api/v1/dollar?page=bcv&monitor=eur"
+
+          # Fuente 2 (fallback sin API key) - open.er-api.com
           URL2="https://open.er-api.com/v6/latest/EUR"
 
           echo "Trying source 1: $URL1"
@@ -41,7 +44,7 @@ jobs:
 
             let rate=null;
 
-            // Intento formato pydolarve (si algún día funciona)
+            // Intento formato pydolarve (si funciona)
             const candidates = [
               j?.price, j?.rate, j?.data?.price, j?.data?.rate,
               j?.monitors?.eur?.price, j?.eur?.price
@@ -79,7 +82,7 @@ jobs:
 
             const data={
               pair:'EURVES',
-              source:'Auto (6h)',
+              source:'Auto (6h) - BCV mirror + fallback',
               rate: rate,
               updated: new Date().toISOString()
             };
