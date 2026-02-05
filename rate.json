@@ -1,6 +1,6 @@
 {
   "pair": "EURVES",
-  "source": "BCV (referencial)",
-  "rate": 0,
-  "updated": ""
+  "source": "Auto (6h) - BCV mirror + fallback",
+  "rate": 442.589848,
+  "updated": "2026-02-05T00:02:19.711Z"
 }
