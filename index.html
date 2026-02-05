@@ -2634,19 +2634,18 @@ function mountCart(){
     const subBs = (isFinite(rate)&&rate>0) ? (subEur*rate) : 0;
 
     const payload = {
-      customer: {
-  name: document.getElementById("cartName")?.value?.trim() || "",
-  car:  document.getElementById("cartCar")?.value?.trim() || "",
-  city: document.getElementById("cartCity")?.value?.trim() || "",
-  phone: document.getElementById("cartPhone")?.value?.trim() || "",
-  addr: document.getElementById("cartAddr")?.value?.trim() || "",
-  note: document.getElementById("cartNote")?.value?.trim() || ""
-},
-      },
-      items: cart,
-      totals: { subEur, rate, subBs },
-      meta: { page: location.href, ua: navigator.userAgent }
-    };
+  customer: {
+    name: document.getElementById("cartName")?.value?.trim() || "",
+    car:  document.getElementById("cartCar")?.value?.trim() || "",
+    city: document.getElementById("cartCity")?.value?.trim() || "",
+    phone: document.getElementById("cartPhone")?.value?.trim() || "",
+    addr: document.getElementById("cartAddr")?.value?.trim() || "",
+    note: document.getElementById("cartNote")?.value?.trim() || ""
+  },
+  items: cart,
+  totals: { subEur, rate, subBs },
+  meta: { page: location.href, ua: navigator.userAgent }
+};
 
     try{
       const out = await sendOrderToApi(payload);
@@ -3232,6 +3231,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
