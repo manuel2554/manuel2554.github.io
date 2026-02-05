@@ -2048,8 +2048,6 @@ header .nav > div:last-child{
 /**********************
  * CONFIG / DEFAULTS
  **********************/
-const ADMIN_USER = "Manuel255";
-const ADMIN_PASS = "30158858Jm";
 const WHATSAPP = "584126835635";
 
 const DEFAULTS = {
@@ -2062,30 +2060,76 @@ const DEFAULTS = {
 const BASE_CCY = "EUR";
 const BASE_SYMBOL = "€";
 const RATE_PAIR_LABEL = "Bs/EUR";
-   const API_BASE = "https://brutalux-api.vercel.app";
 
+const API_BASE = "https://brutalux-api.vercel.app";
+
+/**********************
+ * AUTH (token)
+ **********************/
 function getToken(){ return sessionStorage.getItem("brutalux_token") || ""; }
 function setToken(t){ sessionStorage.setItem("brutalux_token", t); }
 function clearToken(){ sessionStorage.removeItem("brutalux_token"); }
 function isLogged(){ return !!getToken(); }
 
-// Cargar settings reales (para todos)
+/**********************
+ * SETTINGS (server)
+ **********************/
+let _lastSettingsSig = "";
+
+function settingsSignature(s){
+  return JSON.stringify({
+    rate: s?.rate,
+    warranty: s?.warranty,
+    logo: s?.logo,
+    heroBg: s?.heroBg
+  });
+}
+
+function applySettingsToUI(s){
+  // cache local (opcional)
+  setState({ ...getState(), ...s });
+
+  renderRate();
+  renderCatalog();
+  refreshInvoicePreview();
+  if(document.getElementById("cartModal")?.classList.contains("show")) renderCart();
+}
+
+// Carga settings del servidor (una vez)
 async function loadSettingsFromApi(){
   try{
     const res = await fetch(`${API_BASE}/api/settings`, { cache:"no-store" });
     if(!res.ok) return;
     const s = await res.json();
 
-    // guarda local solo como cache, pero el origen real es la API
-    setState({ ...getState(), ...s });
-
-    renderRate();
-    renderCatalog();
-    refreshInvoicePreview();
-    if(document.getElementById("cartModal")?.classList.contains("show")) renderCart();
+    _lastSettingsSig = settingsSignature(s);
+    applySettingsToUI(s);
   }catch(e){
     console.error("loadSettingsFromApi failed", e);
   }
+}
+
+// Polling: auto-actualiza para todos cada X ms
+async function pollSettings(){
+  try{
+    const res = await fetch(`${API_BASE}/api/settings`, { cache:"no-store" });
+    if(!res.ok) return;
+    const s = await res.json();
+
+    const sig = settingsSignature(s);
+    if(sig === _lastSettingsSig) return;
+
+    _lastSettingsSig = sig;
+    applySettingsToUI(s);
+    console.log("✅ Settings actualizados desde servidor");
+  }catch(e){
+    // silencioso para no spamear
+  }
+}
+
+function startSettingsPolling(intervalMs = 20000){
+  pollSettings();
+  setInterval(pollSettings, intervalMs);
 }
 
 /**********************
@@ -2653,8 +2697,7 @@ function mountCompat(){
 /**********************
  * ADMIN + INVOICE
  **********************/
-function isLogged(){ return localStorage.getItem("brutalux_admin") === "1"; }
-function setLogged(v){ localStorage.setItem("brutalux_admin", v ? "1" : "0"); }
+function isLogged(){ return !!getToken(); }
 
 function fillInvoiceProductSelect(){
   const sel = document.getElementById("invProduct");
@@ -2834,6 +2877,7 @@ function refreshInvoicePreview(){
 
 function syncAdminUI(){
   const logged = isLogged();
+
   const adminArea = document.getElementById("adminArea");
   const loginBox  = document.getElementById("loginBox");
   const btnLogin  = document.getElementById("btnLogin");
@@ -2844,6 +2888,7 @@ function syncAdminUI(){
   if(btnLogout) btnLogout.style.display = logged ? "inline-block" : "none";
   if(btnLogin)  btnLogin.style.display  = logged ? "none" : "inline-block";
 
+  // Siempre carga en inputs lo que esté actualmente en state (viene del server por polling)
   if(logged){
     const st = getState();
     if(document.getElementById("rateInput")) document.getElementById("rateInput").value = String(st.rate).replace(".", ",");
@@ -2899,7 +2944,6 @@ function mountAdmin(){
 
       setToken(data.token);
       syncAdminUI();
-      alert("Sesión iniciada.");
     }catch(e){
       alert("Usuario o contraseña incorrectos.");
       console.error(e);
@@ -2910,12 +2954,10 @@ function mountAdmin(){
   document.getElementById("btnLogout")?.addEventListener("click", ()=>{
     clearToken();
     syncAdminUI();
-    alert("Sesión cerrada.");
   });
 
   // ✅ GUARDAR SETTINGS EN SERVIDOR (TIEMPO REAL PARA TODOS)
   document.getElementById("btnSaveSettings")?.addEventListener("click", async ()=>{
-    // Parsing robusto: "375,08" o "375.08"
     const rateTxt = (document.getElementById("rateInput")?.value || "").trim();
     const rate = parseFloat(rateTxt.replace(/\./g,"").replace(",", "."));
 
@@ -2944,11 +2986,11 @@ function mountAdmin(){
       const data = await res.json().catch(()=> ({}));
       if(!res.ok) throw new Error(data?.error || "Save failed");
 
-      // aplica cambios al instante en este navegador también
-      setState({ ...getState(), ...data.settings });
-      renderRate();
-      renderCatalog();
-      refreshInvoicePreview();
+      // aplica inmediatamente en tu navegador
+      applySettingsToUI(data.settings);
+
+      // ✅ importante: actualiza la firma del polling para que no “rebote”
+      _lastSettingsSig = settingsSignature(data.settings);
 
       alert("Guardado en servidor (real).");
     }catch(e){
@@ -2957,18 +2999,10 @@ function mountAdmin(){
     }
   });
 
-  // 🔁 Reset: recomendable que también guarde en servidor.
-  // Aquí lo dejamos simple: resetea local y recarga desde servidor.
+  // ✅ RESET: restaura defaults en servidor (si estás logueado)
   document.getElementById("btnResetSettings")?.addEventListener("click", async ()=>{
     if(!confirm("¿Restaurar valores por defecto?")) return;
 
-    // 1) reset local
-    setState({ ...DEFAULTS });
-    renderRate();
-    renderCatalog();
-    refreshInvoicePreview();
-
-    // 2) opcional: también empuja defaults al servidor si estás logueado
     try{
       const res = await fetch(`${API_BASE}/api/settings`,{
         method:"PUT",
@@ -2978,23 +3012,22 @@ function mountAdmin(){
         },
         body: JSON.stringify({ ...DEFAULTS })
       });
-      if(res.ok){
-        const data = await res.json().catch(()=> ({}));
-        if(data?.settings){
-          setState({ ...getState(), ...data.settings });
-          renderRate();
-          renderCatalog();
-          refreshInvoicePreview();
-        }
-      }
-    }catch(e){
-      // si falla (no logueado), no pasa nada: quedó local
-      console.warn("Reset remote skipped/failed:", e);
-    }
 
-    syncAdminUI();
+      const data = await res.json().catch(()=> ({}));
+      if(!res.ok) throw new Error(data?.error || "Reset failed");
+
+      applySettingsToUI(data.settings);
+      _lastSettingsSig = settingsSignature(data.settings);
+
+      syncAdminUI();
+      alert("Restaurado (servidor).");
+    }catch(e){
+      alert("No se pudo restaurar. Asegúrate de estar logueado.");
+      console.error(e);
+    }
   });
 
+  // Factura
   document.getElementById("btnAddItem")?.addEventListener("click", addInvoiceItem);
   document.getElementById("btnClearItems")?.addEventListener("click", clearInvoiceItems);
   document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
@@ -3012,11 +3045,11 @@ function mountAdmin(){
 /**********************
  * BOOT
  **********************/
-document.addEventListener("DOMContentLoaded", async ()=>{
+document.addEventListener("DOMContentLoaded", ()=>{
   const y = document.getElementById("yearNow");
   if(y) y.textContent = new Date().getFullYear();
 
-  // Render inicial con defaults/local (por si la API tarda)
+  // Render inicial rápido (defaults/local)
   renderRate();
   renderCatalog();
 
@@ -3025,11 +3058,8 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   mountAdmin();
   mountCompat();
 
-  // ✅ Carga settings reales desde tu API (tasa, garantía, logo, heroBg)
-  await loadSettingsFromApi();
-
-  // ❌ Ya no necesitas esto si la tasa viene por /api/settings
-  // loadRateFromApi();
+  // ✅ Auto-actualización (cada 20s)
+  startSettingsPolling(20000);
 });
 </script>
 <!-- CART MODAL -->
@@ -3091,6 +3121,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 </div>
 </body>
 </html>
+
 
 
 
