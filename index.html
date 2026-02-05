@@ -2946,6 +2946,7 @@ function mountCompat(){
 
   if(!b || !m || !y || !btn || !out) return;
 
+  // Marca -> Modelos
   b.addEventListener("change", ()=>{
     const brand = b.value;
     out.style.display = "none";
@@ -2955,14 +2956,17 @@ function mountCompat(){
     m.disabled = true;
     y.disabled = true;
 
-    if(!COMPAT[brand]) return;
+    const models = COMPAT?.[brand];
+    if(!models) return;
 
-    Object.keys(COMPAT[brand]).forEach(model=>{
+    Object.keys(models).sort().forEach(model=>{
       m.insertAdjacentHTML("beforeend", `<option value="${model}">${model}</option>`);
     });
+
     m.disabled = false;
   });
 
+  // Modelo -> Años (desde rangos)
   m.addEventListener("change", ()=>{
     const brand = b.value;
     const model = m.value;
@@ -2971,18 +2975,35 @@ function mountCompat(){
     y.innerHTML = `<option value="">Año</option>`;
     y.disabled = true;
 
-    const years = COMPAT?.[brand]?.[model];
-    if(!years) return;
+    const ranges = COMPAT?.[brand]?.[model];
+    if(!Array.isArray(ranges) || !ranges.length) return;
 
-    Object.keys(years).sort().forEach(yr=>{
-      y.insertAdjacentHTML("beforeend", `<option value="${yr}">${yr}</option>`);
+    // Genera años desde el min al max de todos los rangos
+    let minY = Infinity, maxY = -Infinity;
+    ranges.forEach(r=>{
+      const a = Number(r?.years?.[0]);
+      const z = Number(r?.years?.[1]);
+      if(isFinite(a) && isFinite(z)){
+        if(a < minY) minY = a;
+        if(z > maxY) maxY = z;
+      }
     });
+
+    if(!isFinite(minY) || !isFinite(maxY)) return;
+
+    // Llena el select con todos los años (min..max)
+    for(let yr = minY; yr <= maxY; yr++){
+      y.insertAdjacentHTML("beforeend", `<option value="${yr}">${yr}</option>`);
+    }
+
     y.disabled = false;
   });
 
+  // Consultar
   btn.addEventListener("click", ()=>{
-    const brand = b.value, model = m.value, year = y.value;
-    const data = COMPAT?.[brand]?.[model]?.[year];
+    const brand = b.value;
+    const model = m.value;
+    const year  = Number(y.value);
 
     out.style.display = "block";
 
@@ -2990,6 +3011,33 @@ function mountCompat(){
       out.innerHTML = `Selecciona <strong>marca</strong>, <strong>modelo</strong> y <strong>año</strong>.`;
       return;
     }
+
+    const ranges = COMPAT?.[brand]?.[model];
+    if(!Array.isArray(ranges)){
+      out.innerHTML = `No encontramos ese vehículo. Envíanos foto del socket por WhatsApp.`;
+      return;
+    }
+
+    // Encuentra rango que incluya el año
+    const hit = ranges.find(r => year >= r.years[0] && year <= r.years[1]);
+    if(!hit){
+      out.innerHTML = `No tenemos ese año registrado. Envíanos foto del socket por WhatsApp.`;
+      return;
+    }
+
+    const warn = String(hit.baja || "").includes("*") || String(hit.alta || "").includes("*") || String(hit.neblina || "").includes("*");
+
+    out.innerHTML = `
+      <strong>${brand} ${model} ${year}</strong><br>
+      Baja: <b>${hit.baja || "—"}</b><br>
+      Alta: <b>${hit.alta || "—"}</b><br>
+      Neblina: <b>${hit.neblina || "—"}</b><br>
+      ${warn ? `<br><b>Nota:</b> Puede variar por versión. Recomendado confirmar con foto del socket.` : ""}
+      <br><br>
+      Recomendación: envíanos si es <b>baja/alta/neblina</b> y una foto del socket para confirmarte el modelo BRUTALUX ideal.
+    `;
+  });
+}
 
     if(!data){
       out.innerHTML = `No encontramos ese vehículo. Envíanos foto del socket por WhatsApp para ayudarte.`;
@@ -3441,6 +3489,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
