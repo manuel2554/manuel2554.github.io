@@ -1991,6 +1991,20 @@ header .nav > div:last-child{
                 </div>
               </div>
 
+              <div style="margin-top:10px" class="row">
+  <div>
+    <label>Código de pedido</label>
+    <input id="invOrderCode" placeholder="Ej: BLX-T4N89">
+    <p class="mut" style="margin:8px 0 0">
+      Pega el código BLX-XXXXX y carga datos + productos del pedido.
+    </p>
+  </div>
+  <div style="display:flex;gap:10px;align-items:end">
+    <button class="btnWide green orbitron" id="btnLoadOrder" type="button">
+      <i class="fa-solid fa-download"></i> Cargar pedido
+    </button>
+  </div>
+</div>
               <div style="margin-top:10px" class="row3">
                 <div>
                   <label>Producto</label>
@@ -2093,6 +2107,45 @@ function applySettingsToUI(s){
   renderCatalog();
   refreshInvoicePreview();
   if(document.getElementById("cartModal")?.classList.contains("show")) renderCart();
+}
+   async function loadOrderIntoInvoice(){
+  const input = document.getElementById("invOrderCode");
+  const orderCode = (input?.value || "").trim().toUpperCase();
+
+  if(!orderCode){
+    alert("Escribe el código del pedido (BLX-XXXXX).");
+    return;
+  }
+
+  try{
+    const res = await fetch(`${API_BASE}/api/order?code=${encodeURIComponent(orderCode)}`, { cache:"no-store" });
+    const data = await res.json().catch(()=> ({}));
+    if(!res.ok || !data?.ok) throw new Error(data?.error || "Order not found");
+
+    const order = data.order;
+
+    // Cliente (lo que exista)
+    const c = order.customer || {};
+    if(document.getElementById("invClient")) document.getElementById("invClient").value = c.name || "";
+    if(document.getElementById("invPhone"))  document.getElementById("invPhone").value  = c.phone || "";
+    if(document.getElementById("invAddr"))   document.getElementById("invAddr").value   = c.addr || "";
+
+    // Items -> Factura
+    const items = Array.isArray(order.items) ? order.items : [];
+    const invItems = items.map(it => ({
+      desc: `${it.name} (${it.id})`,
+      qty: Number(it.qty) || 1,
+      eur: Number(it.eur ?? it.usd ?? 0) || 0
+    })).filter(x => x.qty > 0 && x.eur > 0);
+
+    setInvoice({ items: invItems });
+    refreshInvoicePreview();
+
+    alert(`Pedido ${orderCode} cargado en la factura.`);
+  }catch(e){
+    console.error(e);
+    alert("No se pudo cargar el pedido. Verifica el código.");
+  }
 }
 
 // Carga settings del servidor (una vez)
@@ -2591,9 +2644,9 @@ function mountCart(){
     renderCart();
   });
 
-  ["cartName","cartCar","cartCity","cartNote"].forEach(id=>{
-    document.getElementById(id)?.addEventListener("input", renderCart);
-  });
+  ["cartName","cartCar","cartCity","cartNote","cartPhone","cartAddr"].forEach(id=>{
+  document.getElementById(id)?.addEventListener("input", renderCart);
+});
 
   document.getElementById("productCards")?.addEventListener("click",(e)=>{
     const b = e.target.closest("[data-addcart]");
@@ -2616,11 +2669,13 @@ function mountCart(){
 
     const payload = {
       customer: {
-        name: document.getElementById("cartName")?.value?.trim() || "",
-        car:  document.getElementById("cartCar")?.value?.trim() || "",
-        city: document.getElementById("cartCity")?.value?.trim() || "",
-        note: document.getElementById("cartNote")?.value?.trim() || ""
-      },
+  name: document.getElementById("cartName")?.value?.trim() || "",
+  car:  document.getElementById("cartCar")?.value?.trim() || "",
+  city: document.getElementById("cartCity")?.value?.trim() || "",
+  phone: document.getElementById("cartPhone")?.value?.trim() || "",
+  addr: document.getElementById("cartAddr")?.value?.trim() || "",
+  note: document.getElementById("cartNote")?.value?.trim() || ""
+},
       items: cart,
       totals: { subEur, rate, subBs },
       meta: { page: location.href, ua: navigator.userAgent }
@@ -3052,6 +3107,7 @@ function mountAdmin(){
 
   // Factura
   document.getElementById("btnAddItem")?.addEventListener("click", addInvoiceItem);
+  document.getElementById("btnLoadOrder")?.addEventListener("click", loadOrderIntoInvoice);
   document.getElementById("btnClearItems")?.addEventListener("click", clearInvoiceItems);
   document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
   document.getElementById("btnPrint")?.addEventListener("click", ()=>{
@@ -3099,6 +3155,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
           <div>
             <label>Nombre</label>
             <input id="cartName" placeholder="Tu nombre">
+            <div style="margin-top:10px" class="row">
+  <div>
+    <label>Teléfono</label>
+    <input id="cartPhone" placeholder="+58...">
+  </div>
+  <div>
+    <label>Dirección</label>
+    <input id="cartAddr" placeholder="Dirección completa">
+  </div>
+</div>
           </div>
           <div>
             <label>Vehículo (opcional)</label>
@@ -3144,6 +3210,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
