@@ -2228,11 +2228,17 @@ const RATE_PAIR_LABEL = "Bs/EUR"; // etiqueta visible
 
     /**********************
      * UTILITIES
-     **********************/
-    const fmtBs = (n) => new Intl.NumberFormat('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
-    const fmtMoney = (n) => new Intl.NumberFormat('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n);
-    const fmtUsd = fmtMoney; // alias (aunque ahora uses EUR)
+     **********************/const fmtBs = (n) => new Intl.NumberFormat('es-VE', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}).format(n);
 
+const fmtMoney = (n) => new Intl.NumberFormat('en-US', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}).format(n);
+
+const fmtUsd = fmtMoney; // alias (aunque ahora uses EUR)
     function getState(){
       const raw = localStorage.getItem("brutalux_state");
       if(!raw) return {...DEFAULTS};
@@ -3201,6 +3207,7 @@ else mountCart();
 </div>
 </body>
 </html>
+
 
 
 
