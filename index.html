@@ -3394,6 +3394,38 @@ function syncAdminUI(){
     refreshInvoicePreview();
   }
 }
+   async function adminSetOrderStatus(){
+  const code = (document.getElementById("stCode")?.value || "").trim().toUpperCase();
+  const status = (document.getElementById("stValue")?.value || "").trim();
+
+  if(!code) return alert("Coloca el código BLX-XXXXX.");
+
+  // Token del backend (ORDER_STATUS_ADMIN_TOKEN en Vercel)
+  const token = prompt("Token admin de estatus:");
+  if(!token) return;
+
+  try{
+    const res = await fetch(`${API_BASE}/api/order-status`, {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ code, status })
+    });
+
+    const data = await res.json().catch(()=> ({}));
+    if(!res.ok || !data?.ok){
+      alert("Error: " + (data?.error || "No se pudo actualizar"));
+      return;
+    }
+
+    alert(`OK: ${data.order.code} → ${data.order.status}`);
+  }catch(e){
+    console.error(e);
+    alert("Error de red actualizando estatus.");
+  }
+}
 
 function mountAdmin(){
   const adminModal = document.getElementById("adminModal");
@@ -3525,6 +3557,7 @@ function mountAdmin(){
   document.getElementById("btnAddItem")?.addEventListener("click", addInvoiceItem);
   document.getElementById("btnLoadOrder")?.addEventListener("click", loadOrderIntoInvoice);
   document.getElementById("btnClearItems")?.addEventListener("click", clearInvoiceItems);
+  document.getElementById("btnSetStatus")?.addEventListener("click", adminSetOrderStatus);
   document.getElementById("btnRefreshInvoice")?.addEventListener("click", refreshInvoicePreview);
   document.getElementById("btnPrint")?.addEventListener("click", ()=>{
     refreshInvoicePreview();
@@ -3627,6 +3660,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
