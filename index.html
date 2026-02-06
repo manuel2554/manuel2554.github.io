@@ -3007,13 +3007,13 @@ let TRACKING_CODE = "";
 let TRACKING_TIMER = null;
 
 function startTrackingAutoRefresh(code){
-  TRACKING_CODE = code;
   if(TRACKING_TIMER) clearInterval(TRACKING_TIMER);
 
-  // refresca cada 15 segundos
+  // refresca cada 10s
   TRACKING_TIMER = setInterval(()=>{
-    if(TRACKING_CODE) trackOrder();
-  }, 15000);
+    const current = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
+    if(current && current === code) trackOrder();
+  }, 10000);
 }
    async function trackOrder(){
   const code = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
@@ -3060,10 +3060,13 @@ TRACKING_TIMER = null;
 
     // Estatus (por ahora simple)
     const status = o?.status || "Recibido";
+    const upd = o?.status_updated_at || "";
+const updStr = upd ? new Date(upd).toLocaleString("es-VE") : "—";
 
     out.innerHTML = `
       <div><strong>Código:</strong> ${code}</div>
       <div><strong>Estatus:</strong> ${status}</div>
+      <div><strong>Actualizado:</strong> ${updStr}</div>
       <div><strong>Fecha:</strong> ${created ? new Date(created).toLocaleString("es-VE") : "—"}</div>
       <div style="margin-top:8px"><strong>Cliente:</strong> ${c.name || "—"}</div>
       <div><strong>Ciudad:</strong> ${c.city || "—"}</div>
@@ -3660,6 +3663,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
