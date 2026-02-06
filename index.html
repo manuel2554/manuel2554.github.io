@@ -2940,6 +2940,19 @@ function mountCart(){
     }
   });
 }
+   // ===== Tracking auto-refresh =====
+let TRACKING_CODE = "";
+let TRACKING_TIMER = null;
+
+function startTrackingAutoRefresh(code){
+  TRACKING_CODE = code;
+  if(TRACKING_TIMER) clearInterval(TRACKING_TIMER);
+
+  // refresca cada 15 segundos
+  TRACKING_TIMER = setInterval(()=>{
+    if(TRACKING_CODE) trackOrder();
+  }, 15000);
+}
    async function trackOrder(){
   const code = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
   const out = document.getElementById("trkResult");
@@ -2948,8 +2961,12 @@ function mountCart(){
   if(!code){
     out.style.display = "block";
     out.innerHTML = "Escribe tu <strong>código BLX-XXXXX</strong>.";
+    TRACKING_CODE = "";
+if(TRACKING_TIMER) clearInterval(TRACKING_TIMER);
+TRACKING_TIMER = null;
     return;
   }
+     startTrackingAutoRefresh(code);
 
   out.style.display = "block";
   out.innerHTML = "Consultando...";
@@ -3548,6 +3565,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
