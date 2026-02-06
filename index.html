@@ -3004,9 +3004,6 @@ function mountCart(){
 }
    // ===== Tracking auto-refresh =====
 
-function startTrackingAutoRefresh(code){
-  if(TRACKING_TIMER) clearInterval(TRACKING_TIMER);
-
   // refresca cada 10s
   TRACKING_TIMER = setInterval(()=>{
     const current = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
@@ -3671,6 +3668,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
