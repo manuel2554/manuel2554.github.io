@@ -3003,7 +3003,6 @@ function mountCart(){
   });
 }
    // ===== Tracking auto-refresh =====
-let TRACKING_CODE = "";
 let TRACKING_TIMER = null;
 
 function startTrackingAutoRefresh(code){
@@ -3015,6 +3014,17 @@ function startTrackingAutoRefresh(code){
     if(current && current === code) trackOrder();
   }, 10000);
 }
+  // ===== Tracking auto-refresh =====
+let TRACKING_TIMER = null;
+
+function startTrackingAutoRefresh(code){
+  if(TRACKING_TIMER) clearInterval(TRACKING_TIMER);
+
+  TRACKING_TIMER = setInterval(()=>{
+    const current = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
+    if(current && current === code) trackOrder();
+  }, 10000); // cada 10 segundos
+}
    async function trackOrder(){
   const code = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
   const out = document.getElementById("trkResult");
@@ -3023,7 +3033,6 @@ function startTrackingAutoRefresh(code){
   if(!code){
     out.style.display = "block";
     out.innerHTML = "Escribe tu <strong>código BLX-XXXXX</strong>.";
-    TRACKING_CODE = "";
 if(TRACKING_TIMER) clearInterval(TRACKING_TIMER);
 TRACKING_TIMER = null;
     return;
@@ -3663,6 +3672,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
