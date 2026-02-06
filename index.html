@@ -3003,14 +3003,6 @@ function mountCart(){
   });
 }
    // ===== Tracking auto-refresh =====
-
-  // refresca cada 10s
-  TRACKING_TIMER = setInterval(()=>{
-    const current = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
-    if(current && current === code) trackOrder();
-  }, 10000);
-}
-  // ===== Tracking auto-refresh =====
 let TRACKING_TIMER = null;
 
 function startTrackingAutoRefresh(code){
@@ -3668,6 +3660,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
