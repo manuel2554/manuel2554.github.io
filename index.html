@@ -1375,7 +1375,7 @@ header .nav > div:last-child{
             <div class="heroBtns">
               <a class="btn btnPrimary orbitron" href="#catalogo"><i class="fa-solid fa-bolt"></i> Ver catálogo</a>
               <a class="btn orbitron" href="#compat"><i class="fa-solid fa-car"></i> ¿Qué luz usa mi auto?</a>
-              <a class="btn orbitron" href="#facturar"><i class="fa-solid fa-file-invoice"></i> Facturar venta</a>
+              <a class="btn orbitron" href="#tracking"><i class="fa-solid fa-location-crosshairs"></i> Rastrear pedido</a>
             </div>
           </div>
 
@@ -1754,6 +1754,35 @@ header .nav > div:last-child{
     </div>
   </section>
 
+  <section id="tracking">
+  <div class="container">
+    <div class="sectionTitle">
+      <div>
+        <h2 class="orbitron">Tracking de pedido</h2>
+        <p>Ingresa tu código BLX-XXXXX para ver el estado y el resumen.</p>
+      </div>
+    </div>
+
+    <div class="compatBox">
+      <div class="formGrid" style="grid-template-columns: 1fr auto;">
+        <div>
+          <label>Código de pedido</label>
+          <input id="trkCode" placeholder="Ej: BLX-T4N89" style="text-transform:uppercase">
+        </div>
+        <div>
+          <button class="btnWide green orbitron" id="btnTrack" type="button">
+            <i class="fa-solid fa-magnifying-glass"></i> Consultar
+          </button>
+        </div>
+      </div>
+
+      <div class="result" id="trkResult" style="display:none"></div>
+      <p class="note">
+        Si tu código no aparece, escríbenos por WhatsApp con tu comprobante.
+      </p>
+    </div>
+  </div>
+</section>
   <!-- FAQ -->
   <section id="faq">
     <div class="container">
@@ -2911,6 +2940,73 @@ function mountCart(){
     }
   });
 }
+   async function trackOrder(){
+  const code = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
+  const out = document.getElementById("trkResult");
+  if(!out) return;
+
+  if(!code){
+    out.style.display = "block";
+    out.innerHTML = "Escribe tu <strong>código BLX-XXXXX</strong>.";
+    return;
+  }
+
+  out.style.display = "block";
+  out.innerHTML = "Consultando...";
+
+  try{
+    const res = await fetch(`${API_BASE}/api/order?code=${encodeURIComponent(code)}`, { cache:"no-store" });
+    const data = await res.json().catch(()=> ({}));
+
+    if(!res.ok || !data?.ok){
+      out.innerHTML = "No encontramos ese código. Verifica que esté bien escrito.";
+      return;
+    }
+
+    const o = data.order;
+    const created = o?.created_at || o?.createdAt || "";
+    const c = o?.customer || {};
+    const items = Array.isArray(o?.items) ? o.items : [];
+    const totals = o?.totals || {};
+
+    const itemsHtml = items.length ? `
+      <ul class="li">
+        ${items.map(it=>{
+          const qty = Number(it.qty)||0;
+          const eur = Number(it.eur ?? it.usd ?? 0) || 0;
+          return `<li><b>${qty}x</b> ${it.name} (${it.id}) — €${(qty*eur).toFixed(2)}</li>`;
+        }).join("")}
+      </ul>
+    ` : "<div class='tiny'>Sin items</div>";
+
+    // Estatus (por ahora simple)
+    const status = o?.status || "Recibido";
+
+    out.innerHTML = `
+      <div><strong>Código:</strong> ${code}</div>
+      <div><strong>Estatus:</strong> ${status}</div>
+      <div><strong>Fecha:</strong> ${created ? new Date(created).toLocaleString("es-VE") : "—"}</div>
+      <div style="margin-top:8px"><strong>Cliente:</strong> ${c.name || "—"}</div>
+      <div><strong>Ciudad:</strong> ${c.city || "—"}</div>
+
+      <div style="margin-top:10px"><strong>Items:</strong></div>
+      ${itemsHtml}
+
+      <div style="margin-top:10px"><strong>Totales:</strong></div>
+      <div class="tiny">Subtotal: €${Number(totals.subEur||0).toFixed(2)} • Ref Bs: Bs ${fmtBs(Number(totals.subBs||0))}</div>
+    `;
+  }catch(e){
+    console.error(e);
+    out.innerHTML = "Error consultando el tracking. Intenta de nuevo.";
+  }
+}
+
+function mountTracking(){
+  document.getElementById("btnTrack")?.addEventListener("click", trackOrder);
+  document.getElementById("trkCode")?.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter") trackOrder();
+  });
+}
 
 /**********************
  * COMPAT (UI)
@@ -3377,6 +3473,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   mountCart();
   mountAdmin();
   mountCompat();
+  mountTracking();
 
   // ✅ Auto-actualización (cada 20s)
   startSettingsPolling(20000);
@@ -3451,6 +3548,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
