@@ -1956,6 +1956,37 @@ header .nav > div:last-child{
             <!-- Settings -->
             <div class="box">
               <h4>Configuración del sitio</h4>
+              <div class="box" style="margin-top:12px">
+  <h4>Tracking • Actualizar estatus</h4>
+
+  <div class="row">
+    <div>
+      <label>Código (BLX-XXXXX)</label>
+      <input id="stCode" placeholder="Ej: BLX-3PTJE" style="text-transform:uppercase">
+    </div>
+    <div>
+      <label>Estatus</label>
+      <select id="stValue">
+        <option>Recibido</option>
+        <option>Procesando</option>
+        <option>Enviado</option>
+        <option>Entregado</option>
+        <option>Cancelado</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="margin-top:10px" class="row">
+    <button class="btnWide green orbitron" id="btnSetStatus" type="button">
+      <i class="fa-solid fa-floppy-disk"></i> Guardar estatus
+    </button>
+    <div class="pill">Se reflejará en el tracking</div>
+  </div>
+
+  <p class="mut" style="margin:10px 0 0">
+    Nota: solo el admin puede cambiar estatus.
+  </p>
+</div>
 
               <div class="row">
                 <div>
@@ -1997,6 +2028,37 @@ header .nav > div:last-child{
                   <label>Cliente / Razón social</label>
                   <input id="invClient" placeholder="Nombre del cliente">
                 </div>
+                <div class="box" style="margin-top:12px">
+  <h4>Tracking • Actualizar estatus</h4>
+
+  <div class="row">
+    <div>
+      <label>Código (BLX-XXXXX)</label>
+      <input id="stCode" placeholder="Ej: BLX-3PTJE" style="text-transform:uppercase">
+    </div>
+    <div>
+      <label>Estatus</label>
+      <select id="stValue">
+        <option>Recibido</option>
+        <option>Procesando</option>
+        <option>Enviado</option>
+        <option>Entregado</option>
+        <option>Cancelado</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="margin-top:10px" class="row">
+    <button class="btnWide green orbitron" id="btnSetStatus" type="button">
+      <i class="fa-solid fa-floppy-disk"></i> Guardar estatus
+    </button>
+    <div class="pill">Se reflejará en el tracking</div>
+  </div>
+
+  <p class="mut" style="margin:10px 0 0">
+    Cambia el estatus del pedido para que el cliente lo vea en tiempo real.
+  </p>
+</div>
                 <div>
                   <label>Cédula / RIF</label>
                   <input id="invId" placeholder="V-12345678 / J-123...">
@@ -3565,6 +3627,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
