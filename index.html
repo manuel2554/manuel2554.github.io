@@ -1379,6 +1379,72 @@ header .nav > div:last-child{
   background: linear-gradient(90deg, rgba(0,200,255,.18), rgba(255,92,0,.14));
   border-color: rgba(0,200,255,.22);
 }
+  /* ===== Tracking layout PRO ===== */
+.trkGrid{
+  display:grid;
+  grid-template-columns: 1fr 360px;
+  gap:12px;
+  margin-top:10px;
+}
+.trkPanel{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;
+  padding:12px;
+  background: rgba(0,0,0,.22);
+}
+.trkTitleRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+}
+.trkCode{
+  font-family: Orbitron, Inter, system-ui;
+  font-weight:1000;
+  letter-spacing:.08em;
+}
+.trkMeta{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+.trkMeta .k{
+  font-size:11px;
+  color:rgba(233,237,245,.70);
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.trkMeta .v{
+  margin-top:4px;
+  font-size:13px;
+  color:rgba(233,237,245,.92);
+  font-weight:800;
+}
+.trkDivider{
+  height:1px;
+  background: rgba(255,255,255,.08);
+  margin:12px 0;
+}
+.trkList{
+  margin:8px 0 0;
+  padding:0 0 0 18px;
+  color: rgba(233,237,245,.86);
+  font-size:13px;
+}
+.trkTotalsLine{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  font-size:12px;
+  color: rgba(233,237,245,.80);
+  font-weight:900;
+}
+@media (max-width: 900px){
+  .trkGrid{ grid-template-columns: 1fr; }
+}
   </style>
 </head>
 
@@ -3064,20 +3130,20 @@ function mountCart(){
     }
   });
 }
-   // ===== Tracking auto-refresh =====
+// ===== Tracking state + auto-refresh =====
+let TRACKING_TIMER = null;
+let LAST_TRACK_STATUS = "";
 
 function startTrackingAutoRefresh(code){
   if(TRACKING_TIMER) clearInterval(TRACKING_TIMER);
 
-  TRACKING_TIMER = setInterval(()=>{
+  TRACKING_TIMER = setInterval(() => {
     const current = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
     if(current && current === code) trackOrder();
-  }, 10000); // cada 10 segundos
+  }, 8000); // cada 8 segundos
 }
-   // ===== Tracking state (una sola vez) =====
-let TRACKING_TIMER = null;
-let LAST_TRACK_STATUS = "";
-   async function trackOrder(){
+
+async function trackOrder(){
   const code = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
   const out = document.getElementById("trkResult");
   if(!out) return;
@@ -3092,7 +3158,7 @@ let LAST_TRACK_STATUS = "";
     return;
   }
 
-  // ✅ auto-refresh (aquí sí se ejecuta)
+  // ✅ auto-refresh
   startTrackingAutoRefresh(code);
 
   out.style.display = "block";
@@ -3116,16 +3182,6 @@ let LAST_TRACK_STATUS = "";
     const items = Array.isArray(o?.items) ? o.items : [];
     const totals = o?.totals || {};
 
-    const itemsHtml = items.length ? `
-      <ul class="li">
-        ${items.map(it=>{
-          const qty = Number(it.qty)||0;
-          const eur = Number(it.eur ?? it.usd ?? 0) || 0;
-          return `<li><b>${qty}x</b> ${it.name} (${it.id}) — €${(qty*eur).toFixed(2)}</li>`;
-        }).join("")}
-      </ul>
-    ` : "<div class='tiny'>Sin items</div>";
-
     const status = o?.status || "Recibido";
     const upd = o?.status_updated_at || "";
     const updStr = upd ? new Date(upd).toLocaleString("es-VE") : "—";
@@ -3143,26 +3199,76 @@ let LAST_TRACK_STATUS = "";
 
     out.innerHTML = `
       <div class="trkCard">
-        <div><strong>Código:</strong> ${code}</div>
-
-        <div style="margin-top:8px">
-          <span class="trkBadge ${changed ? "pulse" : ""}">${status}</span>
-          ${changed ? `<span class="tiny" style="margin-left:8px;color:#22c55e;font-weight:900">Actualizado</span>` : ""}
+        <div class="trkTitleRow">
+          <div>
+            <div class="tiny" style="color:rgba(233,237,245,.70);font-weight:900;letter-spacing:.08em;text-transform:uppercase">Código</div>
+            <div class="trkCode">${code}</div>
+          </div>
+          <div style="text-align:right">
+            <span class="trkBadge ${changed ? "pulse" : ""}">${status}</span>
+            ${changed ? `<div class="tiny" style="margin-top:6px;color:#22c55e;font-weight:900">Actualizado</div>` : ""}
+          </div>
         </div>
 
         ${stepsHtml}
 
-        <div style="margin-top:8px"><strong>Fecha:</strong> ${created ? new Date(created).toLocaleString("es-VE") : "—"}</div>
-        <div><strong>Actualizado:</strong> ${updStr}</div>
+        <div class="trkGrid">
+          <!-- izquierda -->
+          <div class="trkPanel">
+            <div class="trkMeta">
+              <div>
+                <div class="k">Fecha</div>
+                <div class="v">${created ? new Date(created).toLocaleString("es-VE") : "—"}</div>
+              </div>
+              <div>
+                <div class="k">Última actualización</div>
+                <div class="v">${updStr}</div>
+              </div>
+              <div>
+                <div class="k">Cliente</div>
+                <div class="v">${c.name || "—"}</div>
+              </div>
+              <div>
+                <div class="k">Ciudad</div>
+                <div class="v">${c.city || "—"}</div>
+              </div>
+            </div>
 
-        <div style="margin-top:8px"><strong>Cliente:</strong> ${c.name || "—"}</div>
-        <div><strong>Ciudad:</strong> ${c.city || "—"}</div>
+            <div class="trkDivider"></div>
 
-        <div style="margin-top:10px"><strong>Items:</strong></div>
-        ${itemsHtml}
+            <div class="k">Items</div>
+            ${items.length ? `
+              <ul class="trkList">
+                ${items.map(it=>{
+                  const qty = Number(it.qty)||0;
+                  const eur = Number(it.eur ?? it.usd ?? 0) || 0;
+                  return `<li><b>${qty}x</b> ${it.name} (${it.id}) — €${(qty*eur).toFixed(2)}</li>`;
+                }).join("")}
+              </ul>
+            ` : `<div class="tiny">Sin items</div>`}
+          </div>
 
-        <div style="margin-top:10px"><strong>Totales:</strong></div>
-        <div class="tiny">Subtotal: €${Number(totals.subEur||0).toFixed(2)} • Ref Bs: Bs ${fmtBs(Number(totals.subBs||0))}</div>
+          <!-- derecha -->
+          <div class="trkPanel">
+            <div class="k">Totales</div>
+            <div class="trkDivider"></div>
+
+            <div class="trkTotalsLine">
+              <span>Subtotal:</span>
+              <span>€${Number(totals.subEur||0).toFixed(2)}</span>
+            </div>
+
+            <div class="trkTotalsLine" style="margin-top:8px">
+              <span>Referencia Bs:</span>
+              <span>Bs ${fmtBs(Number(totals.subBs||0))}</span>
+            </div>
+
+            <div class="trkTotalsLine" style="margin-top:8px">
+              <span>Tasa:</span>
+              <span>${fmtBs(Number(totals.rate||0))} Bs/EUR</span>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   }catch(e){
@@ -3177,7 +3283,6 @@ function mountTracking(){
     if(e.key === "Enter") trackOrder();
   });
 }
-
 /**********************
  * COMPAT (UI)
  **********************/
@@ -3751,6 +3856,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
