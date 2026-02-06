@@ -3065,7 +3065,6 @@ function mountCart(){
   });
 }
    // ===== Tracking auto-refresh =====
-let TRACKING_TIMER = null;
 
 function startTrackingAutoRefresh(code){
   if(TRACKING_TIMER) clearInterval(TRACKING_TIMER);
@@ -3075,6 +3074,9 @@ function startTrackingAutoRefresh(code){
     if(current && current === code) trackOrder();
   }, 10000); // cada 10 segundos
 }
+   // ===== Tracking state (una sola vez) =====
+let TRACKING_TIMER = null;
+let LAST_TRACK_STATUS = "";
    async function trackOrder(){
   const code = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
   const out = document.getElementById("trkResult");
@@ -3749,6 +3751,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
