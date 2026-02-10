@@ -3108,6 +3108,15 @@ Observaciones: ${note || "—"}`;
 
   const a = document.getElementById("cartWhatsapp");
   if(a) a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+    // ✅ Link WhatsApp de soporte (por si pasa algo)
+  const sup = document.getElementById("cartSupport");
+  if(sup){
+    const supMsg = `Hola BRUTALUX, necesito ayuda con mi pedido.
+Código: ${localStorage.getItem("brutalux_last_order_code") || "—"}
+Nombre: ${name || "—"}
+Ciudad: ${city || "—"}`;
+    sup.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(supMsg)}`;
+  }
 }
 
 function showCart(){
@@ -3178,6 +3187,15 @@ function mountCart(){
   });
 
   updateCartBadge();
+    // ✅ Link WhatsApp de soporte (por si pasa algo)
+  const sup = document.getElementById("cartSupport");
+  if(sup){
+    const supMsg = `Hola BRUTALUX, necesito ayuda con mi pedido.
+Código: ${localStorage.getItem("brutalux_last_order_code") || "—"}
+Nombre: ${name || "—"}
+Ciudad: ${city || "—"}`;
+    sup.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(supMsg)}`;
+  }
 
   // ✅ Guardar pedido (code+QR) al hacer click en WhatsApp
   document.getElementById("cartWhatsapp")?.addEventListener("click", async ()=>{
@@ -4029,11 +4047,23 @@ document.addEventListener("DOMContentLoaded", ()=>{
         </div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-          <button class="btnWide orbitron" id="cartClear"><i class="fa-solid fa-trash"></i> Vaciar</button>
-          <a class="btnWide green orbitron" id="cartWhatsapp" target="_blank" rel="noopener">
-            <i class="fa-brands fa-whatsapp"></i> Enviar pedido por WhatsApp
-          </a>
-        </div>
+  <button class="btnWide orbitron" id="cartClear" type="button">
+    <i class="fa-solid fa-trash"></i> Vaciar
+  </button>
+
+  <button class="btnWide green orbitron" id="btnOpenPayCart" type="button"
+    style="background:linear-gradient(90deg,#00c8ff,#3bd9ff);border-color:rgba(255,255,255,.16);color:#041018">
+    <i class="fa-solid fa-money-bill-wave"></i> Reportar Pago Móvil
+  </button>
+
+  <a class="btnWide green orbitron" id="cartWhatsapp" target="_blank" rel="noopener">
+    <i class="fa-brands fa-whatsapp"></i> Enviar pedido por WhatsApp
+  </a>
+
+  <a class="btnWide orbitron" id="cartSupport" target="_blank" rel="noopener" style="max-width:240px">
+    <i class="fa-brands fa-whatsapp"></i> Soporte
+  </a>
+</div>
 
         <p class="mut" style="margin-top:10px">
           El pedido se envía por WhatsApp con productos, cantidades y total. Sin backend.
@@ -4044,6 +4074,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
