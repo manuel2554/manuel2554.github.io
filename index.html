@@ -3231,7 +3231,7 @@ function startTrackingAutoRefresh(code){
   TRACKING_TIMER = setInterval(() => {
     const current = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
     if(current && current === code) trackOrder();
-  }, 8000); // cada 8 segundos
+  }, 8000); // cada 60 segundos
 }
 
 async function trackOrder(){
@@ -4044,6 +4044,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
