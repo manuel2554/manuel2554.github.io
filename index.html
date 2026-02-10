@@ -1905,12 +1905,103 @@ header .nav > div:last-child{
       </div>
 
       <div class="result" id="trkResult" style="display:none"></div>
+
+      <!-- ✅ Acciones de pago -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <button class="btnWide green orbitron" id="btnOpenPay" type="button" style="max-width:360px">
+          <i class="fa-solid fa-money-bill-wave"></i> Reportar Pago Móvil
+        </button>
+      </div>
+
       <p class="note">
         Si tu código no aparece, escríbenos por WhatsApp con tu comprobante.
       </p>
     </div>
   </div>
 </section>
+
+<!-- ✅ MODAL: Reportar Pago Móvil -->
+<div class="modal" id="payModal" aria-hidden="true">
+  <div class="panel" style="width:min(820px,96vw)">
+    <div class="panelHead">
+      <h3 class="orbitron">Reportar Pago Móvil</h3>
+      <button class="close orbitron" id="closePay"><i class="fa-solid fa-xmark"></i> Cerrar</button>
+    </div>
+
+    <div class="panelBody">
+      <div class="box">
+        <h4>Datos para pagar</h4>
+        <p class="tiny" style="margin:0">
+          Realiza el Pago Móvil y luego llena la referencia para validar.
+        </p>
+        <div class="row" style="margin-top:10px">
+          <div>
+            <div class="pill">Banco: <b id="pmBank">—</b></div>
+          </div>
+          <div>
+            <div class="pill">Teléfono: <b id="pmPhone">—</b></div>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <div>
+            <div class="pill">Cédula/RIF: <b id="pmId">—</b></div>
+          </div>
+          <div>
+            <div class="pill">Nombre: <b id="pmName">—</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box" style="margin-top:12px">
+        <h4>Reporte del pago</h4>
+
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label>Código de pedido</label>
+            <input id="payOrderCode" placeholder="BLX-XXXXX" style="text-transform:uppercase">
+          </div>
+          <div>
+            <label>Monto (Bs)</label>
+            <input id="payAmount" type="number" step="0.01" placeholder="Ej: 1000">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label>Referencia</label>
+            <input id="payRef" placeholder="Ej: 1234567890">
+          </div>
+          <div>
+            <label>Banco emisor (opcional)</label>
+            <input id="paySenderBank" placeholder="Ej: Provincial">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label>Teléfono emisor (opcional)</label>
+            <input id="paySenderPhone" placeholder="04xx...">
+          </div>
+          <div>
+            <label>Fecha/hora (opcional)</label>
+            <input id="payPaidAt" type="datetime-local">
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <button class="btnWide green orbitron" id="btnSendPay" type="button">
+            <i class="fa-solid fa-paper-plane"></i> Enviar reporte
+          </button>
+          <div class="pill">Estatus: <b id="payStatus">—</b></div>
+        </div>
+
+        <p class="mut" style="margin-top:10px">
+          Al enviar el reporte, tu pedido pasará a <b>Pago reportado</b> y se procesará al confirmarlo.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
   <!-- FAQ -->
   <section id="faq">
     <div class="container">
@@ -3283,6 +3374,102 @@ function mountTracking(){
     if(e.key === "Enter") trackOrder();
   });
 }
+   // ===== Pago móvil config (cambia estos datos) =====
+const PAYMOBILE = {
+  bank: "0108 - Banco Provincial",
+  phone: "04126835635",
+  id: "V-30158858",
+  name: "José Quintero"
+};
+
+function showPayModal(){
+  const m = document.getElementById("payModal");
+  if(!m) return;
+  m.classList.add("show");
+  m.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+
+  // pinta datos
+  document.getElementById("pmBank").textContent = PAYMOBILE.bank;
+  document.getElementById("pmPhone").textContent = PAYMOBILE.phone;
+  document.getElementById("pmId").textContent = PAYMOBILE.id;
+  document.getElementById("pmName").textContent = PAYMOBILE.name;
+
+  // auto-llenar código con lo que esté en tracking
+  const code = (document.getElementById("trkCode")?.value || "").trim().toUpperCase();
+  document.getElementById("payOrderCode").value = code;
+
+  // si ya tienes total Bs mostrado en tracking, aquí podríamos auto calcular.
+  document.getElementById("payStatus").textContent = "Listo para enviar";
+}
+
+function hidePayModal(){
+  const m = document.getElementById("payModal");
+  if(!m) return;
+  m.classList.remove("show");
+  m.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+
+async function sendPaymentReport(){
+  const orderCode = (document.getElementById("payOrderCode")?.value || "").trim().toUpperCase();
+  const amount = parseFloat(document.getElementById("payAmount")?.value || "0");
+  const reference = (document.getElementById("payRef")?.value || "").trim();
+  const senderBank = (document.getElementById("paySenderBank")?.value || "").trim();
+  const senderPhone = (document.getElementById("paySenderPhone")?.value || "").trim();
+  const paidAtRaw = (document.getElementById("payPaidAt")?.value || "").trim();
+  const paidAt = paidAtRaw ? new Date(paidAtRaw).toISOString() : null;
+
+  const statusEl = document.getElementById("payStatus");
+  if(statusEl) statusEl.textContent = "Enviando...";
+
+  if(!orderCode) { if(statusEl) statusEl.textContent = "Falta código"; return alert("Falta el código de pedido."); }
+  if(!reference) { if(statusEl) statusEl.textContent = "Falta referencia"; return alert("Falta la referencia."); }
+  if(!isFinite(amount) || amount <= 0) { if(statusEl) statusEl.textContent = "Monto inválido"; return alert("Monto inválido."); }
+
+  try{
+    const res = await fetch(`${API_BASE}/api/payment`,{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({
+        orderCode,
+        reference,
+        amount,
+        currency: "Bs",
+        senderBank,
+        senderPhone,
+        paidAt
+      })
+    });
+
+    const data = await res.json().catch(()=> ({}));
+    if(!res.ok || !data?.ok){
+      if(statusEl) statusEl.textContent = "Error";
+      alert(data?.error || "No se pudo enviar el reporte.");
+      return;
+    }
+
+    if(statusEl) statusEl.textContent = "Reporte enviado ✅";
+    alert("Reporte enviado. Tu pedido quedó como 'Pago reportado'.");
+    hidePayModal();
+
+    // refresca tracking si el cliente está viendo el mismo código
+    trackOrder();
+  }catch(e){
+    console.error(e);
+    if(statusEl) statusEl.textContent = "Error de red";
+    alert("Error de red enviando el reporte.");
+  }
+}
+
+function mountPayModal(){
+  document.getElementById("btnOpenPay")?.addEventListener("click", showPayModal);
+  document.getElementById("closePay")?.addEventListener("click", hidePayModal);
+  document.getElementById("payModal")?.addEventListener("click", (e)=>{
+    if(e.target?.id === "payModal") hidePayModal();
+  });
+  document.getElementById("btnSendPay")?.addEventListener("click", sendPaymentReport);
+}
 /**********************
  * COMPAT (UI)
  **********************/
@@ -3780,6 +3967,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   startTips();
   mountCart();
   mountAdmin();
+  mountPayModal();
   mountCompat();
   mountTracking();
 
@@ -3856,6 +4044,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 </div>
 </body>
 </html>
+
 
 
 
